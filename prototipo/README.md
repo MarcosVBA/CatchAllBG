@@ -12,6 +12,12 @@ node prototipo/servidor.mjs
 
 Abra [a mesa de jogo](http://127.0.0.1:4178/prototipo/). A semente é opcional. A mesma semente e as mesmas escolhas humanas reproduzem a partida. O servidor aceita outra porta como primeiro argumento.
 
+## Publicar no GitHub Pages
+
+Na configuração **Settings → Pages** do repositório, selecione **GitHub Actions** como fonte. O [workflow](../.github/workflows/pages.yml) executa os testes e publica o jogo a cada atualização na branch `main`. Também é possível iniciar a publicação em **Actions → Publicar protótipo → Run workflow**.
+
+Para montar o mesmo pacote estático localmente, execute `bash prototipo/empacotar-pages.sh /caminho/para/diretorio-vazio` na raiz do repositório. O site usa caminhos relativos e abre a mesa de jogo pelo `index.html` do pacote.
+
 ## Decisões do protótipo
 
 - A iniciativa inicial é sorteada. As fases de decisão giram a iniciativa entre os quatro lugares. Treinadores e iniciais podem ser escolhidos em cópias independentes.
