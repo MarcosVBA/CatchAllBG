@@ -1,0 +1,17 @@
+Vitória A (empates valem 0,5), turnos, renovações, limite, nocautes simultâneos
+krakon owlzin (0, 0) [0.215, 3.313, 0.568, 0, 0.352]
+krakon owlzin (1, 1) [0.262, 3.655, 0.493, 0, 0.273]
+krakon owlzin (2, 2) [0.218, 3.393, 0.281, 0, 0.235]
+owlzin flouly (0, 0) [0.251, 6.939, 1.795, 0, 0.168]
+owlzin flouly (1, 1) [0.241, 20.103, 4.615, 0.028, 0.046]
+owlzin flouly (2, 2) [0.391, 14.387, 2.46, 0.003, 0.075]
+flouly krakon (0, 0) [0.321, 3.997, 0.784, 0, 0.4]
+flouly krakon (1, 1) [0.28, 3.699, 0.439, 0, 0.329]
+flouly krakon (2, 2) [0.336, 2.425, 0.049, 0, 0.452]
+owlzin Brumalha (2, 2) [0.704, 4.222, 0.416, 0, 0.257]
+krakuron Pinhisco (2, 2) [0.453, 4.079, 0.487, 0, 0.329]
+owlsel Raizurso (2, 2) [0.24, 17.711, 3.939, 0.005, 0.065]
+Owlsel, hipótese de herdar Curar I/Bolha x Pen aferro: [0.837, 17.59, 3.075, 0, 0.046]
+Ataque Rápido, cancelar ação ao nocautear ou preservar simultaneidade:
+True [0.328, 2.721, 0.206, 0, 0.066]
+False [0.267, 2.82, 0.226, 0, 0.195]

@@ -1,0 +1,51 @@
+id_monstro,nome_monstro,energia,ofensiva,defesa,passiva_monstro,melhorias_monstro,verso_monstro,descricao_monstro,tipo,fraquezas,trilha,funcao_setup
+1,krakon,8,3,2,,habilidade:11|habilidade:12|evolucao:2,2,"Dragão pequeno, vermelho e com escamas de pedra, possui pequenas asas",Fogo,Água,,inicial
+2,krakuron,10,5,2,,habilidade:13,1,"Dragão maior, vermelho e com escamades de pedra, possui asas grandes e espinhos pelo corpo",Fogo,Água,,evolucao
+3,owlzin,8,2,3,,habilidade:14|habilidade:15|evolucao:4,4,"Como um ornitorrinco amigavél, branco com manchas em formato de bolha azul",Água,Raio,,inicial
+4,owlsel,10,2,3,Re-role uma vez o dado de cura e fique com o resultado,,3,"A mistura de um ornitorrinco e um urso, branco com manchas azuis, forte",Água,Raio,,evolucao
+5,flouly,6,1,5,,habilidade:26|habilidade:27,,Ouriço felpudo de cujo dorso brotam flores brancas que se fecham quando ele se encolhe.,Grama,Fogo,,inicial
+101,Cascalhote,9,3,3,,habilidade:21|habilidade:22,,Cabrito de xisto com cascos largos que fazem estalar o cascalho.,Rocha,Água,Montanha,capturavel
+102,Pumicão,10,2,4,,habilidade:22|habilidade:29,,Lagarto de pedra-pomes que se prende aos paredões com a barriga.,Rocha,Grama,Montanha,capturavel
+103,Lajauro,7,4,3,,habilidade:29|habilidade:21,,Escaravelho de pedra com uma laje afiada nas costas.,Rocha,Água,Montanha,capturavel
+104,Quartzebra,8,3,3,,habilidade:22|habilidade:21,,Potro de quartzo com listras que cintilam ao amanhecer.,Rocha,Inseto,Montanha,capturavel
+105,Agulhio,7,4,2,,habilidade:23|habilidade:29,,Ave de rapina magra que alinha as penas do bico antes de mergulhar.,Voador,Raio,Montanha,capturavel
+106,Penaferro,9,2,4,,habilidade:22|habilidade:23,,Coruja cinzenta com penas de ferro dobráveis.,Voador,Raio,Montanha,capturavel
+107,Pipavent,8,3,2,"No primeiro Atacar da rodada, seu ataque causa +1 de dano.",habilidade:23|habilidade:21,,Pipa viva com quatro olhos nas pontas e uma cauda de fitas.,Voador,Rocha,Montanha,capturavel
+108,Alapedra,8,3,3,,habilidade:21|habilidade:23,,Raia de ardósia que plana entre picos sem bater as asas.,Rocha|Voador,Água|Raio,Montanha,capturavel
+109,Grotufo,8,4,2,,habilidade:25|habilidade:29,,Roedor de gruta cujos tufos de pelo ofuscam sua silhueta.,Noturno,Fogo,Montanha,capturavel
+110,Lanterno,8,2,4,,habilidade:22|habilidade:25,,Morador de cavernas que leva uma luz azul presa ao chifre.,Noturno,Psíquico,Montanha,capturavel
+111,Sibilume,7,3,3,Seu Atacar causa +1 de dano se o rival for do tipo Psíquico.,habilidade:25|habilidade:21,,Serpente preta com uma fileira de pontos brilhantes no pescoço.,Noturno,Inseto,Montanha,capturavel
+112,Brasal,8,4,2,,habilidade:24|habilidade:29,,Texugo cuja juba de brasas deixa marcas nos túneis.,Fogo,Água,Montanha,capturavel
+113,Fornalhito,9,3,2,,habilidade:24|habilidade:21,,Tatu avermelhado com um forno entre as placas das costas.,Fogo,Rocha,Montanha,capturavel
+114,Cinzarisco,8,3,3,,habilidade:21|habilidade:24,,Lagarto coberto de cinza que se ergue nas patas traseiras quando venta.,Fogo,Raio,Montanha,capturavel
+115,Brumalha,8,3,3,,habilidade:24|habilidade:25,,Gato de pelo enfumaçado que aparece quando as fogueiras se apagam.,Fogo|Noturno,Água|Psíquico,Montanha,capturavel
+116,Brotozelo,8,3,3,,habilidade:27|habilidade:26,,Lebre com duas folhas novas que se enrolam como orelhas.,Grama,Fogo,Floresta,capturavel
+117,Raizurso,10,2,4,,habilidade:26|habilidade:27,,Urso de madeira tenra com raízes resistentes entre os dedos.,Grama,Inseto,Floresta,capturavel
+118,Fetricó,7,4,2,,habilidade:27|habilidade:29,,Rã de samambaia que desenrola seus brotos ao saltar.,Grama,Voador,Floresta,capturavel
+119,Musgale,9,2,3,A primeira habilidade da rodada que recuperar sua energia restaura 1 de energia adicional.,habilidade:26|habilidade:28,,Caracol cinza com um pedaço de chão de floresta sobre a concha.,Grama,Fogo,Floresta,capturavel
+120,Vinhabril,8,3,3,,habilidade:27|habilidade:28,,Louva-a-deus com gavinhas que prendem seus pés a galhos finos.,Grama|Inseto,Fogo|Voador,Floresta,capturavel
+121,Zunzido,7,4,2,,habilidade:29|habilidade:28,,Vespa de asas largas cujo voo faz ressoar o tronco das árvores.,Inseto,Fogo,Floresta,capturavel
+122,Casulã,9,2,4,,habilidade:28|habilidade:26,,Lagarta envolta em fibras claras que endurecem quando puxadas.,Inseto,Voador,Floresta,capturavel
+123,Pinhisco,8,3,3,,habilidade:28|habilidade:29,,Besouro marrom que se esconde dentro de uma pinha oca.,Inseto,Rocha,Floresta,capturavel
+124,Sardâmbar,8,3,2,"No primeiro Atacar da rodada, seu ataque causa +1 de dano.",habilidade:27|habilidade:28,,Inseto comprido com pintas alaranjadas e uma crista que vibra.,Inseto,Voador,Floresta,capturavel
+125,Ninhombra,9,3,2,,habilidade:25|habilidade:26,,Gambá cuja cauda escura se abre como um ninho suspenso.,Noturno,Psíquico,Floresta,capturavel
+126,Vesperaiz,7,4,2,,habilidade:25|habilidade:27,,Morcego sem voo que se pendura em raízes pelos ganchos das asas.,Noturno|Grama,Fogo|Inseto,Floresta,capturavel
+127,Tronquito,9,3,3,,habilidade:29|habilidade:28,,Paca de patas grossas que empurra galhos com os ombros.,Normal,Inseto,Floresta,capturavel
+128,Folhocelo,8,3,3,,habilidade:26|habilidade:29,,Cervo pequeno que usa folhas caídas para mascarar o cheiro.,Normal,Psíquico,Floresta,capturavel
+129,Mofurim,8,2,4,,habilidade:28|habilidade:26,,Esquilo de pelo felpudo que se enrola como uma bola nas tocas.,Normal,Grama,Floresta,capturavel
+130,Carambelo,7,4,2,,habilidade:29|habilidade:27,,Quati de cauda listrada que protege seus frutos escondidos.,Normal,Noturno,Floresta,capturavel
+131,Borbulim,8,3,3,,habilidade:30|habilidade:26,,Peixe arredondado que sopra bolhas para marcar seu território.,Água,Raio,Riacho,capturavel
+132,Remolga,10,2,4,,habilidade:22|habilidade:30,,Lontra de dorso largo que usa pedras redondas como boias.,Água,Grama,Riacho,capturavel
+133,Jaturru,7,4,2,,habilidade:30|habilidade:29,,Peixe de bico achatado que salta para interceptar insetos.,Água,Raio,Riacho,capturavel
+134,Lamatim,9,3,2,,habilidade:30|habilidade:22,,Salamandra bege que se enterra na lama para esperar a correnteza.,Água,Psíquico,Riacho,capturavel
+135,Voltilim,8,3,3,,habilidade:32|habilidade:30,,Enguia que acende uma fileira de pontos amarelos sob a água.,Água|Raio,Grama|Rocha,Riacho,capturavel
+136,Ecolume,8,3,3,,habilidade:31|habilidade:26,,Medusa de água doce com pequenos anéis giratórios na cabeça.,Psíquico,Noturno,Riacho,capturavel
+137,Ondívago,9,2,4,,habilidade:26|habilidade:31,,Peixe translúcido que reage a passos na margem antes de eles tocarem o chão.,Psíquico,Inseto,Riacho,capturavel
+138,Sussural,7,4,2,,habilidade:31|habilidade:25,,Garça fina que caça ouvindo os peixes sob a lâmina de água.,Psíquico,Noturno,Riacho,capturavel
+139,Raiorim,8,4,2,,habilidade:32|habilidade:29,,Rã amarela que acumula eletricidade entre os dedos compridos.,Raio,Rocha,Riacho,capturavel
+140,Estalume,9,3,2,,habilidade:32|habilidade:22,,Girino crescido com uma cauda luminosa que estala na água.,Raio,Grama,Riacho,capturavel
+141,Fulgapé,8,3,3,,habilidade:32|habilidade:31,,Aranha-d'água que risca a superfície com descargas curtas.,Raio,Rocha,Riacho,capturavel
+142,Caramola,8,2,4,,habilidade:28|habilidade:30,,Caramujo que estica a cauda elástica para voltar à margem.,Normal,Grama,Riacho,capturavel
+143,Vauzelo,9,3,3,,habilidade:29|habilidade:22,,Cão de patas membranosas que carrega seixos de um lado para o outro.,Normal,Água,Riacho,capturavel
+144,Lambisco,7,4,2,,habilidade:29|habilidade:30,,Rato pescador que usa os bigodes compridos para sentir a corrente.,Normal,Raio,Riacho,capturavel
+145,Pedrelho,8,3,2,"No primeiro Atacar da rodada, seu ataque causa +1 de dano.",habilidade:30|habilidade:29,,Ave de praia que coleta pedrinhas claras com o bico.,Normal|Água,Raio|Grama,Riacho,capturavel

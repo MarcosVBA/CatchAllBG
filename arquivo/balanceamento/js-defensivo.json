@@ -1,0 +1,754 @@
+{
+  "cenario": "pares",
+  "resultado": {
+    "pares": 1431,
+    "opcoes": {
+      "amostras": 15,
+      "semente": 53131,
+      "limite": 80,
+      "pisoDano": 1,
+      "defensivo": true,
+      "sorteEmCondicoes": true
+    },
+    "rodadas": 21465,
+    "turnos": {
+      "media": 14.657,
+      "mediana": 12,
+      "faixaCentral80": [
+        7,
+        26
+      ]
+    },
+    "fracaoComDuasRenovacoes": 0.661,
+    "nocautesSimultaneos": 2624,
+    "limiteAtingido": 42,
+    "ataqueBasico": {
+      "nocautePossivel": 0,
+      "nocauteAcimaDe50PorCento": 0
+    },
+    "ocorrencias": {
+      "Condição 1 (aplicações)": 868,
+      "Rebrotar (testes)": 768,
+      "Rebrotar": 269,
+      "Condição 3 (aplicações)": 1932,
+      "Fissurado": 427,
+      "Fio Cortante (testes)": 429,
+      "Fio Cortante": 177,
+      "Facho na Névoa (testes)": 768,
+      "Facho na Névoa": 264,
+      "Condição 2 (aplicações)": 1776,
+      "Ofuscado": 406,
+      "Condição 4 (aplicações)": 1710,
+      "Desencaixe (testes)": 642,
+      "Desencaixe": 642,
+      "Condição 7 (aplicações)": 1957,
+      "Primeiro Atacar (testes)": 1577,
+      "Ritmo de Caça (testes)": 578,
+      "Ritmo de Caça": 578,
+      "Marca de Penumbra (testes)": 681,
+      "Condição 6 (aplicações)": 1047,
+      "Rastreado": 1021,
+      "Curto-Circuito (testes)": 795,
+      "Curto-Circuito": 404,
+      "Condição 5 (aplicações)": 1049,
+      "Sobrecarga": 388,
+      "Casco de Arrasto (testes)": 767,
+      "Casco de Arrasto": 297,
+      "Faro de Trilha (testes)": 781,
+      "Faro de Trilha": 384,
+      "Eco de Margem": 253,
+      "Esporos de Retorno (testes)": 266,
+      "Esporos de Retorno": 266,
+      "Esporos": 75,
+      "Preso": 107,
+      "Peso da Laje (testes)": 142,
+      "Peso da Laje": 142,
+      "Refração (testes)": 90,
+      "Refração": 45
+    },
+    "porMonstro": [
+      {
+        "id": 1,
+        "nome": "krakon",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.326
+      },
+      {
+        "id": 2,
+        "nome": "krakuron",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.605
+      },
+      {
+        "id": 3,
+        "nome": "owlzin",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.318
+      },
+      {
+        "id": 4,
+        "nome": "owlsel",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.393
+      },
+      {
+        "id": 5,
+        "nome": "flouly",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.37
+      },
+      {
+        "id": 6,
+        "nome": "Flourosa",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.464
+      },
+      {
+        "id": 101,
+        "nome": "Cascalhote",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.504
+      },
+      {
+        "id": 146,
+        "nome": "Cascalforje",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.699
+      },
+      {
+        "id": 102,
+        "nome": "Pumicão",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.662
+      },
+      {
+        "id": 103,
+        "nome": "Lajauro",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.561
+      },
+      {
+        "id": 104,
+        "nome": "Quartzebra",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.575
+      },
+      {
+        "id": 105,
+        "nome": "Agulhio",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.497
+      },
+      {
+        "id": 106,
+        "nome": "Penaferro",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.573
+      },
+      {
+        "id": 107,
+        "nome": "Pipavent",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.37
+      },
+      {
+        "id": 108,
+        "nome": "Alapedra",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.489
+      },
+      {
+        "id": 109,
+        "nome": "Grotufo",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.712
+      },
+      {
+        "id": 110,
+        "nome": "Lanterno",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.524
+      },
+      {
+        "id": 111,
+        "nome": "Sibilume",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.374
+      },
+      {
+        "id": 112,
+        "nome": "Brasal",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.525
+      },
+      {
+        "id": 113,
+        "nome": "Fornalhito",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.423
+      },
+      {
+        "id": 114,
+        "nome": "Cinzarisco",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.567
+      },
+      {
+        "id": 115,
+        "nome": "Brumalha",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.462
+      },
+      {
+        "id": 116,
+        "nome": "Brotozelo",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.5
+      },
+      {
+        "id": 117,
+        "nome": "Raizurso",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.675
+      },
+      {
+        "id": 118,
+        "nome": "Fetricó",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.551
+      },
+      {
+        "id": 119,
+        "nome": "Musgale",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.569
+      },
+      {
+        "id": 120,
+        "nome": "Vinhabril",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.553
+      },
+      {
+        "id": 121,
+        "nome": "Zunzido",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.579
+      },
+      {
+        "id": 122,
+        "nome": "Casulã",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.586
+      },
+      {
+        "id": 123,
+        "nome": "Pinhisco",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.493
+      },
+      {
+        "id": 124,
+        "nome": "Sardâmbar",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.391
+      },
+      {
+        "id": 147,
+        "nome": "Coroâmbar",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.636
+      },
+      {
+        "id": 125,
+        "nome": "Ninhombra",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.308
+      },
+      {
+        "id": 126,
+        "nome": "Vesperaiz",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.334
+      },
+      {
+        "id": 127,
+        "nome": "Tronquito",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.565
+      },
+      {
+        "id": 128,
+        "nome": "Folhocelo",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.376
+      },
+      {
+        "id": 129,
+        "nome": "Mofurim",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.408
+      },
+      {
+        "id": 130,
+        "nome": "Carambelo",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.509
+      },
+      {
+        "id": 131,
+        "nome": "Borbulim",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.447
+      },
+      {
+        "id": 132,
+        "nome": "Remolga",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.667
+      },
+      {
+        "id": 133,
+        "nome": "Jaturru",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.563
+      },
+      {
+        "id": 134,
+        "nome": "Lamatim",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.419
+      },
+      {
+        "id": 135,
+        "nome": "Voltilim",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.494
+      },
+      {
+        "id": 136,
+        "nome": "Ecolume",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.431
+      },
+      {
+        "id": 148,
+        "nome": "Ecomaré",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.623
+      },
+      {
+        "id": 137,
+        "nome": "Ondívago",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.565
+      },
+      {
+        "id": 138,
+        "nome": "Sussural",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.481
+      },
+      {
+        "id": 139,
+        "nome": "Raiorim",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.399
+      },
+      {
+        "id": 140,
+        "nome": "Estalume",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.464
+      },
+      {
+        "id": 141,
+        "nome": "Fulgapé",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.506
+      },
+      {
+        "id": 142,
+        "nome": "Caramola",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.433
+      },
+      {
+        "id": 143,
+        "nome": "Vauzelo",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.499
+      },
+      {
+        "id": 144,
+        "nome": "Lambisco",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.514
+      },
+      {
+        "id": 145,
+        "nome": "Pedrelho",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.467
+      }
+    ]
+  },
+  "comparacao": {
+    "pares": 1431,
+    "opcoes": {
+      "amostras": 15,
+      "semente": 53131,
+      "limite": 80,
+      "pisoDano": 1,
+      "defensivo": true,
+      "sorteEmCondicoes": true
+    },
+    "rodadas": 21465,
+    "turnos": {
+      "media": 14.512,
+      "mediana": 12,
+      "faixaCentral80": [
+        6,
+        26
+      ]
+    },
+    "fracaoComDuasRenovacoes": 0.649,
+    "nocautesSimultaneos": 2691,
+    "limiteAtingido": 47,
+    "ataqueBasico": {
+      "nocautePossivel": 0,
+      "nocauteAcimaDe50PorCento": 0
+    },
+    "ocorrencias": {
+      "Condição 1 (aplicações)": 863,
+      "Primeiro Atacar (testes)": 3156,
+      "Primeira cura (testes)": 786
+    },
+    "porMonstro": [
+      {
+        "id": 1,
+        "nome": "krakon",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.331
+      },
+      {
+        "id": 2,
+        "nome": "krakuron",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.601
+      },
+      {
+        "id": 3,
+        "nome": "owlzin",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.324
+      },
+      {
+        "id": 4,
+        "nome": "owlsel",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.406
+      },
+      {
+        "id": 5,
+        "nome": "flouly",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.374
+      },
+      {
+        "id": 6,
+        "nome": "Flourosa",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.486
+      },
+      {
+        "id": 101,
+        "nome": "Cascalhote",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.589
+      },
+      {
+        "id": 146,
+        "nome": "Cascalforje",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.692
+      },
+      {
+        "id": 102,
+        "nome": "Pumicão",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.667
+      },
+      {
+        "id": 103,
+        "nome": "Lajauro",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.557
+      },
+      {
+        "id": 104,
+        "nome": "Quartzebra",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.537
+      },
+      {
+        "id": 105,
+        "nome": "Agulhio",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.503
+      },
+      {
+        "id": 106,
+        "nome": "Penaferro",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.577
+      },
+      {
+        "id": 107,
+        "nome": "Pipavent",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.315
+      },
+      {
+        "id": 108,
+        "nome": "Alapedra",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.487
+      },
+      {
+        "id": 109,
+        "nome": "Grotufo",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.718
+      },
+      {
+        "id": 110,
+        "nome": "Lanterno",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.526
+      },
+      {
+        "id": 111,
+        "nome": "Sibilume",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.383
+      },
+      {
+        "id": 112,
+        "nome": "Brasal",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.524
+      },
+      {
+        "id": 113,
+        "nome": "Fornalhito",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.424
+      },
+      {
+        "id": 114,
+        "nome": "Cinzarisco",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.561
+      },
+      {
+        "id": 115,
+        "nome": "Brumalha",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.47
+      },
+      {
+        "id": 116,
+        "nome": "Brotozelo",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.5
+      },
+      {
+        "id": 117,
+        "nome": "Raizurso",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.675
+      },
+      {
+        "id": 118,
+        "nome": "Fetricó",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.557
+      },
+      {
+        "id": 119,
+        "nome": "Musgale",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.318
+      },
+      {
+        "id": 120,
+        "nome": "Vinhabril",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.569
+      },
+      {
+        "id": 121,
+        "nome": "Zunzido",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.574
+      },
+      {
+        "id": 122,
+        "nome": "Casulã",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.589
+      },
+      {
+        "id": 123,
+        "nome": "Pinhisco",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.494
+      },
+      {
+        "id": 124,
+        "nome": "Sardâmbar",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.409
+      },
+      {
+        "id": 147,
+        "nome": "Coroâmbar",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.7
+      },
+      {
+        "id": 125,
+        "nome": "Ninhombra",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.323
+      },
+      {
+        "id": 126,
+        "nome": "Vesperaiz",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.343
+      },
+      {
+        "id": 127,
+        "nome": "Tronquito",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.576
+      },
+      {
+        "id": 128,
+        "nome": "Folhocelo",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.378
+      },
+      {
+        "id": 129,
+        "nome": "Mofurim",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.411
+      },
+      {
+        "id": 130,
+        "nome": "Carambelo",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.505
+      },
+      {
+        "id": 131,
+        "nome": "Borbulim",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.457
+      },
+      {
+        "id": 132,
+        "nome": "Remolga",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.681
+      },
+      {
+        "id": 133,
+        "nome": "Jaturru",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.565
+      },
+      {
+        "id": 134,
+        "nome": "Lamatim",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.42
+      },
+      {
+        "id": 135,
+        "nome": "Voltilim",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.488
+      },
+      {
+        "id": 136,
+        "nome": "Ecolume",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.435
+      },
+      {
+        "id": 148,
+        "nome": "Ecomaré",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.631
+      },
+      {
+        "id": 137,
+        "nome": "Ondívago",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.574
+      },
+      {
+        "id": 138,
+        "nome": "Sussural",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.489
+      },
+      {
+        "id": 139,
+        "nome": "Raiorim",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.364
+      },
+      {
+        "id": 140,
+        "nome": "Estalume",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.464
+      },
+      {
+        "id": 141,
+        "nome": "Fulgapé",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.533
+      },
+      {
+        "id": 142,
+        "nome": "Caramola",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.403
+      },
+      {
+        "id": 143,
+        "nome": "Vauzelo",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.542
+      },
+      {
+        "id": 144,
+        "nome": "Lambisco",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.519
+      },
+      {
+        "id": 145,
+        "nome": "Pedrelho",
+        "rodadas": 795,
+        "pontuacaoMedia": 0.462
+      }
+    ]
+  }
+}

@@ -1,0 +1,22 @@
+pares 1431 rodadas por versão 21465 defensivo True piso 1 rerrolagem True
+versão 0 média 14.52 faixa 80% (6, 26) duas renovações 0.645 80 turnos 57
+versão 1 média 14.658 faixa 80% (6, 26) duas renovações 0.657 80 turnos 49
+Flourosa 48.6 48.8 variação 0.2
+Cascalhote 60.0 57.0 variação -3.0
+Lajauro 54.6 54.6 variação -0.0
+Quartzebra 53.9 56.0 variação 2.1
+Pipavent 30.6 36.9 variação 6.4
+Lanterno 55.1 54.6 variação -0.5
+Cinzarisco 52.4 54.5 variação 2.1
+Musgale 35.7 58.5 variação 22.8
+Vinhabril 56.6 55.5 variação -1.1
+Pinhisco 48.2 46.8 variação -1.4
+Coroâmbar 68.4 62.1 variação -6.4
+Ninhombra 33.0 29.4 variação -3.6
+Lamatim 42.8 42.9 variação 0.1
+Ecomaré 62.2 62.1 variação -0.1
+Raiorim 35.4 40.7 variação 5.3
+Estalume 42.9 43.2 variação 0.3
+Caramola 37.2 39.1 variação 1.9
+Vauzelo 54.6 54.0 variação -0.6
+eventos [('Casco de Arrasto', 305), ('Casco de Arrasto teste', 778), ('Curto-Circuito', 393), ('Curto-Circuito teste', 795), ('Desencaixe', 628), ('Desencaixe teste', 628), ('Eco de Margem', 255), ('Esporos de Retorno', 268), ('Esporos de Retorno teste', 268), ('Facho na Névoa', 246), ('Facho na Névoa teste', 772), ('Faro de Trilha', 383), ('Faro de Trilha teste', 771), ('Fio Cortante', 153), ('Fio Cortante teste', 432), ('Marca de Penumbra teste', 687), ('Peso da Laje', 141), ('Peso da Laje teste', 141), ('Rebrotar', 232), ('Rebrotar teste', 753), ('Refração', 39), ('Refração teste', 90), ('Ritmo de Caça', 589), ('Ritmo de Caça teste', 589), ('condição 2', 447), ('condição 2 teste', 921), ('condição 3', 489), ('condição 3 teste', 973), ('condição 4', 78), ('condição 4 teste', 146), ('condição 5', 366), ('condição 5 teste', 687), ('condição 6', 1034), ('condição 6 teste', 1034), ('condição 7', 109), ('condição 7 teste', 452)]

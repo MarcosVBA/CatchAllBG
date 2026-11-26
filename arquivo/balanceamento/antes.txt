@@ -1,0 +1,36 @@
+1225 pares, 2450 direções, piso 0
+Ataque puro KO possível 565 KO >50% 14 KO ≥5/6 2 KO certo 0
+Principais origens: [('krakuron', 3), ('Raiorim', 3), ('Grotufo', 2), ('Brasal', 2), ('Vesperaiz', 2), ('Agulhio', 1), ('Zunzido', 1)]
+Principais alvos: [('Vesperaiz', 3), ('Zunzido', 2), ('Carambelo', 2), ('Sussural', 2), ('Grotufo', 1), ('Fetricó', 1), ('Agulhio', 1), ('Jaturru', 1), ('Lambisco', 1)]
+Extremos: [(5, 'krakuron', 'Zunzido', 6, 11), (5, 'krakuron', 'Vesperaiz', 6, 11), (4, 'krakuron', 'Grotufo', 6, 11), (4, 'Zunzido', 'Vesperaiz', 5, 10), (4, 'Vesperaiz', 'Sussural', 5, 10), (4, 'Vesperaiz', 'Carambelo', 5, 10), (4, 'Raiorim', 'Lambisco', 5, 10), (4, 'Raiorim', 'Jaturru', 5, 10)]
+Até 2 melhorias após entrar na forma + passivas KO possível 853 KO >50% 37 KO ≥5/6 9 KO certo 0
+Principais origens: [('Raiorim', 4), ('krakon', 3), ('krakuron', 3), ('Fulgapé', 3), ('Vesperaiz', 3), ('Lajauro', 2), ('Agulhio', 2), ('Voltilim', 2)]
+Principais alvos: [('Vesperaiz', 6), ('Agulhio', 4), ('Jaturru', 4), ('Zunzido', 3), ('Fetricó', 3), ('Sussural', 3), ('Pedrelho', 3), ('Grotufo', 2), ('Carambelo', 2), ('Lambisco', 2)]
+Extremos: [(5, 'krakuron', 'Zunzido', 6, 11), (5, 'krakuron', 'Vesperaiz', 6, 11), (5, 'krakon', 'Zunzido', 6, 11), (5, 'krakon', 'Vesperaiz', 6, 11), (5, 'Vesperaiz', 'Sussural', 6, 11), (5, 'Vesperaiz', 'Carambelo', 6, 11), (5, 'Raiorim', 'Jaturru', 6, 11), (5, 'Raiorim', 'Agulhio', 6, 11)]
+Ataque puro sem dano em ≥3/6 17
+Tipos capturáveis Counter({'Normal': 8, 'Noturno': 6, 'Grama': 6, 'Água': 6, 'Rocha': 5, 'Inseto': 5, 'Voador': 4, 'Fogo': 4, 'Raio': 4, 'Psíquico': 3})
+Fraquezas capturáveis Counter({'Raio': 8, 'Grama': 7, 'Água': 6, 'Inseto': 6, 'Rocha': 6, 'Fogo': 6, 'Psíquico': 5, 'Voador': 4, 'Noturno': 3})
+Floresta [8.13, 3, 2.8]
+Montanha [8.13, 3.07, 2.87]
+Riacho [8.2, 3.07, 2.73]
+1225 pares, 2450 direções, piso 1
+Ataque puro KO possível 565 KO >50% 14 KO ≥5/6 2 KO certo 0
+Principais origens: [('krakuron', 3), ('Raiorim', 3), ('Grotufo', 2), ('Brasal', 2), ('Vesperaiz', 2), ('Agulhio', 1), ('Zunzido', 1)]
+Principais alvos: [('Vesperaiz', 3), ('Zunzido', 2), ('Carambelo', 2), ('Sussural', 2), ('Grotufo', 1), ('Fetricó', 1), ('Agulhio', 1), ('Jaturru', 1), ('Lambisco', 1)]
+Extremos: [(5, 'krakuron', 'Zunzido', 6, 11), (5, 'krakuron', 'Vesperaiz', 6, 11), (4, 'krakuron', 'Grotufo', 6, 11), (4, 'Zunzido', 'Vesperaiz', 5, 10), (4, 'Vesperaiz', 'Sussural', 5, 10), (4, 'Vesperaiz', 'Carambelo', 5, 10), (4, 'Raiorim', 'Lambisco', 5, 10), (4, 'Raiorim', 'Jaturru', 5, 10)]
+Até 2 melhorias após entrar na forma + passivas KO possível 853 KO >50% 37 KO ≥5/6 9 KO certo 0
+Principais origens: [('Raiorim', 4), ('krakon', 3), ('krakuron', 3), ('Fulgapé', 3), ('Vesperaiz', 3), ('Lajauro', 2), ('Agulhio', 2), ('Voltilim', 2)]
+Principais alvos: [('Vesperaiz', 6), ('Agulhio', 4), ('Jaturru', 4), ('Zunzido', 3), ('Fetricó', 3), ('Sussural', 3), ('Pedrelho', 3), ('Grotufo', 2), ('Carambelo', 2), ('Lambisco', 2)]
+Extremos: [(5, 'krakuron', 'Zunzido', 6, 11), (5, 'krakuron', 'Vesperaiz', 6, 11), (5, 'krakon', 'Zunzido', 6, 11), (5, 'krakon', 'Vesperaiz', 6, 11), (5, 'Vesperaiz', 'Sussural', 6, 11), (5, 'Vesperaiz', 'Carambelo', 6, 11), (5, 'Raiorim', 'Jaturru', 6, 11), (5, 'Raiorim', 'Agulhio', 6, 11)]
+Ataque puro sem dano em ≥3/6 0
+Tipos capturáveis Counter({'Normal': 8, 'Noturno': 6, 'Grama': 6, 'Água': 6, 'Rocha': 5, 'Inseto': 5, 'Voador': 4, 'Fogo': 4, 'Raio': 4, 'Psíquico': 3})
+Fraquezas capturáveis Counter({'Raio': 8, 'Grama': 7, 'Água': 6, 'Inseto': 6, 'Rocha': 6, 'Fogo': 6, 'Psíquico': 5, 'Voador': 4, 'Noturno': 3})
+Floresta [8.13, 3, 2.8]
+Montanha [8.13, 3.07, 2.87]
+Riacho [8.2, 3.07, 2.73]
+Trocas contínuas de Atacar, média de vitória e meio ponto para empate simultâneo, piso 0
+Menores: [(35.0, 'Pedrelho'), (35.6, 'krakon'), (35.7, 'Pipavent'), (35.7, 'owlzin'), (37.2, 'Sardâmbar')] maiores: [(62.8, 'Casulã'), (66.0, 'Pumicão'), (68.0, 'Remolga'), (69.4, 'Raizurso'), (77.5, 'krakuron')]
+Iniciais: [(35.6, 'krakon'), (35.7, 'owlzin'), (39.2, 'flouly')]
+Trocas contínuas de Atacar, média de vitória e meio ponto para empate simultâneo, piso 1
+Menores: [(32.6, 'flouly'), (35.4, 'Pedrelho'), (35.9, 'krakon'), (36.1, 'Pipavent'), (36.7, 'owlzin')] maiores: [(62.7, 'Casulã'), (67.3, 'Pumicão'), (69.1, 'Remolga'), (70.2, 'Raizurso'), (77.5, 'krakuron')]
+Iniciais: [(32.6, 'flouly'), (35.9, 'krakon'), (36.7, 'owlzin')]

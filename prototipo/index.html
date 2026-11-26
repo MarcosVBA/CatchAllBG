@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#101722">
+    <title>Catch All · Mesa de jogo</title>
+    <link rel="stylesheet" href="./estilo.css">
+  </head>
+  <body>
+    <header class="cabecalho">
+      <div class="marca"><span class="marca-icone" aria-hidden="true">✦</span><h1>Catch <em>All</em></h1></div>
+      <div class="cabecalho-acoes">
+        <button id="abrir-regras" class="botao-secundario" type="button">Como jogar</button>
+        <button id="nova-partida" class="botao-secundario" type="button" hidden>Nova partida</button>
+      </div>
+    </header>
+    <main class="pagina">
+      <section id="entrada" class="entrada" aria-labelledby="titulo-entrada">
+        <div class="entrada-conteudo">
+          <p class="rotulo">Mesa para quatro</p>
+          <h2 id="titulo-entrada">Comece a aventura</h2>
+          <p>Capture monstros, melhore sua equipe e dispute três ciclos de duelos. Quem somar mais troféus vence.</p>
+          <form id="configuracao">
+            <label for="semente">Semente da partida <span>(opcional)</span></label>
+            <div class="iniciar">
+              <input id="semente" name="semente" type="text" inputmode="numeric" pattern="[0-9]{1,10}" maxlength="10" placeholder="Sortear">
+              <button id="comecar" type="submit" class="botao-primario" disabled>Jogar</button>
+            </div>
+          </form>
+          <p id="carregamento" role="status">Carregando cartas…</p>
+        </div>
+        <div class="perfis" aria-label="Seus rivais">
+          <article class="perfil perfil-brasa"><span aria-hidden="true">▲</span><div><h3>Brasa</h3><p>Prefere ataques e fraquezas expostas.</p></div></article>
+          <article class="perfil perfil-muralha"><span aria-hidden="true">◆</span><div><h3>Muralha</h3><p>Procura resistir com bloqueios e cura.</p></div></article>
+          <article class="perfil perfil-faisca"><span aria-hidden="true">✦</span><div><h3>Faísca</h3><p>Busca condições e combinações de cartas.</p></div></article>
+        </div>
+      </section>
+      <div id="partida" hidden>
+        <section id="placar" class="placar" aria-label="Placar da partida"></section>
+        <div class="mesa">
+          <section id="area-jogo" class="painel arena" aria-label="Mesa de jogo"></section>
+          <aside class="lateral" aria-label="Equipe e histórico">
+            <section id="equipe" class="painel equipe" aria-label="Sua equipe"></section>
+            <section id="historico" class="painel historico" aria-label="Histórico da partida"></section>
+          </aside>
+        </div>
+      </div>
+      <p id="aviso" class="aviso" role="alert" hidden></p>
+      <p id="fase-anunciada" class="sr" aria-live="polite"></p>
+    </main>
+    <dialog id="regras">
+      <form method="dialog"><button class="botao-secundario fechar" type="submit">Fechar</button></form>
+      <h2>Como jogar</h2>
+      <p>Escolha um treinador, um monstro inicial e uma trilha. A cada ciclo, você tenta capturar um monstro e ganha uma melhoria ao capturá-lo. O d6 de captura precisa dar 3 ou mais.</p>
+      <p>Organize sua equipe na ordem em que os monstros vão duelar. No primeiro ciclo, cada duelo tem uma rodada. Nos seguintes, vence quem ganhar duas rodadas.</p>
+      <p>Escolha uma carta por turno. As duas ações são reveladas juntas, salvo quando Rastreado altera a ordem. Quando uma mão acabar, as duas são repostas.</p>
+      <p>Ataques somam ofensiva e d6, subtraem defesa e ganham 2 de dano se o rival tiver fraqueza. Bloquear impede o ataque, salvo os efeitos diretos previstos na carta.</p>
+      <p>Em caso de empate no placar final, os líderes disputam duelos de desempate.</p>
+    </dialog>
+    <script type="module" src="./interface/app.mjs"></script>
+  </body>
+</html>

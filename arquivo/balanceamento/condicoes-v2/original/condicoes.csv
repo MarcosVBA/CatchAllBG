@@ -1,0 +1,2 @@
+id_condicao,nome_condicao,descricao_condicao
+1,Incendiar,"No início de cada um dos próximos 3 turnos da rodada, role 1d6. Com 6, remova a condição sem causar dano. Com 1 a 5, sofra 1 de dano direto. Remova a condição depois do terceiro teste ou no fim da rodada, o que ocorrer primeiro. Aplicar Incendiar a um monstro já incendiado não acumula dano nem reinicia a contagem."

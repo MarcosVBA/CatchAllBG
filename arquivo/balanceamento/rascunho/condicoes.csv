@@ -1,0 +1,2 @@
+id_condicao,nome_condicao,descricao_condicao
+1,Incendiar,"No inicio do turno de combate, o jogador joga 1d6. Resultados diferentes de 6 geram 1 de dano direto, se o resultado for 6, remova a condição."

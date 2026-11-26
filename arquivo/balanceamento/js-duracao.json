@@ -1,0 +1,197 @@
+{
+  "cenario": "duracao",
+  "resultado": {
+    "opcoes": {
+      "amostras": 6000,
+      "semente": 47821,
+      "limite": 60,
+      "pisoDano": 0,
+      "defensivo": false,
+      "sorteEmCondicoes": false,
+      "empate": "sorteio",
+      "bonusMelhoria": false
+    },
+    "ciclos": [
+      {
+        "ciclo": 1,
+        "rodadas": 6000,
+        "turnos": {
+          "media": 11.983,
+          "mediana": 10,
+          "faixaCentral80": [
+            6,
+            21
+          ]
+        },
+        "fracaoComDuasRenovacoes": 0.78,
+        "nocautesSimultaneos": 468,
+        "limiteAtingido": 3,
+        "duracaoDosDuelos": {
+          "media": 11.983,
+          "mediana": 10,
+          "faixaCentral80": [
+            6,
+            21
+          ]
+        },
+        "rodadasPorDuelo": {
+          "1": 6000
+        },
+        "duelosInconclusivos": 0
+      },
+      {
+        "ciclo": 2,
+        "rodadas": 14803,
+        "turnos": {
+          "media": 11.959,
+          "mediana": 10,
+          "faixaCentral80": [
+            6,
+            20
+          ]
+        },
+        "fracaoComDuasRenovacoes": 0.753,
+        "nocautesSimultaneos": 1281,
+        "limiteAtingido": 17,
+        "duracaoDosDuelos": {
+          "media": 29.504,
+          "mediana": 27,
+          "faixaCentral80": [
+            16,
+            45
+          ]
+        },
+        "rodadasPorDuelo": {
+          "2": 3197,
+          "3": 2803
+        },
+        "duelosInconclusivos": 0
+      },
+      {
+        "ciclo": 3,
+        "rodadas": 14706,
+        "turnos": {
+          "media": 11.745,
+          "mediana": 10,
+          "faixaCentral80": [
+            6,
+            19
+          ]
+        },
+        "fracaoComDuasRenovacoes": 0.741,
+        "nocautesSimultaneos": 1372,
+        "limiteAtingido": 15,
+        "duracaoDosDuelos": {
+          "media": 28.787,
+          "mediana": 27,
+          "faixaCentral80": [
+            16,
+            44
+          ]
+        },
+        "rodadasPorDuelo": {
+          "2": 3294,
+          "3": 2706
+        },
+        "duelosInconclusivos": 0
+      }
+    ]
+  },
+  "comparacao": {
+    "opcoes": {
+      "amostras": 6000,
+      "semente": 47821,
+      "limite": 60,
+      "pisoDano": 0,
+      "defensivo": false,
+      "sorteEmCondicoes": false,
+      "empate": "sorteio",
+      "bonusMelhoria": false
+    },
+    "ciclos": [
+      {
+        "ciclo": 1,
+        "rodadas": 6000,
+        "turnos": {
+          "media": 12.093,
+          "mediana": 10,
+          "faixaCentral80": [
+            6,
+            21
+          ]
+        },
+        "fracaoComDuasRenovacoes": 0.775,
+        "nocautesSimultaneos": 510,
+        "limiteAtingido": 9,
+        "duracaoDosDuelos": {
+          "media": 12.093,
+          "mediana": 10,
+          "faixaCentral80": [
+            6,
+            21
+          ]
+        },
+        "rodadasPorDuelo": {
+          "1": 6000
+        },
+        "duelosInconclusivos": 0
+      },
+      {
+        "ciclo": 2,
+        "rodadas": 14737,
+        "turnos": {
+          "media": 11.929,
+          "mediana": 10,
+          "faixaCentral80": [
+            6,
+            20
+          ]
+        },
+        "fracaoComDuasRenovacoes": 0.746,
+        "nocautesSimultaneos": 1382,
+        "limiteAtingido": 10,
+        "duracaoDosDuelos": {
+          "media": 29.3,
+          "mediana": 27,
+          "faixaCentral80": [
+            16,
+            45
+          ]
+        },
+        "rodadasPorDuelo": {
+          "2": 3263,
+          "3": 2737
+        },
+        "duelosInconclusivos": 0
+      },
+      {
+        "ciclo": 3,
+        "rodadas": 14716,
+        "turnos": {
+          "media": 11.682,
+          "mediana": 10,
+          "faixaCentral80": [
+            6,
+            19
+          ]
+        },
+        "fracaoComDuasRenovacoes": 0.733,
+        "nocautesSimultaneos": 1407,
+        "limiteAtingido": 10,
+        "duracaoDosDuelos": {
+          "media": 28.651,
+          "mediana": 27,
+          "faixaCentral80": [
+            16,
+            44
+          ]
+        },
+        "rodadasPorDuelo": {
+          "2": 3284,
+          "3": 2716
+        },
+        "duelosInconclusivos": 0
+      }
+    ]
+  }
+}
