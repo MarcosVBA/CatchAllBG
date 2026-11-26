@@ -10,7 +10,7 @@
 
 #### Iniciando a Aventura
 
-**Regra Importante**: Sempre que houver uma decisão importante (inicio da aventura, escolher a trilha ou escolher combatente) o jogador inicial deve mudar, em sentido anti-horário. A ordem não é fixa.
+**Regra Importante**: Nas decisões em sequência, como o início da aventura, a escolha de trilha e os desafios, alterne o jogador inicial em sentido anti-horário.
 
 - 1. Façam um partida rápida de dois ou um, o vencedor começa escolhendo
 - 2. Partindo o jogador inicial, cada um escolhe um treinador, depois, um monstro inicial
@@ -28,22 +28,22 @@
 
 #### Fase do Desafio
 
-1. Os jogadores devem escolher a ordem dos monstros deles e mantê-los virados pra baixo durante os desafios
-2. Alternando jogador inicial, os jogadores devem desafiar outro para uma batalha, até que todos os jogadores tenham uma batalha ao menos para resolver.
+1. Alternando jogador inicial, os jogadores devem desafiar outro para uma batalha, até que todos os jogadores tenham uma batalha ao menos para resolver.
 	- Se a quantidade de jogadores é impar, simular um 4 jogador ou permitir uma segunda batalha para o mesmo jogador
 
 #### Fase de Duelo
 
 **Nomenclatura dos Duelos**: O duelo é quando dois jogadores usam seus monstros para vencer rodadas, cada rodada é constituída por turnos, onde os jogadores realizam ações simultaneamente
 
-1. Para cada combate, os dois jogadores posicionam seus monstros no tabuleiro de duelo, revelando o primeiro monstro que ira batalhar
+1. Antes de cada rodada, cada jogador escolhe em segredo um monstro disponível de sua equipe. Os dois revelam os combatentes juntos.
 2. Baseado no monstro ativo no momento, pegue as cartas geradas por habilidades dele e junte com seu baralho (base+treinador)
 3. A partir daqui, os jogadores devem escolher uma carta de habilidade para executar cada turno, revelando o efeito apenas quando ambos os jogadores já selecionaram sua ação
 	- Use todo o seu baralho na sua mão
 	- Sempre que realizar uma ação, com uma carta de habilidade, mantenha a carta exposta na lateral do tabuleiro de duelo
 	- Se qualquer jogador ficar sem cartas de ação na mão, ambos os jogadores devem pegar todas as cartas jogadas e montar uma nova mão cheia
-	- Realize turnos até um monstro ser nocauteado, dai então, outro monstro deve ser escolhido para iniciar uma nova rodada
-	- O primeiro duelo possui apenas uma rodada, a partir do segundo, cada duelo é um melhor de 3 para definir o vitorioso
+	- Se um monstro for nocauteado, o outro vence a rodada. Os dois combatentes ficam indisponíveis até o fim do duelo.
+	- Em caso de nocaute simultâneo, o placar fica igual. Os dois jogadores voltam a escolher e podem manter o combatente ou usar outro monstro disponível.
+	- No primeiro ciclo, vence o duelo quem ganhar uma rodada. Nos ciclos seguintes, vence quem ganhar duas.
 4. O jogador vitorioso do duelo ganha um ponto de habilidade e um troféu (usado para contar vitória)
 
 **Atacar**: Ao atacar, o jogador verificar o resultado do ataque do monstro atacante menos a defesa do monstro que foi atacado, esse valor é somado a uma rolagem de 1d6 para definir o dano

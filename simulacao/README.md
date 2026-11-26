@@ -23,6 +23,6 @@ node simulacao/simular.mjs --help
 
 A saída é JSON. `--comparar` executa o mesmo cenário e a mesma configuração em um segundo diretório de CSVs. As repetições com a mesma semente e os mesmos dados produzem o mesmo resultado.
 
-As simulações usam energia cheia, refazem a mão conforme a forma em combate e omitem itens. Por padrão, o cálculo usa piso zero, Ataque Rápido letal cancela a ação rival e o desempate no cenário de duração é por sorteio. A configuração defensiva e as decisões de rerrolagem da CLI pertencem à estratégia da simulação. O [protótipo jogável](../prototipo/README.md) usa o mesmo motor nas rodadas com itens.
+As simulações usam energia cheia, refazem a mão conforme a forma em combate e omitem itens. Por padrão, o cálculo usa piso zero, Ataque Rápido letal cancela a ação rival e o desempate no cenário de duração é por sorteio. A configuração defensiva e as decisões de rerrolagem da CLI pertencem à estratégia da simulação. O [protótipo jogável](../prototipo/README.md) usa o mesmo motor e permite escolher os combatentes a cada rodada, inclusive após empate.
 
 Consulte [a referência em Python](../arquivo/balanceamento/referencia-python.md) para ver a comparação da migração.

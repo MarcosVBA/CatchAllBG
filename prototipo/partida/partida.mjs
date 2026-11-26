@@ -9,7 +9,7 @@ const opcao = (tipo, valor) => ({ id: `${tipo}:${valor}`, tipo, valor });
 
 export function criarPartida({ catalogo, rng }) {
   const jogadores = NOMES.map((nome, id) => ({ id, nome, perfil: PERFIS[id],
-    treinadorId: null, equipe: [], itens: [], trofeus: 0, escala: [] }));
+    treinadorId: null, equipe: [], itens: [], trofeus: 0 }));
   const capturaveis = [...catalogo.monstros.values()].filter(m => m.papel === "capturavel");
   const montes = new Map(TRILHAS.map(trilha => {
     const ids = capturaveis.filter(m => m.trilha === trilha).map(m => m.id);
@@ -147,11 +147,6 @@ export function criarPartida({ catalogo, rng }) {
     mostrarTrilhas("normal");
   }
 
-  function escalar() {
-    for (const jogador of jogadores) jogador.escala = [];
-    novaOrdem("escalar");
-  }
-
   function organizarDesafios() {
     pares = [];
     novaOrdem("desafio");
@@ -163,8 +158,7 @@ export function criarPartida({ catalogo, rng }) {
 
   function roteiro(id) {
     const jogador = jogadores[id];
-    return { id, treinadorId: jogador.treinadorId,
-      equipe: jogador.escala.map(chave => jogador.equipe.find(m => m.chave === chave)) };
+    return { id, treinadorId: jogador.treinadorId, equipe: jogador.equipe };
   }
 
   function terminarPartida(id) {
@@ -211,13 +205,20 @@ export function criarPartida({ catalogo, rng }) {
 
   function iniciarDuelo(par) {
     parAtual = par;
-    fase = "combate";
     emitir({ tipo: "duelo-iniciado", participantes: [...par], desempate: emDesempate });
     duelo = criarDuelo({ catalogo, participantes: par.map(roteiro), rng,
       vitoriasNecessarias: ciclo === 1 && !emDesempate ? 1 : 2,
       emitir, itensDe: id => jogadores[id].itens });
-    if (duelo.vencedor === null) vez = duelo.vez();
-    else fecharDuelo();
+    atualizarDuelo();
+  }
+
+  function atualizarDuelo() {
+    if (duelo.vencedor !== null) {
+      fecharDuelo();
+      return;
+    }
+    vez = duelo.vez();
+    fase = duelo.observar(vez).fase === "selecao" ? "selecionar-combatente" : "combate";
   }
 
   function opcoesDaVez() {
@@ -240,8 +241,11 @@ export function criarPartida({ catalogo, rng }) {
         ];
       }
       case "alvo-item": return jogador.equipe.map(m => opcao("alvo-item", m.chave));
-      case "escalar": return jogador.equipe.filter(m => !jogador.escala.includes(m.chave)).map(m => opcao("escalar", m.chave));
       case "desafio": return livres().filter(id => id !== vez).map(id => opcao("desafio", id));
+      case "selecionar-combatente": {
+        const visao = duelo.observar(vez);
+        return visao.disponiveis[visao.lado].map(chave => opcao("combatente", chave));
+      }
       case "combate": {
         const visao = duelo.observar(vez);
         return [...visao.mao.map(id => opcao("carta", id)), ...visao.itens.map(id => opcao("item", id))];
@@ -298,7 +302,7 @@ export function criarPartida({ catalogo, rng }) {
         }
         break;
       case "continuar":
-        proximo("trilha", escalar);
+        proximo("trilha", organizarDesafios);
         if (fase === "trilha") mostrarTrilhas("normal");
         break;
       case "preparacao":
@@ -325,10 +329,6 @@ export function criarPartida({ catalogo, rng }) {
         }
         break;
       }
-      case "escalar":
-        jogador.escala.push(valor);
-        if (jogador.escala.length === jogador.equipe.length) proximo("escalar", organizarDesafios);
-        break;
       case "desafio": {
         pares.push([id, valor]);
         emitir({ tipo: "desafio", jogador: id, rival: valor });
@@ -341,11 +341,11 @@ export function criarPartida({ catalogo, rng }) {
         }
         break;
       }
+      case "combatente":
       case "carta":
       case "item":
         duelo.jogar(id, tipo, valor);
-        if (duelo.vencedor === null) vez = duelo.vez();
-        else fecharDuelo();
+        atualizarDuelo();
         break;
     }
     return observar(id);
@@ -359,7 +359,6 @@ export function criarPartida({ catalogo, rng }) {
         ...entrada, formaId: prepararMonstro(catalogo, entrada.monstroId, entrada.melhorias).monstro.id,
       })),
       quantidadeItens: p.itens.length, itens: id === p.id ? [...p.itens] : undefined,
-      escala: id === p.id ? [...p.escala] : undefined,
     }));
     return {
       fase, vez, ciclo, campeao, emDesempate, participantes, duelo: duelo?.observar(id) ?? null,

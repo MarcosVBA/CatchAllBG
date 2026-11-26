@@ -8,8 +8,8 @@ export const FASES = {
   recompensa: ["Equipe", "Escolha sua recompensa", "Pegue um ponto de melhoria extra ou compre um item do baralho."],
   poscaptura: ["Equipe", "Prepare sua equipe", "Use um item de preparação disponível ou conclua sua vez."],
   "alvo-item": ["Equipe", "Escolha o monstro do item", "O efeito será aplicado ao monstro escolhido."],
-  escalar: ["Desafio", "Organize a ordem da equipe", "Clique nos monstros na ordem em que deseja revelá-los. A IA não vê a sua escala."],
   desafio: ["Desafio", "Escolha um rival disponível", "Cada jogador participa de um duelo por ciclo."],
+  "selecionar-combatente": ["Duelo", "Escolha seu combatente", "Os dois monstros são revelados juntos. Após um empate, ambos podem escolher de novo."],
   combate: ["Duelo", "Escolha sua jogada", "O rival escolhe a própria ação. As duas são reveladas antes da resolução."],
 };
 
@@ -49,7 +49,9 @@ export function descrever(evento, visao, catalogo) {
     case "acao-cancelada": return `Ataque Rápido cancelou a ação de ${p}.`;
     case "maos-renovadas": return "As duas mãos foram renovadas.";
     case "rodada-vencida": return `${p} venceu a rodada (${evento.placar.join(" × ")}).`;
-    case "repetir-rodada": return "Nocaute simultâneo. A rodada será repetida.";
+    case "repetir-rodada": return evento.motivo === "energia-igual"
+      ? "Empate por proporção de energia igual. Escolham os combatentes novamente."
+      : "Nocaute simultâneo. Escolham os combatentes novamente.";
     case "dados-de-desempate": return `Desempate no d6. ${nome(lados[0])} ${evento.valores[0]} × ${nome(lados[1])} ${evento.valores[1]}.`;
     case "limite-da-rodada": return "A rodada atingiu o limite de turnos. Compare a proporção de energia restante.";
     case "equipe-esgotada": return `${p} venceu por falta de combatente rival.`;

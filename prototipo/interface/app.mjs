@@ -3,7 +3,7 @@ import { efetiva, prepararMonstro } from "../../motor/regras/cartas.mjs";
 import { gerador } from "../../simulacao/sorteio.mjs";
 import { avancarIas } from "../partida/ia.mjs";
 import { criarPartida } from "../partida/partida.mjs";
-import { FASES, descrever } from "./textos.mjs";
+import { FASES, descrever, nomeJogada } from "./textos.mjs";
 
 const $ = id => document.getElementById(id);
 const html = valor => String(valor ?? "").replace(/[&<>"']/g, c => ({
@@ -70,7 +70,7 @@ function escolhas(visao) {
         <span class="carta-texto">${html(treinador.sorte ? "Uma rerrolagem por ataque ou tentativa de captura." : efeito)}</span>`);
     }
     if (tipo === "inicial" || tipo === "captura") return cartaMonstro(opcao, catalogo.monstros.get(valor));
-    if (["melhoria", "alvo-item", "escalar"].includes(tipo)) {
+    if (["melhoria", "alvo-item", "combatente"].includes(tipo)) {
       const m = p.equipe.find(m => m.chave === valor);
       return cartaMonstro(opcao, catalogo.monstros.get(m.formaId), m);
     }
@@ -126,9 +126,8 @@ function renderEquipe(visao) {
   const p = visao.participantes[0];
   const equipe = p.equipe.map(m => {
     const forma = catalogo.monstros.get(m.formaId);
-    const pos = p.escala.indexOf(m.chave);
     const disponiveis = prepararMonstro(catalogo, m.monstroId, m.melhorias).cartas;
-    return `<li><details><summary><strong>${pos < 0 ? "" : `${pos + 1}. `}${html(forma.nome)}</strong>
+    return `<li><details><summary><strong>${html(forma.nome)}</strong>
       <span class="classe">${m.melhorias} melhoria(s)</span></summary>
       <div class="detalhe-monstro">${resumoMonstro(forma)}
         ${forma.descricaoPassiva ? `<p>${html(forma.descricaoPassiva)}</p>` : ""}
@@ -172,21 +171,49 @@ function resumoDoTurnoAnterior(visao, duelo) {
   return `<div class="jogadas-recentes"><b>Turno anterior</b><span>${html(descrever(revelacao, visao, catalogo))}</span>${rolagens}</div>`;
 }
 
+function cartasUsadasPeloRival(lado) {
+  const inicioDaMao = novosEventos.findLastIndex(evento =>
+    evento.tipo === "rodada-iniciada" || evento.tipo === "maos-renovadas");
+  const cartas = novosEventos.slice(inicioDaMao + 1)
+    .filter(evento => evento.tipo === "cartas-reveladas" && evento.escolhas[lado].carta !== null)
+    .map(evento => nomeJogada(catalogo, evento.escolhas[lado]));
+  return `<section class="cartas-usadas" aria-labelledby="titulo-cartas-usadas">
+    <h3 id="titulo-cartas-usadas">Cartas usadas pelo rival</h3>
+    ${cartas.length ? `<ul>${cartas.map(nome => `<li>${html(nome)}</li>`).join("")}</ul>`
+      : "<p>Nenhuma carta usada nesta mão.</p>"}
+  </section>`;
+}
+
 function arenaDeCombate(visao) {
   const d = visao.duelo;
-  if (!d?.jogadores) return "";
+  if (d?.lado === undefined) return "";
   const seu = d.lado;
   const outro = 1 - seu;
+  const rival = visao.participantes[d.participantes[outro]];
+  const etapa = d.fase === "selecao" ? (d.repetida ? "Nova escolha após empate" : "Escolha de combatentes") : `Turno ${d.turno}`;
+  const meta = `<div class="duelo-meta"><b>Rodada ${d.numeroRodada} · ${etapa}</b>
+    <span>Placar ${d.placar[seu]}–${d.placar[outro]} · ${d.vitoriasNecessarias === 1 ? "Uma vitória" : "Melhor de três"}</span></div>`;
+  if (d.fase === "selecao") {
+    const candidatos = rival.equipe.filter(m => d.disponiveis[outro].includes(m.chave)).map(m => {
+      const forma = catalogo.monstros.get(m.formaId);
+      return `<li><strong>${html(forma.nome)}</strong><span class="tipos">${tipos(forma)}</span>
+        <span class="fraqueza">Fraqueza · ${html(forma.fraquezas.join(", "))}</span></li>`;
+    });
+    return `${meta}<section class="combatente rival-combatente candidatos-rivais" aria-labelledby="titulo-candidatos-rivais">
+      <h3 id="titulo-candidatos-rivais">Combatentes disponíveis de ${html(rival.nome)}</h3>
+      <ul class="lista-equipe">${candidatos.join("")}</ul>
+    </section>`;
+  }
   const ordem = d.ordemDeEscolha;
   const revelada = d.itemRevelado ? catalogo.itens.get(d.itemRevelado)?.nome : catalogo.habilidades.get(d.revelada)?.nome;
   const aviso = revelada ? `Rastreado · o rival revelou ${revelada}.`
     : ordem?.[0] === seu && d.podeEscolher ? "Rastreado · você revela antes do rival." : "";
-  return `<div class="duelo-meta"><b>Rodada ${d.numeroRodada} · Turno ${d.turno}</b>
-      <span>Placar ${d.placar[seu]}–${d.placar[outro]} · ${d.vitoriasNecessarias === 1 ? "Uma rodada" : "Melhor de três"}</span></div>
+  return `${meta}
     <div class="combatentes">
       ${combatente(visao.participantes[d.participantes[seu]], d.jogadores[seu], true)}
-      ${combatente(visao.participantes[d.participantes[outro]], d.jogadores[outro], false)}
-    </div>${resumoDoTurnoAnterior(visao, d)}${aviso ? `<p class="aviso-turno">${html(aviso)}</p>` : ""}`;
+      ${combatente(rival, d.jogadores[outro], false)}
+    </div>${resumoDoTurnoAnterior(visao, d)}${cartasUsadasPeloRival(outro)}
+    ${aviso ? `<p class="aviso-turno">${html(aviso)}</p>` : ""}`;
 }
 
 function renderHistorico(visao) {
@@ -194,7 +221,7 @@ function renderHistorico(visao) {
   const eventos = novosEventos.filter(abaHistorico === "duelo" ? emDuelo
     : evento => !evento.participantes || ["duelo-encerrado", "desempate-iniciado"].includes(evento.tipo))
     .map(e => ({ texto: descrever(e, visao, catalogo), turno: e.turno,
-      destaque: ["cartas-reveladas", "duelo-encerrado", "evolucao"].includes(e.tipo) }))
+      destaque: ["rodada-iniciada", "repetir-rodada", "cartas-reveladas", "duelo-encerrado", "evolucao"].includes(e.tipo) }))
     .filter(e => e.texto).slice(-18).reverse();
   $("historico").innerHTML = `<h2>Histórico</h2>
     <div class="abas-historico" aria-label="Filtro do histórico">
@@ -207,7 +234,7 @@ function renderHistorico(visao) {
 
 function render() {
   const v = partida.observar();
-  const combateVisivel = v.fase === "combate" && Boolean(v.duelo?.jogadores);
+  const combateVisivel = v.duelo?.lado !== undefined;
   if (combateVisivel !== emDueloHumano) {
     emDueloHumano = combateVisivel;
     abaHistorico = combateVisivel ? "duelo" : "partida";
@@ -232,7 +259,6 @@ function render() {
     [, titulo, detalhe] = fase;
     if (v.fase === "sorte-captura") detalhe = `Você tirou ${v.captura.rolagem}. ${detalhe}`;
     if (v.fase === "melhoria" && v.motivoMelhoria === "duelo") detalhe = `Você ganhou o duelo. ${detalhe}`;
-    if (v.fase === "escalar") titulo = `Escolha o ${v.participantes[0].escala.length + 1}º combatente`;
     corpo = `<div class="escolhas">${escolhas(v)}</div>`;
   } else {
     titulo = `${v.participantes[v.vez].nome} está jogando`;

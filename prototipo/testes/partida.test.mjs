@@ -65,7 +65,6 @@ test("escolhas iniciais podem ter cópias próprias e opções privadas não vaz
   const espectador = p.observar((p.vez + 1) % 4);
   assert.equal(espectador.captura, null);
   assert.deepEqual(espectador.opcoes, []);
-  assert.equal(espectador.participantes[p.vez].escala, undefined);
   assert.equal(espectador.participantes[p.vez].itens, undefined);
 });
 
@@ -73,24 +72,97 @@ test("mesma semente e decisões geram o mesmo resultado e histórico", () => {
   assert.deepEqual(executar(5), executar(5));
 });
 
-test("nocaute simultâneo repete uma vez e a segunda ocorrência vai para o d6", () => {
-  const monstros = new Map(catalogo.monstros);
-  for (const id of [1, 3]) monstros.set(id, { ...monstros.get(id), energia: 1 });
-  const dados = [6, 6, 6, 6, 2, 5];
+function dueloParaTeste({ catalogoDeTeste = catalogo, limiteTurnos, vitoriasNecessarias = 2 } = {}) {
   const eventos = [];
   const duelo = criarDuelo({
-    catalogo: { ...catalogo, monstros }, participantes: [
-      { id: 1, treinadorId: 1, equipe: [{ monstroId: 1, melhorias: 0 }] },
-      { id: 3, treinadorId: 1, equipe: [{ monstroId: 3, melhorias: 0 }] },
-    ], vitoriasNecessarias: 1, itensDe: () => [],
-    rng: { inteiro() { assert.ok(dados.length); return dados.shift(); } },
-    emitir: evento => eventos.push(evento),
+    catalogo: catalogoDeTeste,
+    participantes: [
+      { id: 1, treinadorId: 1, equipe: [
+        { chave: 11, monstroId: 1, melhorias: 0 },
+        { chave: 12, monstroId: 3, melhorias: 0 },
+        { chave: 13, monstroId: 1, melhorias: 0 },
+      ] },
+      { id: 3, treinadorId: 1, equipe: [
+        { chave: 31, monstroId: 3, melhorias: 0 },
+        { chave: 32, monstroId: 1, melhorias: 0 },
+        { chave: 33, monstroId: 3, melhorias: 0 },
+      ] },
+    ], vitoriasNecessarias, itensDe: () => [], limiteTurnos,
+    rng: { inteiro: () => 6 }, emitir: evento => eventos.push(evento),
   });
-  for (let i = 0; i < 4; i++) duelo.jogar(duelo.vez(), "carta", 1);
-  assert.equal(duelo.vencedor, 3);
-  assert.equal(eventos.filter(evento => evento.tipo === "repetir-rodada").length, 1);
-  assert.deepEqual(eventos.find(evento => evento.tipo === "dados-de-desempate").valores, [2, 5]);
-  assert.equal(dados.length, 0);
+  return { duelo, eventos };
+}
+
+test("a primeira escolha de combatente fica em segredo até a segunda", () => {
+  const { duelo, eventos } = dueloParaTeste();
+  const antes = [1, 3, 0].map(id => duelo.observar(id));
+  assert.throws(() => duelo.jogar(3, "combatente", 31), /Aguarde/);
+  assert.throws(() => duelo.jogar(1, "combatente", 31), /não está disponível/);
+  duelo.jogar(1, "combatente", 12);
+  assert.equal(duelo.vez(), 3);
+  assert.deepEqual([1, 3, 0].map(id => duelo.observar(id)), antes);
+  assert.deepEqual(eventos, []);
+  duelo.jogar(3, "combatente", 32);
+  assert.deepEqual(eventos[0].monstros, [3, 1]);
+  assert.deepEqual(duelo.observar(3).jogadores.map(m => m.monstroId), [3, 1]);
+});
+
+test("empates consecutivos permitem trocar e uma vitória retira as duas cópias escolhidas", () => {
+  const monstros = new Map(catalogo.monstros);
+  for (const id of [1, 3]) monstros.set(id, { ...monstros.get(id), energia: 1 });
+  const { duelo, eventos } = dueloParaTeste({ catalogoDeTeste: { ...catalogo, monstros } });
+  const disponiveis = duelo.observar(1).disponiveis;
+
+  for (const [esquerda, direita] of [[11, 31], [12, 32]]) {
+    duelo.jogar(1, "combatente", esquerda);
+    duelo.jogar(3, "combatente", direita);
+    duelo.jogar(1, "carta", 1);
+    duelo.jogar(3, "carta", 1);
+    const escolha = duelo.observar(1);
+    assert.equal(escolha.fase, "selecao");
+    assert.equal(escolha.numeroRodada, 1);
+    assert.equal(escolha.repetida, true);
+    assert.deepEqual(escolha.placar, [0, 0]);
+    assert.deepEqual(escolha.disponiveis, disponiveis);
+  }
+  assert.deepEqual(eventos.filter(e => e.tipo === "rodada-iniciada").map(e => e.monstros), [[1, 3], [3, 1]]);
+  assert.equal(eventos.filter(e => e.tipo === "repetir-rodada").length, 2);
+  assert.ok(!eventos.some(e => e.tipo === "dados-de-desempate"));
+
+  duelo.jogar(1, "combatente", 11);
+  duelo.jogar(3, "combatente", 32);
+  duelo.jogar(1, "carta", 1);
+  duelo.jogar(3, "carta", 3);
+  const escolha = duelo.observar(3);
+  assert.equal(escolha.numeroRodada, 2);
+  assert.equal(escolha.repetida, false);
+  assert.deepEqual(escolha.placar, [1, 0]);
+  assert.deepEqual(escolha.disponiveis, [[12, 13], [31, 33]]);
+  assert.throws(() => duelo.jogar(1, "combatente", 11), /não está disponível/);
+  duelo.jogar(1, "combatente", 13);
+  assert.throws(() => duelo.jogar(3, "combatente", 32), /não está disponível/);
+  duelo.jogar(3, "combatente", 33);
+  duelo.jogar(1, "carta", 1);
+  duelo.jogar(3, "carta", 3);
+  assert.equal(duelo.vencedor, 1);
+  const seguinte = dueloParaTeste().duelo;
+  assert.deepEqual(seguinte.observar(1).disponiveis, disponiveis);
+});
+
+test("o limite de turnos reabre a escolha com proporções iguais e pontua com proporções diferentes", () => {
+  const { duelo, eventos } = dueloParaTeste({ limiteTurnos: 1 });
+  duelo.jogar(1, "combatente", 11);
+  duelo.jogar(3, "combatente", 31);
+  duelo.jogar(1, "carta", 2);
+  duelo.jogar(3, "carta", 2);
+  assert.equal(eventos.at(-1).motivo, "energia-igual");
+  assert.deepEqual(duelo.observar(1).disponiveis, [[11, 12, 13], [31, 32, 33]]);
+  duelo.jogar(1, "combatente", 12);
+  duelo.jogar(3, "combatente", 32);
+  duelo.jogar(1, "carta", 1);
+  duelo.jogar(3, "carta", 3);
+  assert.deepEqual(duelo.observar(1).placar, [1, 0]);
+  assert.deepEqual(duelo.observar(1).disponiveis, [[11, 13], [31, 33]]);
 });
 
 function rodadaComItens(itens) {

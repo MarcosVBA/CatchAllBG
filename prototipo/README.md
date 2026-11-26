@@ -25,9 +25,10 @@ Para montar o mesmo pacote estático localmente, execute `bash prototipo/empacot
 - Pontos de habilidade e de melhoria usam a mesma progressão do catálogo. Evoluções consomem a posição prevista na sequência de melhorias. Um vencedor também distribui a melhoria que recebeu no duelo.
 - Armadilha, Mapa da trilha e Poção de Força ficam disponíveis na preparação. Armadilha e Mapa iniciam uma captura extra, com um ponto de melhoria ao capturar. A recompensa extra do ciclo é recebida na captura normal. Armadilha exige que pelo menos um monstro fique na equipe após a troca.
 - Super Cura e Salva Vidas ocupam a escolha do turno. A primeira está disponível para monstros feridos. Salva Vidas consome a cópia quando bloqueia um ataque. Jogar um item deixa a mão de habilidades intacta. Gustavo pode escolher rerrolar uma falha de captura, e a rerrolagem de ataque é automática em resultados de 1 a 3.
-- Cada ciclo tem dois duelos. O primeiro ciclo usa uma rodada por duelo. Os seguintes usam melhor de três. Um nocaute simultâneo repete a rodada uma vez com os mesmos monstros. Se voltar a acontecer, o maior d6 vence, com nova rolagem em caso de dados iguais.
-- Ao atingir 120 turnos numa rodada, vence quem tiver a maior proporção de energia restante. Em caso de igualdade, vale o d6. Se um time ficar sem combatente para a próxima rodada, perde o duelo.
-- Os líderes empatados após o terceiro ciclo disputam um desempate em melhor de três, com as escalações do último ciclo. Com três líderes, o vencedor do primeiro duelo enfrenta o terceiro.
+- Cada ciclo tem dois duelos. No primeiro ciclo, uma vitória de rodada decide o duelo. Nos seguintes, são necessárias duas. Antes de cada rodada, os dois jogadores escolhem em segredo e revelam os monstros juntos. Os dois combatentes de uma rodada com vencedor ficam indisponíveis para o restante do duelo.
+- Um nocaute simultâneo mantém o placar e reabre a escolha. Cada jogador pode manter seu combatente ou escolher outro disponível. No limite de 120 turnos, vence quem tiver a maior proporção de energia. Proporções iguais também reabrem a escolha.
+- Se um time ficar sem combatente para a próxima rodada, perde o duelo. Se ambos esgotarem as equipes, o maior d6 decide, com nova rolagem em caso de dados iguais.
+- Os líderes empatados após o terceiro ciclo disputam um desempate em melhor de três. A disponibilidade dos monstros é renovada a cada duelo. Com três líderes, o vencedor do primeiro duelo enfrenta o terceiro.
 
 ## Organização e testes
 

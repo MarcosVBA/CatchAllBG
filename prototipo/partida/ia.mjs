@@ -86,9 +86,18 @@ function pontuar(escolha, visao, catalogo, p) {
       if (atual.cartas.length === seguinte.cartas.length) return -4;
       return 1 + valorMonstro(forma, perfil) * 0.25;
     }
-    case "escalar": {
+    case "combatente": {
       const m = p.equipe.find(m => m.chave === valor);
-      return valorMonstro(catalogo.monstros.get(m.formaId), perfil) + m.melhorias * 0.2;
+      const forma = catalogo.monstros.get(m.formaId);
+      const { lado, participantes, disponiveis } = visao.duelo;
+      const rival = 1 - lado;
+      const candidatos = visao.participantes[participantes[rival]].equipe
+        .filter(entrada => disponiveis[rival].includes(entrada.chave));
+      const vantagem = candidatos.reduce((total, entrada) => {
+        const alvo = catalogo.monstros.get(entrada.formaId);
+        return total + fraqueza(forma, alvo) - fraqueza(alvo, forma);
+      }, 0) / candidatos.length;
+      return valorMonstro(forma, perfil) + m.melhorias * 0.2 + vantagem;
     }
     case "desafio": {
       const oponente = visao.participantes[valor];

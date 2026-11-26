@@ -102,6 +102,9 @@ p { line-height: 1.5; }
 .combatentes { display: grid; grid-template-columns: 1fr 1fr; gap: .65rem; margin-bottom: 1rem; }
 .combatente { padding: .85rem; border: 1px solid var(--linha); border-radius: .65rem; background: #142436; }
 .rival-combatente { background: #262537; }
+.candidatos-rivais { margin-bottom: .7rem; }
+.candidatos-rivais li { display: flex; flex-wrap: wrap; align-items: baseline; gap: .25rem .65rem; }
+.candidatos-rivais li:last-child { border-bottom: 0; }
 .combatente .rotulo { color: var(--suave); }
 .combatente h3 { margin: .22rem 0 .45rem; font-size: clamp(1.1rem, 3vw, 1.8rem); overflow-wrap: anywhere; text-transform: capitalize; }
 .energia-texto { display: flex; justify-content: space-between; margin: .65rem 0 .12rem; gap: .25rem; font-size: .875rem; }
@@ -118,6 +121,11 @@ progress::-moz-progress-bar { background: var(--verde); }
 .aviso-turno { margin-bottom: .7rem; border-left: 3px solid var(--faísca); padding: .45rem .65rem; background: #322b45; }
 .jogadas-recentes { display: flex; gap: .3rem .65rem; flex-wrap: wrap; align-items: baseline; padding: .5rem .65rem; margin-bottom: .65rem; border: 1px solid var(--linha); border-radius: .4rem; color: var(--suave); font-size: .875rem; }
 .jogadas-recentes b { color: var(--ouro); }
+.cartas-usadas { display: flex; flex-wrap: wrap; align-items: baseline; gap: .35rem .65rem; margin-bottom: .65rem; padding: .5rem .65rem; border: 1px solid var(--linha); border-radius: .4rem; font-size: .875rem; }
+.cartas-usadas h3 { font-size: inherit; color: var(--ouro); }
+.cartas-usadas p { color: var(--suave); }
+.cartas-usadas ul { display: flex; flex-wrap: wrap; gap: .3rem; list-style: none; margin: 0; padding: 0; }
+.cartas-usadas li { padding: .15rem .4rem; border: 1px solid var(--linha); border-radius: .32rem; overflow-wrap: anywhere; }
 
 .lateral { display: grid; gap: .8rem; }
 .lateral h2 { font-size: 1.12rem; margin-bottom: .55rem; }
