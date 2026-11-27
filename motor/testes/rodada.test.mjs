@@ -203,6 +203,120 @@ test("Véu de Cinza causa dano direto e aplica Ofuscado ao bloquear", () => {
   rodada.conferirDados();
 });
 
+test("Cinza Sufocante bloqueia parcialmente e aplica dano e Ofuscado", () => {
+  const defensor = ficha("Brumalha", 1, 1);
+  const atacante = ficha("Krakon", 0, 1);
+  const rodada = jogo(defensor, atacante, [4]);
+  const antes = energias(rodada);
+  const eventos = turno(rodada, 16, 1);
+  const bruto = danoSemEfeitos(catalogo.monstros.get(atacante.monstroId), catalogo.monstros.get(defensor.monstroId), 4);
+  assert.deepEqual(energias(rodada), [antes[0] - Math.ceil(bruto / 2), antes[1] - 2]);
+  assert.ok(eventos.some(e => e.tipo === "bloqueio" && e.parcial));
+  assert.ok(rodada.observar(0).jogadores[1].condicoes.includes(2));
+  rodada.conferirDados();
+});
+
+test("Sussurro Hipnótico bloqueia ataques e rastreia habilidades de monstro", () => {
+  for (const [rival, escolha, rastreia] of [[ficha("Krakon", 0, 1), 1, false], [ficha("Krakon", 1, 1), 11, true]]) {
+    const rodada = jogo(ficha("Sussural", 2, 1), rival);
+    const antes = energias(rodada)[0];
+    const eventos = turno(rodada, 20, escolha);
+    assert.equal(energias(rodada)[0], antes - (escolha === 11 ? 2 : 0));
+    assert.ok(eventos.some(e => e.tipo === "bloqueio" && !e.parcial));
+    assert.equal(rodada.observar(0).jogadores[1].condicoes.includes(6), rastreia);
+    rodada.conferirDados();
+  }
+  const rodada = jogo(ficha("Sussural", 2, 1), ficha("Krakuron", 1, 1));
+  const eventos = turno(rodada, 20, 13);
+  assert.equal(eventos.some(e => e.tipo === "bloqueio"), false);
+  assert.ok(rodada.observar(0).jogadores[1].condicoes.includes(6));
+  rodada.conferirDados();
+});
+
+test("Preso mantém a defesa parcial de Cinza Sufocante e suprime seus efeitos extras", () => {
+  const rodada = jogo(ficha("Lamatim", 1, 1), ficha("Brumalha", 1, 1), [4, 1, 4]);
+  turno(rodada, 38, 4);
+  assert.ok(rodada.observar(0).jogadores[1].condicoes.includes(7));
+  const antes = energias(rodada);
+  const eventos = turno(rodada, 1, 16);
+  assert.equal(energias(rodada)[0], antes[0]);
+  assert.ok(eventos.some(e => e.tipo === "bloqueio" && e.parcial));
+  assert.equal(rodada.observar(0).jogadores[0].condicoes.includes(2), false);
+  assert.equal(rodada.observar(0).jogadores[1].condicoes.includes(7), false);
+  rodada.conferirDados();
+});
+
+test("Sardâmbar preserva o bônus após bloqueios integral e parcial", () => {
+  const atacante = ficha("Sardâmbar", 0, 1);
+  const defensor = ficha("Owlzin", 1, 1);
+  const rodada = jogo(atacante, defensor, [4, 6, 1, 4, 1]);
+  turno(rodada, 1, 2);
+  turno(rodada, 3, 15);
+  turno(rodada, 4, 3);
+  turno(rodada, 2, 4);
+  const antes = energias(rodada)[1];
+  const eventos = turno(rodada, 1, 1);
+  const dano = danoSemEfeitos(catalogo.monstros.get(atacante.monstroId), catalogo.monstros.get(defensor.monstroId), 4, 0, 13);
+  assert.equal(energias(rodada)[1], Math.max(0, antes - dano));
+  assert.ok(eventos.some(e => e.tipo === "efeito-ativado" && e.efeito === "Primeiro Atacar"));
+  rodada.conferirDados();
+});
+
+test("Marca de Penumbra rastreia com um de dano e volta a funcionar após renovação", () => {
+  const monstros = new Map(catalogo.monstros);
+  const atacante = monstros.get(id("Ninhombra"));
+  const defensor = monstros.get(id("Owlzin"));
+  monstros.set(atacante.id, { ...atacante, ofensiva: defensor.defesa, energia: 1000 });
+  monstros.set(defensor.id, { ...defensor, energia: 1000 });
+  const rodada = jogo(ficha("Ninhombra", 1, 1), ficha("Owlzin", 0, 1), Array(10).fill(1), { catalogo: { ...catalogo, monstros } });
+  turno(rodada, 37, 4);
+  assert.ok(rodada.observar(0).jogadores[1].condicoes.includes(6));
+  turno(rodada, 2, 2);
+  turno(rodada, 3, 3);
+  turno(rodada, 4, 1);
+  turno(rodada, 1, 4);
+  turno(rodada, 37, 3);
+  assert.ok(rodada.observar(0).jogadores[1].condicoes.includes(6));
+});
+
+test("Carapaça Fechada concede dois de Foco após bloquear", () => {
+  const atacante = ficha("Musgale", 2, 1);
+  const defensor = ficha("Owlzin", 0, 1);
+  const rodada = jogo(atacante, defensor, [4, 1]);
+  turno(rodada, 28, 1);
+  const antes = energias(rodada)[1];
+  turno(rodada, 1, 4);
+  const dano = danoSemEfeitos(catalogo.monstros.get(atacante.monstroId), catalogo.monstros.get(defensor.monstroId), 4, 0, 2);
+  assert.equal(energias(rodada)[1], antes - dano);
+  rodada.conferirDados();
+});
+
+test("Eco Mental acrescenta dois de dano contra carta base", () => {
+  const atacante = ficha("Ecolume", 1, 1);
+  const defensor = ficha("Owlzin", 0, 1);
+  const rodada = jogo(atacante, defensor, [4]);
+  const antes = energias(rodada)[1];
+  turno(rodada, 31, 3);
+  const dano = danoSemEfeitos(catalogo.monstros.get(atacante.monstroId), catalogo.monstros.get(defensor.monstroId), 4, 0, 2);
+  assert.equal(energias(rodada)[1], antes - dano);
+  rodada.conferirDados();
+});
+
+test("Bote na Penumbra acrescenta três de dano contra rival com metade da energia", () => {
+  const monstros = new Map(catalogo.monstros);
+  const atacante = monstros.get(id("Grotufo"));
+  const defensor = monstros.get(id("Owlzin"));
+  monstros.set(atacante.id, { ...atacante, ofensiva: 7 });
+  monstros.set(defensor.id, { ...defensor, energia: 20 });
+  const rodada = jogo(ficha("Grotufo", 2, 1), ficha("Owlzin", 0, 1), [6, 1, 1, 1], { catalogo: { ...catalogo, monstros } });
+  turno(rodada, 1, 4);
+  const antes = energias(rodada)[1];
+  assert.equal(antes, 10);
+  turno(rodada, 25, 3);
+  assert.equal(energias(rodada)[1], antes - danoSemEfeitos(monstros.get(atacante.id), monstros.get(defensor.id), 1, 0, 3));
+  rodada.conferirDados();
+});
+
 test("bloqueio parcial ativa o efeito mesmo quando o ataque causa zero de dano", () => {
   const monstros = new Map(catalogo.monstros);
   const atacante = monstros.get(id("Krakon"));
@@ -396,7 +510,7 @@ test("Ofuscado diminui dano com face baixa e é consumido no primeiro acerto", (
   turno(rodada, 33, 1);
   const antes = energias(rodada);
   turno(rodada, 3, 3);
-  assert.equal(energias(rodada)[0], antes[0] - 6);
+  assert.equal(energias(rodada)[0], antes[0] - 5);
   assert.equal(rodada.observar(0).jogadores[1].condicoes.includes(2), false);
   rodada.conferirDados();
 });

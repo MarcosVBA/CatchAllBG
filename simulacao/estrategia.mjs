@@ -27,14 +27,12 @@ export function escolher(visao, jogador, catalogo, rng, defensiva) {
       if ([15, 33, 48].includes(efeito) && !proprio.condicoes.includes(7)) {
         peso += houveRevelacao && ATAQUES.has(revelada) ? 0.6 : 0.2;
       }
+      if (efeito === 16 && !proprio.condicoes.includes(7)) peso += 0.4;
+      if (efeito === 20 && houveRevelacao && catalogo.habilidades.get(revelada)?.classe === "monstro") peso += 0.5;
       if (efeito === 54 && rival.condicoes.includes(5)) peso += 1;
       if (houveRevelacao) peso += ATAQUES.has(revelada) ? 2.9 : -2;
-    } else if (efeito === 16) {
-      peso = houveRevelacao ? (ATAQUES.has(revelada) ? 2.6 : -2) : 1.35;
     } else if (efeito === 19) {
       peso = houveRevelacao ? (BLOQUEIOS.has(revelada) ? 2.3 : -2) : 0.8;
-    } else if (efeito === 20) {
-      peso = houveRevelacao ? (catalogo.habilidades.get(revelada)?.classe === "monstro" ? 2.5 : -2) : 1.25;
     } else if (efeito === 9) {
       peso = proprio.condicoes.some(id => id !== 5) ? 3.1 : Number(proprio.energia < proprio.energiaMaxima) * 0.8;
     } else if (CURAS.has(efeito)) {

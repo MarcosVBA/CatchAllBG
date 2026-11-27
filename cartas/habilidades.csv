@@ -2,7 +2,7 @@ id_habilidade,nome_habilidade,efeito,tag,id_condicao
 1,Atacar,Realize um ataque,base,
 2,Defesa,Bloquei o ataque do oponente,base,
 3,Repetir,"Repita a ultima ação, apenas se ela for uma habilidade base ou de treinador",base,
-4,Foco,"Role 1d6 e acrescente o resultado integral ao cálculo de dano do próximo ataque.",treinador,
+4,Foco,Role 1d6 e acrescente o resultado integral ao cálculo de dano do próximo ataque.,treinador,
 5,Ataque Rápido,"Realize um ataque, porem, considere o dano aplicado antes de executar a ação do oponente",treinador,
 6,Brasa de Cerco,"Realize um ataque. Se o rival usar Foco, acrescente 5 ao cálculo do dano.",monstro,
 7,Mordida de Seiva,"Realize um ataque. Se causar pelo menos 3 de dano pelo cálculo, recupere 2 de energia.",monstro,
@@ -12,30 +12,30 @@ id_habilidade,nome_habilidade,efeito,tag,id_condicao
 11,Guspe de Chama,"Realize um ataque, se o oponente bloquear, cause 2 de dano direto",monstro,
 12,Pele Quente,"Realize um ataque. Se o rival também atacar, ele sofre 1 de dano direto.",monstro,
 13,Incinerar,"Cause ""Incendiar"" no oponente",monstro,1
-14,Curar I,"Role 1d6. Recupere 2 de energia com 1–4 ou 3 de energia com 5–6. Respeite sua energia máxima.",monstro,
+14,Curar I,Role 1d6. Recupere 2 de energia com 1–4 ou 3 de energia com 5–6. Respeite sua energia máxima.,monstro,
 15,Bolha de água,"Bloqueie metade do dano do ataque rival, arredondando a parcela bloqueada para baixo. Se bloquear um ataque, cause 4 de dano direto ao rival.",monstro,
-16,Cinza Sufocante,"Se o rival executar um ataque, aplique Ofuscado a ele após resolver o turno.",monstro,2
+16,Cinza Sufocante,"Bloqueie metade do dano do ataque rival, arredondando a parcela bloqueada para baixo. Se bloquear um ataque, cause 2 de dano direto e aplique Ofuscado ao rival depois de resolver o turno.",monstro,2
 17,Escudo de Seixos,"Bloqueie o ataque do rival. Se bloquear um ataque que explora sua fraqueza, recupere 3 de energia.",monstro,
 18,Raiz Funda,"Recupere 2 de energia. Se tiver menos energia atual que o rival ao revelar as cartas, recupere 3 em vez de 2.",monstro,
 19,Fio de Seda,"Se o rival usar uma ação de bloqueio, aplique Preso a ele após resolver o turno.",monstro,7
-20,Farol da Margem,"Se o rival usar uma habilidade de monstro, aplique Rastreado a ele após resolver o turno.",monstro,6
+20,Sussurro Hipnótico,"Bloqueie o ataque do rival. Se o rival usar uma habilidade de monstro, aplique Rastreado a ele após resolver o turno.",monstro,6
 21,Investida de Cascalho,Realize um ataque rápido. Ele causa 1 de dano adicional se o rival tiver mais energia atual que você ao revelar as cartas.,monstro,
 22,Abrigo de Pedra,"Bloqueie o ataque do rival. Se bloquear um ataque, recupere 2 de energia após a resolução do turno.",monstro,
 23,Rasante,Realize um ataque rápido com +2 de dano se o rival tiver o tipo Inseto ou Grama.,monstro,
 24,Chama de Fenda,"Realize um ataque. Se o rival bloquear, cause 2 de dano direto.",monstro,
-25,Bote na Penumbra,Realize um ataque rápido com +2 de dano se o rival tiver metade ou menos da energia máxima dele ao revelar as cartas.,monstro,
+25,Bote na Penumbra,Realize um ataque rápido com +3 de dano se o rival tiver metade ou menos da energia máxima dele ao revelar as cartas.,monstro,
 26,Seiva Clara,Recupere 3 de energia.,monstro,
 27,Golpe de Cipó,"Realize um ataque. Se o rival também atacar, acrescente 1 ao dano do seu ataque.",monstro,
-28,Carapaça Fechada,"Bloqueie o ataque do rival. Se bloquear um ataque, seu próximo ataque causa +1 de dano.",monstro,
+28,Carapaça Fechada,"Bloqueie o ataque do rival. Se bloquear um ataque, seu próximo ataque causa +2 de dano.",monstro,
 29,Tranco de Ombro,Realize um ataque com +2 de dano se o rival tiver defesa superior à sua.,monstro,
 30,Marola,"Realize um ataque. Se o rival revelar uma habilidade que recupere energia, acrescente 4 ao dano do seu ataque.",monstro,
-31,Eco Mental,"Realize um ataque. Se o rival revelar uma carta de habilidade base, acrescente 1 ao dano do seu ataque.",monstro,
+31,Eco Mental,"Realize um ataque. Se o rival revelar uma carta de habilidade base, acrescente 2 ao dano do seu ataque.",monstro,
 32,Faísca de Margem,"Realize um ataque rápido. Se o rival tiver o tipo Água ou Voador, acrescente 2 ao dano do seu ataque.",monstro,
 33,Véu de Cinza,"Bloqueie metade do dano do ataque rival, arredondando a parcela bloqueada para baixo. Se bloquear um ataque, cause 2 de dano direto e aplique Ofuscado ao rival depois de resolver o turno.",monstro,2
 34,Trinca de Cascalho,"Realize um ataque com 1 a menos de dano no cálculo. Se causar dano pelo cálculo do ataque, aplique Fissurado ao rival depois de resolver o turno.",monstro,3
 35,Pó de Esporos,"Realize um ataque. Se causar dano pelo cálculo do ataque, aplique Esporos ao rival depois de resolver o turno.",monstro,4
 36,Para-Raios,"Bloqueie o ataque do rival. Se bloquear um ataque, ganhe Sobrecarga depois de resolver o turno.",monstro,5
-37,Marca de Penumbra,"Realize um ataque. Se causar pelo menos 3 de dano pelo cálculo do ataque, aplique Rastreado ao rival depois de resolver o turno. Esta carta só pode aplicar Rastreado uma vez por rodada.",monstro,6
+37,Marca de Penumbra,"Realize um ataque. Se causar pelo menos 1 de dano pelo cálculo do ataque, aplique Rastreado ao rival depois de resolver o turno.",monstro,6
 38,Lama Pegajosa,"Realize um ataque. Se causar pelo menos 2 de dano pelo cálculo do ataque, aplique Preso ao rival depois de resolver o turno.",monstro,7
 39,Maré Restauradora,"Role 1d6. Recupere 2 de energia com 1–2, 3 com 3–4 ou 4 com 5–6. Respeite sua energia máxima.",monstro,
 40,Espinho Resiliente,Realize um ataque com +3 de dano se você tiver metade ou menos da energia máxima ao revelar as cartas.,monstro,

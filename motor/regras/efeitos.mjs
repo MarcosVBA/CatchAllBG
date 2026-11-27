@@ -85,11 +85,11 @@ function bonusDaCarta(p, q, skill, rival, ambosAtacam, contexto) {
     case 10: return ambosAtacam && contexto.habilidades.get(rival.efeito)?.classe === "monstro" ? 3 : 0;
     case 21: return Number(q.energia > p.energia);
     case 23: return q.monstro.tipos.some(tipo => tipo === "Inseto" || tipo === "Grama") ? 2 : 0;
-    case 25: return q.energia * 2 <= q.monstro.energia ? 2 : 0;
+    case 25: return q.energia * 2 <= q.monstro.energia ? 3 : 0;
     case 27: return Number(ambosAtacam);
     case 29: return q.monstro.defesa > p.monstro.defesa ? 2 : 0;
     case 30: return CURAS.has(rival.efeito) ? 4 : 0;
-    case 31: return Number(BASE.has(rival.carta));
+    case 31: return BASE.has(rival.carta) ? 2 : 0;
     case 32: return q.monstro.tipos.some(tipo => tipo === "Água" || tipo === "Voador") ? 2 : 0;
     case 34: return -1;
     case 40: return p.energia * 2 <= p.monstro.energia ? 3 : 0;
@@ -113,10 +113,11 @@ function ataque(p, q, escolha, rival, ambosAtacam, rivalAtacouAntes, contexto) {
   const foco = p.foco;
   let bonus = foco;
   p.foco = 0;
-  const primeiroAtacar = skill === 1 && p.monstro.passiva === "Primeiro Atacar"
-    && usarUmaVez(p, "Primeiro Atacar", contexto);
   const bloqueado = BLOQUEIOS.has(rival.efeito);
   const parcial = BLOQUEIOS_PARCIAIS.has(rival.efeito);
+  const persistente = p.monstro.passiva === "Primeiro Atacar Persistente";
+  const primeiroAtacar = skill === 1 && (p.monstro.passiva === "Primeiro Atacar" || persistente && !bloqueado)
+    && usarUmaVez(p, "Primeiro Atacar", contexto);
   let direto = 0;
   if (bloqueado) {
     if (p.monstro.passiva === "Desencaixe" && !p.usos.has("Desencaixe")) {
@@ -131,7 +132,7 @@ function ataque(p, q, escolha, rival, ambosAtacam, rivalAtacouAntes, contexto) {
     if (!parcial) return { total: direto, calculado: 0, sobrecarga: 0 };
   }
   if (primeiroAtacar && !bloqueado) {
-    bonus += 3;
+    bonus += persistente ? 6 : 3;
     ativar(p, "Primeiro Atacar", contexto);
   }
   bonus += bonusDaCarta(p, q, skill, rival, ambosAtacam, contexto);
@@ -162,7 +163,7 @@ function ataque(p, q, escolha, rival, ambosAtacam, rivalAtacouAntes, contexto) {
       ativar(q, "Refração", contexto);
     }
     if (consumirCondicao(p, 2, contexto) && rolar("Ofuscado") <= 3) {
-      dano -= 3;
+      dano -= 4;
       ativar(p, "Ofuscado", contexto);
     }
     if (consumirCondicao(q, 3, contexto) && contexto.rolar(q, "Fissurado") <= 3) {
@@ -197,7 +198,12 @@ function efeitoDeBloqueio(p, q, skill, rival, contexto, pendentes) {
     if (skill !== 2) ativar(p, "Preso", contexto);
     return { dano: 0, cura: 0 };
   }
-  if (skill === 28) p.foco++;
+  if (skill === 28) p.foco += 2;
+  if (skill === 16) {
+    pendentes.push([q, 2]);
+    return { dano: 2, cura: 0 };
+  }
+  if (skill === 20 && contexto.habilidades.get(rival)?.classe === "monstro") pendentes.push([q, 6]);
   if (skill === 33) {
     pendentes.push([q, 2]);
     return { dano: 2, cura: 0 };
@@ -276,9 +282,8 @@ export function resolverAcoes(jogadores, escolhas, contexto, ataquesAnteriores) 
     if (skill === 13) pendentes.push([q, 1]);
     const golpe = golpes[i].calculado;
     if (skill === 7 && golpe >= 3) curas[i] += 2;
-    if (skill === 16 && ATAQUES.has(rival)) pendentes.push([q, 2]);
     if (skill === 19 && BLOQUEIOS.has(rival)) pendentes.push([q, 7]);
-    if (skill === 20 && contexto.habilidades.get(rival)?.classe === "monstro") pendentes.push([q, 6]);
+    if (skill === 20 && !bloqueou && contexto.habilidades.get(rival)?.classe === "monstro") pendentes.push([q, 6]);
     if (skill === 48 && !bloqueou) p.foco += 2;
     if (skill === 49 && BLOQUEIOS.has(rival)) pendentes.push([q, 3]);
     if (skill === 34 && golpe > 0) pendentes.push([q, 3]);
@@ -286,7 +291,7 @@ export function resolverAcoes(jogadores, escolhas, contexto, ataquesAnteriores) 
     if (skill === 58 && golpe > 0) pendentes.push([q, 2]);
     if (skill === 35 && golpe > 0) pendentes.push([q, 4]);
     if (skill === 38 && golpe >= 2) pendentes.push([q, 7]);
-    if (skill === 37 && golpe >= 3 && usarUmaVez(p, "Marca de Penumbra", contexto)) pendentes.push([q, 6]);
+    if (skill === 37 && golpe >= 1) pendentes.push([q, 6]);
 
     const passiva = p.monstro.passiva;
     if (ambosAtacam && cancelado === null && passiva === "Curto-Circuito" && usarUmaVez(p, passiva, contexto)) {

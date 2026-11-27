@@ -128,7 +128,7 @@ function cartaMonstro(opcao, m, equipe) {
   const passos = m.melhorias.map(
     e => e.tipo === "evolucao" ? `Evolui para ${catalogo.monstros.get(e.id).nome}` : catalogo.habilidades.get(e.id).nome,
   );
-  return opcaoDoJogador(opcao, m.nome, `${resumoMonstro(m)}${pontos}
+  return opcaoDoJogador(opcao, m.nome, `${m.descricao ? `<span class="carta-descricao">${html(m.descricao)}</span>` : ""}${resumoMonstro(m)}${pontos}
     ${passos.length ? `<span class="carta-texto">Melhorias desta forma · ${html(passos.join(" · "))}</span>` : ""}
     ${m.descricaoPassiva ? `<span class="carta-texto">${html(m.descricaoPassiva)}</span>` : ""}`, "carta-monstro");
 }
@@ -205,6 +205,7 @@ function renderEquipe(visao) {
     return `<li><details><summary><strong>${html(forma.nome)}</strong>
       <span class="classe">${m.melhorias} melhoria(s)</span></summary>
       <div class="detalhe-monstro">${resumoMonstro(forma)}
+        ${forma.descricao ? `<p class="descricao-monstro">${html(forma.descricao)}</p>` : ""}
         ${forma.descricaoPassiva ? `<p>${html(forma.descricaoPassiva)}</p>` : ""}
         ${disponiveis.length ? `<p>Habilidades · ${html(disponiveis.map(id => catalogo.habilidades.get(id).nome).join(", "))}</p>` : ""}
       </div></details></li>`;

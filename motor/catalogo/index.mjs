@@ -11,7 +11,7 @@ const PASSIVAS = new Set([
 
 function passiva(texto) {
   if (!texto) return null;
-  if (texto.startsWith("No primeiro Atacar")) return "Primeiro Atacar";
+  if (texto.startsWith("No primeiro Atacar")) return texto.includes("permanece") ? "Primeiro Atacar Persistente" : "Primeiro Atacar";
   if (texto.startsWith("Seu Atacar") && texto.includes("Psíquico")) return "Atacar contra Psíquico";
   if (texto.startsWith("A primeira habilidade") && texto.includes("recuperar")) return "Primeira cura";
   if (texto.startsWith("Re-role")) return "Rerrolar cura";

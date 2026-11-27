@@ -3,7 +3,7 @@ import {
 } from "../../motor/regras/cartas.mjs";
 
 const TRILHA_PREFERIDA = { agressiva: "Montanha", defensiva: "Floresta", oportunista: "Riacho" };
-const CONDICOES_ATIVAS = new Set([13, 24, 28, 33, 34, 35, 36, 37, 38]);
+const CONDICOES_ATIVAS = new Set([13, 16, 20, 24, 28, 33, 34, 35, 36, 37, 38]);
 
 function valorMonstro(monstro, perfil) {
   const ofensiva = perfil === "agressiva" ? 1.3 : 0.9;
@@ -50,13 +50,13 @@ function pontuarCombate(opcao, observacao, catalogo, perfil) {
     if ([15, 33, 48].includes(habilidade) && !p.condicoes.includes(7)) {
       peso += revelou && ATAQUES.has(efeitoRival) ? 0.6 : 0.2;
     }
+    if (habilidade === 16 && !p.condicoes.includes(7)) peso += 0.4;
+    if (habilidade === 20 && revelou && catalogo.habilidades.get(efeitoRival)?.classe === "monstro") peso += 0.5;
     if (habilidade === 54 && q.condicoes.includes(5) && !p.condicoes.includes(7)) peso += 1;
     if (habilidade === 48 && revelou && !ATAQUES.has(efeitoRival)) peso += 3;
     return peso;
   }
-  if (habilidade === 16) return revelou ? (ATAQUES.has(efeitoRival) ? 2.6 : -2) : 1.35;
   if (habilidade === 19) return revelou ? (BLOQUEIOS.has(efeitoRival) ? 2.3 : -2) : 0.8;
-  if (habilidade === 20) return revelou ? (catalogo.habilidades.get(efeitoRival)?.classe === "monstro" ? 2.5 : -2) : 1.25;
   if (habilidade === 9 && p.condicoes.some(id => id !== 5)) return 3.1;
   if (CURAS.has(habilidade)) {
     return Math.min(perdida, 2) * (perfil === "defensiva" ? 1.2 : 0.9)

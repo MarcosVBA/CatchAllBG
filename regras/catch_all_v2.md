@@ -134,7 +134,7 @@ Se um monstro tiver fraqueza ao tipo de seu rival, recebe +1 de dano no cálculo
 
 Uso único:
 
-- Armadilha x3 - Remova um monstro do seu time, realize a fase de captura novamente e no fim, adicione um ponto de melhoria em qualquer monstro
+- Armadilha x2 - Remova um monstro do seu time, realize a fase de captura novamente e no fim, adicione um ponto de melhoria em qualquer monstro
 - Super Cura x2 - Recupere toda a energia de seu monstro em combate
 - Salva Vidas x2 - Ao ser atacado, bloqueie o ataque e recupere 4 pontos de vidas
 - Mapa da trilha x2 - Durante a fase da trilha, busque mais 3 cartas e realize a captura
