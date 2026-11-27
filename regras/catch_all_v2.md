@@ -79,7 +79,7 @@ Cada monstro deve ter ao menos um tipo e uma fraqueza (que pode ser comum de seu
 - Fada
 - Raio
 
-Se um monstro tiver fraqueza do tipo de seu rival durante uma rodada do duelo, receberá sempre +2 de dano nos ataques contra ele.
+Se um monstro tiver fraqueza ao tipo de seu rival, recebe +1 de dano no cálculo dos ataques desse rival.
 
 #### Trilhas
 

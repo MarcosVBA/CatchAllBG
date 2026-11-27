@@ -83,7 +83,7 @@ test("Redemoinho aplica Fissurado mesmo quando o rival bloqueia", () => {
   assert.equal(energias(rodada)[1], antes);
   assert.ok(rodada.observar(0).jogadores[1].condicoes.includes(3));
   turno(rodada, 1, 4);
-  assert.equal(energias(rodada)[1], antes - 13);
+  assert.equal(energias(rodada)[1], antes - 12);
   rodada.conferirDados();
 });
 
@@ -360,7 +360,7 @@ test("Sobrecarga diferencia o risco da face 1 e o bônus da face 5", () => {
     const antes = energias(rodada);
     turno(rodada, 1, 14);
     assert.deepEqual(energias(rodada), [antes[0] - (resultado === 1 ? 2 : 0),
-      antes[1] - (resultado === 5 ? 11 : 6)]);
+      antes[1] - (resultado === 5 ? 10 : 5)]);
     rodada.conferirDados();
   }
 });

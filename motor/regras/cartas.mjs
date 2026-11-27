@@ -16,7 +16,7 @@ export function efetiva(carta, anterior, habilidades) {
 }
 
 export function fraqueza(atacante, alvo) {
-  return atacante.tipos.some(tipo => alvo.fraquezas.includes(tipo)) ? 2 : 0;
+  return atacante.tipos.some(tipo => alvo.fraquezas.includes(tipo)) ? 1 : 0;
 }
 
 export function danoSemEfeitos(atacante, alvo, dado, piso = 0, bonus = 0) {
