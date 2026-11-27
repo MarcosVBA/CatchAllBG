@@ -203,7 +203,7 @@ function efeitoDeBloqueio(p, q, skill, rival, contexto, pendentes) {
     return { dano: 0, cura: 2 };
   }
   if (skill === 54) return { dano: consumirCondicao(q, 5, contexto) ? 5 : 0, cura: 0 };
-  if (skill === 56) return { dano: 0, cura: 2 };
+  if (skill === 56) return { dano: 0, cura: 1 };
   return { dano: skill === 15 ? 2 : 0, cura: skill === SALVA_VIDAS ? 4 : skill === 22 ? 2 : skill === 43 ? 3 : 0 };
 }
 

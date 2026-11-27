@@ -54,7 +54,7 @@ id_habilidade,nome_habilidade,efeito,tag,id_condicao
 53,Garra de Fenda,"Realize um ataque. Se o rival tiver defesa 4 ou maior, acrescente 2 ao cálculo do dano. Se causar pelo menos 3 de dano pelo cálculo, aplique Fissurado após resolver o turno.",monstro,3
 54,Raízes de Aterramento,"Bloqueie o ataque do rival. Se bloquear um ataque de um rival com Sobrecarga, remova a Sobrecarga dele e cause 5 de dano direto.",monstro,
 55,Investida Coordenada,"Realize um ataque com 1 a menos no cálculo de dano. Se o rival também atacar, acrescente 2 ao cálculo.",treinador,
-56,Proteção Compartilhada,"Bloqueie o ataque rival. Se bloquear um ataque, recupere 2 de energia.",treinador,
+56,Proteção Compartilhada,"Bloqueie o ataque rival. Se bloquear um ataque, recupere 1 de energia.",treinador,
 57,Plano de Campo,Seu próximo ataque recebe +4 de dano. O bônus é consumido mesmo se o ataque for bloqueado.,treinador,
 58,Clarão Tático,"Realize um ataque. Se causar dano pelo cálculo, aplique Ofuscado ao rival após o turno.",treinador,2
 59,Primeiros Cuidados,"Recupere 4 de energia, respeitando a energia máxima.",treinador,

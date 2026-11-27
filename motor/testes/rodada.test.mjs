@@ -403,6 +403,18 @@ function baixaEnergia(...nomes) {
   return { ...catalogo, monstros };
 }
 
+test("Proteção Compartilhada cura 1 ao bloquear, inclusive via Repetir", () => {
+  const rodada = jogo(ficha("Owlzin", 0, 5), ficha("Krakon", 0, 2), [4, 4]);
+  turno(rodada, 1, 5);
+  const ferido = energias(rodada)[0];
+  turno(rodada, 56, 2);
+  assert.equal(energias(rodada)[0], ferido);
+  const eventos = turno(rodada, 3, 1);
+  assert.ok(eventos.some(e => e.tipo === "bloqueio" && e.jogador === 0));
+  assert.equal(energias(rodada)[0], ferido + 1);
+  rodada.conferirDados();
+});
+
 test("Plano de Campo adiciona 4 ao próximo ataque e Primeiros Cuidados cura 4", () => {
   const atacante = ficha("Krakon", 0, 6);
   const alvo = ficha("Owlzin", 0, 8);

@@ -121,6 +121,33 @@ progress::-moz-progress-bar { background: var(--verde); }
 .aviso-turno { margin-bottom: .7rem; border-left: 3px solid var(--faísca); padding: .45rem .65rem; background: #322b45; }
 .jogadas-recentes { display: flex; gap: .3rem .65rem; flex-wrap: wrap; align-items: baseline; padding: .5rem .65rem; margin-bottom: .65rem; border: 1px solid var(--linha); border-radius: .4rem; color: var(--suave); font-size: .875rem; }
 .jogadas-recentes b { color: var(--ouro); }
+.sequencia-combate { position: absolute; inset: 0; z-index: 4; display: grid; align-content: center; gap: 1.2rem; padding: clamp(1rem, 4vw, 2.5rem); border-radius: .75rem; background: #0c1727f5; }
+.arena { position: relative; }
+.sequencia-cabecalho { display: flex; justify-content: space-between; align-items: center; gap: 1rem; color: var(--ouro); font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
+.sequencia-lutadores { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .8rem; }
+.sequencia-lutador { display: grid; gap: .5rem; padding: 1rem; border: 1px solid var(--linha); border-radius: .7rem; background: #1b3045; }
+.sequencia-lutador:nth-child(2) { background: #382b3a; }
+.sequencia-lutador strong { font-size: clamp(1.1rem, 3vw, 1.6rem); text-transform: capitalize; overflow-wrap: anywhere; }
+.sequencia-energia { color: var(--suave); font-variant-numeric: tabular-nums; }
+.sequencia-trilho { height: .85rem; border-radius: 1rem; overflow: hidden; background: #0d1725; }
+.sequencia-trilho span { display: block; height: 100%; background: var(--verde); transition: width .6s ease-out; }
+.sequencia-lutador:nth-child(2) .sequencia-trilho span { background: var(--brasa); }
+.sequencia-evento { min-height: 8rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .8rem; text-align: center; font-size: clamp(1.05rem, 2.5vw, 1.35rem); }
+.dado-animado { display: inline-block; color: var(--ouro); font-size: 5rem; line-height: 1; animation: dado-rolando .18s linear infinite alternate; }
+.dado-revelado { animation: dado-revela .3s ease-out both; }
+.recebeu-dano { animation: impacto .42s ease; }
+.recebeu-cura { animation: cura .6s ease; }
+.nocauteado { animation: queda .75s ease-in forwards; }
+.ko { display: inline-block; color: #ffbd84; font-size: clamp(2.4rem, 9vw, 5rem); letter-spacing: .05em; text-shadow: 0 .1em 0 #a43839; animation: entrada-ko .45s ease-out both; }
+@keyframes dado-rolando { from { transform: translateY(-.3rem) rotate(-18deg) scale(.9); } to { transform: translateY(.3rem) rotate(18deg) scale(1.1); } }
+@keyframes dado-revela { from { transform: scale(1.4) rotate(-12deg); } to { transform: scale(1) rotate(0); } }
+@keyframes impacto { 25% { transform: translateX(-.5rem); border-color: #ff856a; } 55% { transform: translateX(.5rem); } }
+@keyframes cura { 50% { border-color: var(--verde); box-shadow: 0 0 1.5rem #83db9a80; } }
+@keyframes queda { to { opacity: .4; transform: translateY(1rem) rotate(-3deg); filter: grayscale(1); } }
+@keyframes entrada-ko { from { opacity: 0; transform: scale(1.6); } to { opacity: 1; transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) {
+  .sequencia-combate *, .sequencia-combate *::before, .sequencia-combate *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
 .cartas-usadas { display: flex; flex-wrap: wrap; align-items: baseline; gap: .35rem .65rem; margin-bottom: .65rem; padding: .5rem .65rem; border: 1px solid var(--linha); border-radius: .4rem; font-size: .875rem; }
 .cartas-usadas h3 { font-size: inherit; color: var(--ouro); }
 .cartas-usadas p { color: var(--suave); }

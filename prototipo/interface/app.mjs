@@ -24,6 +24,81 @@ let versao = 0;
 let ultimoAnuncio = "";
 let abaHistorico = "duelo";
 let emDueloHumano = false;
+let animando = false;
+
+const esperar = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+async function apresentarEventos(antes, eventos, token) {
+  const relevantes = eventos.filter(e => e.tipo === "dado-captura" && e.jogador === 0
+    || e.participantes?.includes(0) && ["cartas-reveladas", "rolagem", "dano", "cura", "bloqueio", "fim-da-rodada"].includes(e.tipo));
+  if (!relevantes.length) return;
+  animando = true;
+  const reduzido = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const duelo = antes.duelo;
+  const participantes = duelo?.jogadores && duelo.participantes;
+  const energia = participantes ? Object.fromEntries(duelo.jogadores.map((j, i) =>
+    [participantes[i], { atual: j.energia, maxima: j.energiaMaxima, nome: catalogo.monstros.get(j.monstroId).nome }])) : {};
+  const palco = document.createElement("section");
+  palco.className = "sequencia-combate";
+  palco.setAttribute("aria-label", "Resolução das ações");
+  palco.innerHTML = `<div class="sequencia-cabecalho"><span>Resolução</span><button type="button" class="botao-secundario" data-pular>Pular animação</button></div>
+    <div class="sequencia-lutadores"></div><div class="sequencia-evento" role="status" aria-live="polite"></div>`;
+  $("area-jogo").append(palco);
+  const lutadores = palco.querySelector(".sequencia-lutadores");
+  for (const [id, e] of Object.entries(energia)) {
+    lutadores.insertAdjacentHTML("beforeend", `<div class="sequencia-lutador" data-jogador="${id}">
+      <strong>${html(e.nome)}</strong><span class="sequencia-energia">${e.atual} / ${e.maxima}</span>
+      <div class="sequencia-trilho"><span style="width:${100 * e.atual / e.maxima}%"></span></div></div>`);
+  }
+  let pular = false;
+  palco.querySelector("[data-pular]").addEventListener("click", () => { pular = true; });
+  const eventoEl = palco.querySelector(".sequencia-evento");
+  try {
+    for (const e of relevantes) {
+      if (token !== versao || pular) break;
+      const mensagem = descrever(e, antes, catalogo);
+      if (e.tipo === "rolagem" || e.tipo === "dado-captura") {
+        eventoEl.innerHTML = `<span class="dado-animado" aria-hidden="true">⚄</span><span>Rolando o dado…</span>`;
+        await esperar(reduzido ? 80 : 700);
+        if (token !== versao || pular) break;
+        eventoEl.querySelector(".dado-animado").textContent = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"][e.valor - 1];
+        eventoEl.querySelector(".dado-animado").classList.add("dado-revelado");
+        eventoEl.querySelector("span:last-child").textContent = mensagem;
+      } else if (e.tipo === "fim-da-rodada") {
+        const derrotados = Object.entries(energia).filter(([, valor]) => valor.atual <= 0);
+        for (const [id] of derrotados) lutadores.querySelector(`[data-jogador="${id}"]`)?.classList.add("nocauteado");
+        eventoEl.innerHTML = derrotados.length ? '<strong class="ko">NOCAUTE!</strong>' : "";
+      } else {
+        eventoEl.textContent = mensagem ?? "";
+        if ((e.tipo === "dano" || e.tipo === "cura") && energia[e.jogador]) {
+          const alvo = energia[e.jogador];
+          alvo.atual = Math.max(0, Math.min(alvo.maxima, alvo.atual + (e.tipo === "cura" ? e.valor : -e.valor)));
+          const card = lutadores.querySelector(`[data-jogador="${e.jogador}"]`);
+          card.querySelector(".sequencia-energia").textContent = `${alvo.atual} / ${alvo.maxima}`;
+          card.querySelector(".sequencia-trilho span").style.width = `${100 * alvo.atual / alvo.maxima}%`;
+          card.classList.remove("recebeu-dano", "recebeu-cura");
+          void card.offsetWidth;
+          card.classList.add(e.tipo === "dano" ? "recebeu-dano" : "recebeu-cura");
+        }
+      }
+      await esperar(reduzido ? 80 : e.tipo === "fim-da-rodada" ? 1300 : 650);
+    }
+  } finally {
+    palco.remove();
+    if (token === versao) animando = false;
+  }
+}
+
+async function executarAcao(acao, token) {
+  const antes = partida.observar();
+  const ultimo = partida.acontecimentos().at(-1)?.sequencia ?? 0;
+  acao();
+  const eventos = partida.acontecimentos(ultimo);
+  await apresentarEventos(antes, eventos, token);
+  if (token !== versao || !partida) return false;
+  render();
+  return true;
+}
 
 function avisar(mensagem) {
   $("aviso").hidden = !mensagem;
@@ -276,11 +351,12 @@ function render() {
 
 function moverIas(token) {
   if (token !== versao || !partida || partida.vez === 0 || partida.vez === null) return;
-  requestAnimationFrame(() => {
+  requestAnimationFrame(async () => {
     if (token !== versao) return;
     try {
-      avancarIas(partida, catalogo, rngIa, 24);
-      render();
+      const visao = partida.observar();
+      const limite = visao.duelo?.lado !== undefined ? 1 : 24;
+      if (!await executarAcao(() => avancarIas(partida, catalogo, rngIa, limite), token)) return;
       if (partida.vez === 0 || partida.vez === null) $("titulo-fase")?.focus({ preventScroll: true });
       else moverIas(token);
     } catch (erro) {
@@ -291,6 +367,7 @@ function moverIas(token) {
 
 function voltarAoInicio() {
   versao++;
+  animando = false;
   partida = null;
   $("partida").hidden = true;
   $("entrada").hidden = false;
@@ -326,18 +403,18 @@ $("configuracao").addEventListener("submit", evento => {
   }
 });
 
-$("area-jogo").addEventListener("click", evento => {
+$("area-jogo").addEventListener("click", async evento => {
   const botao = evento.target.closest("button[data-acao]");
   if (!botao || !partida) return;
   if (botao.dataset.acao === "nova") {
     voltarAoInicio();
     return;
   }
-  if (partida.vez !== 0) return;
+  if (animando || partida.vez !== 0) return;
   try {
-    partida.agir(0, botao.dataset.acao);
+    const token = versao;
+    if (!await executarAcao(() => partida.agir(0, botao.dataset.acao), token)) return;
     avisar("");
-    render();
     if (partida.vez === 0 || partida.vez === null) $("titulo-fase")?.focus({ preventScroll: true });
     moverIas(versao);
   } catch (erro) {
