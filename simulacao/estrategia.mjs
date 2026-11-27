@@ -1,4 +1,4 @@
-import { ATAQUES, BLOQUEIOS, CURAS, efetiva } from "../motor/regras/cartas.mjs";
+import { ATAQUES, BLOQUEIOS, BLOQUEIOS_PARCIAIS, CURAS, efetiva } from "../motor/regras/cartas.mjs";
 
 export function escolher(visao, jogador, catalogo, rng, defensiva) {
   const proprio = visao.jogadores[jogador];
@@ -14,7 +14,7 @@ export function escolher(visao, jogador, catalogo, rng, defensiva) {
       peso = 2.15 + Number(rival.energia <= 6) * 0.9 + Number(efeito !== 1) * 0.25;
       if ([35, 37, 38].includes(efeito)) peso -= 0.10;
       if (proprio.condicoes.includes(2)) peso -= 0.40;
-      if (BLOQUEIOS.has(revelada)) peso -= 2.1;
+      if (BLOQUEIOS.has(revelada)) peso -= BLOQUEIOS_PARCIAIS.has(revelada) ? 0.7 : 2.1;
       if (CURAS.has(revelada) && [30, 52].includes(efeito)) peso += 0.8;
       if (revelada === 13) peso += 0.5;
     } else if (efeito === 4 || efeito === 57) {
@@ -23,6 +23,10 @@ export function escolher(visao, jogador, catalogo, rng, defensiva) {
       peso = !rival.condicoes.includes(1) && rival.energia >= 4 ? 2.05 : -0.2;
     } else if (BLOQUEIOS.has(efeito)) {
       peso = 1.15 + Number(proprio.energia <= 6) * 0.65 + Number(efeito !== 2) * 0.45 + Number(defensiva) * 0.50;
+      if (BLOQUEIOS_PARCIAIS.has(efeito)) peso -= 0.4;
+      if ([15, 33, 48].includes(efeito) && !proprio.condicoes.includes(7)) {
+        peso += houveRevelacao && ATAQUES.has(revelada) ? 0.6 : 0.2;
+      }
       if (efeito === 54 && rival.condicoes.includes(5)) peso += 1;
       if (houveRevelacao) peso += ATAQUES.has(revelada) ? 2.9 : -2;
     } else if (efeito === 16) {

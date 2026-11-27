@@ -83,7 +83,7 @@ test("Redemoinho aplica Fissurado mesmo quando o rival bloqueia", () => {
   assert.equal(energias(rodada)[1], antes);
   assert.ok(rodada.observar(0).jogadores[1].condicoes.includes(3));
   turno(rodada, 1, 4);
-  assert.equal(energias(rodada)[1], antes - 12);
+  assert.equal(energias(rodada)[1], antes - 13);
   rodada.conferirDados();
 });
 
@@ -160,6 +160,88 @@ test("renovar as duas mãos acumula uma ficha por turno e aumenta o dano dos doi
   assert.equal(seguinte.observar(0).jogadores[0].ofensiva, fichaBase.ofensiva);
 });
 
+test("renovações acumulam bônus de ofensiva 1, 2, 4, 6, 8 e 10", () => {
+  const combatente = ficha("Owlzin", 0, 1);
+  const monstros = new Map(catalogo.monstros);
+  monstros.set(combatente.monstroId, { ...monstros.get(combatente.monstroId), energia: 1000 });
+  const rodada = jogo(combatente, combatente, Array(24).fill(1), { catalogo: { ...catalogo, monstros } });
+  const ofensiva = catalogo.monstros.get(combatente.monstroId).ofensiva;
+  for (const [indice, bonus] of [1, 2, 4, 6, 8, 10].entries()) {
+    turno(rodada, 2, 2);
+    turno(rodada, 3, 3);
+    turno(rodada, 4, 4);
+    const eventos = turno(rodada, 1, 1);
+    assert.equal(rodada.observar(0).renovacoes, indice + 1);
+    assert.equal(rodada.observar(0).bonusOfensiva, bonus);
+    assert.ok(rodada.observar(0).jogadores.every(p => p.ofensiva === ofensiva + bonus));
+    assert.equal(eventos.find(e => e.tipo === "maos-renovadas").bonusOfensiva, bonus);
+  }
+  rodada.conferirDados();
+});
+
+test("bloqueio parcial arredonda a parcela bloqueada para baixo e mantém dano direto", () => {
+  for (const dado of [2, 3]) {
+    const atacante = ficha("Krakon", 1, 1);
+    const defensor = ficha("Owlzin", 1, 1);
+    const rodada = jogo(atacante, defensor, [dado]);
+    const antes = energias(rodada);
+    const eventos = turno(rodada, 11, 15);
+    const bruto = danoSemEfeitos(catalogo.monstros.get(atacante.monstroId), catalogo.monstros.get(defensor.monstroId), dado);
+    assert.deepEqual(energias(rodada), [antes[0] - 4, antes[1] - (bruto - Math.floor(bruto / 2) + 2)]);
+    assert.ok(eventos.some(e => e.tipo === "bloqueio" && e.parcial));
+    rodada.conferirDados();
+  }
+});
+
+test("Véu de Cinza causa dano direto e aplica Ofuscado ao bloquear", () => {
+  const rodada = jogo(ficha("Cinzarisco", 1, 1), ficha("Krakon", 0, 1), [2]);
+  const antes = energias(rodada);
+  const eventos = turno(rodada, 33, 1);
+  assert.equal(energias(rodada)[1], antes[1] - 2);
+  assert.ok(eventos.some(e => e.tipo === "bloqueio" && e.parcial));
+  assert.ok(rodada.observar(0).jogadores[1].condicoes.includes(2));
+  rodada.conferirDados();
+});
+
+test("bloqueio parcial ativa o efeito mesmo quando o ataque causa zero de dano", () => {
+  const monstros = new Map(catalogo.monstros);
+  const atacante = monstros.get(id("Krakon"));
+  monstros.set(atacante.id, { ...atacante, ofensiva: 1 });
+  const rodada = jogo(ficha("Cinzarisco", 1, 1), ficha("Krakon", 0, 1), [1], { catalogo: { ...catalogo, monstros } });
+  const antes = energias(rodada);
+  turno(rodada, 33, 1);
+  assert.deepEqual(energias(rodada), [antes[0], antes[1] - 2]);
+  assert.ok(rodada.observar(0).jogadores[1].condicoes.includes(2));
+  rodada.conferirDados();
+});
+
+test("ataque rápido letal cancela o efeito adicional do bloqueio parcial", () => {
+  const monstros = new Map(catalogo.monstros);
+  const defensor = monstros.get(id("Cinzarisco"));
+  monstros.set(defensor.id, { ...defensor, energia: 1 });
+  const rodada = jogo(ficha("Cinzarisco", 1, 1), ficha("Krakon", 0, 2), [6], { catalogo: { ...catalogo, monstros } });
+  const energiaRival = energias(rodada)[1];
+  const eventos = turno(rodada, 33, 5);
+  assert.equal(energias(rodada)[1], energiaRival);
+  assert.ok(eventos.some(e => e.tipo === "acao-cancelada" && e.jogador === 0));
+  assert.equal(eventos.some(e => e.tipo === "bloqueio"), false);
+  rodada.conferirDados();
+});
+
+test("Névoa de Fuga concede foco ao bloquear e ao enfrentar uma ação sem ataque", () => {
+  for (const ataque of [true, false]) {
+    const lanterno = ficha("Lanterno", 1, 1);
+    const rival = ficha("Owlzin", 0, 1);
+    const rodada = jogo(lanterno, rival, [1, 4, 1]);
+    turno(rodada, 48, ataque ? 1 : 4);
+    const antes = energias(rodada)[1];
+    turno(rodada, 1, ataque ? 4 : 3);
+    const dano = danoSemEfeitos(catalogo.monstros.get(lanterno.monstroId), catalogo.monstros.get(rival.monstroId), 4, 0, 2);
+    assert.equal(energias(rodada)[1], antes - dano);
+    rodada.conferirDados();
+  }
+});
+
 test("evolução conserva as habilidades anteriores e combina as da nova forma", () => {
   const flouly = id("Flouly");
   assert.deepEqual(prepararMonstro(catalogo, flouly, 2).cartas, [26, 27]);
@@ -179,7 +261,7 @@ test("Ritmo de Caça ativa após o segundo ataque seguido do rival mesmo se Coro
   turno(rodada, 2, 1);
   const eventos = turno(rodada, 1, 3);
   assert.ok(eventos.some(e => e.tipo === "efeito-ativado" && e.efeito === "Ritmo de Caça"));
-  assert.equal(energias(rodada)[1], antes - 11);
+  assert.equal(energias(rodada)[1], antes - 12);
   rodada.conferirDados();
 });
 
@@ -297,24 +379,24 @@ test("quando ambos estão Rastreados, as escolhas voltam a ser simultâneas", ()
   rodada.conferirDados();
 });
 
-test("Preso mantém o bloqueio de Bolha de Água e suprime o contra-ataque", () => {
-  const rodada = jogo(ficha("Lamatim", 1), ficha("Owlzin", 2, 1), [4, 2]);
+test("Preso mantém o bloqueio parcial de Bolha de Água e suprime o contra-ataque", () => {
+  const rodada = jogo(ficha("Lamatim", 1), ficha("Owlzin", 2, 1), [4, 2, 4]);
   turno(rodada, 38, 4);
   assert.ok(rodada.observar(0).jogadores[1].condicoes.includes(7));
   const antes = energias(rodada);
   const eventos = turno(rodada, 1, 15);
-  assert.deepEqual(energias(rodada), antes);
+  assert.deepEqual(energias(rodada), [antes[0], antes[1] - 3]);
   assert.ok(eventos.some(evento => evento.tipo === "efeito-ativado" && evento.efeito === "Preso"));
   assert.equal(rodada.observar(0).jogadores[1].condicoes.includes(7), false);
   rodada.conferirDados();
 });
 
 test("Ofuscado diminui dano com face baixa e é consumido no primeiro acerto", () => {
-  const rodada = jogo(ficha("Cinzarisco", 2), ficha("Krakuron"), [5, 3]);
+  const rodada = jogo(ficha("Cinzarisco", 2), ficha("Krakuron"), [1, 5, 3]);
   turno(rodada, 33, 1);
   const antes = energias(rodada);
   turno(rodada, 3, 3);
-  assert.equal(energias(rodada)[0], antes[0] - 4);
+  assert.equal(energias(rodada)[0], antes[0] - 5);
   assert.equal(rodada.observar(0).jogadores[1].condicoes.includes(2), false);
   rodada.conferirDados();
 });
@@ -326,13 +408,13 @@ test("Fissurado continua ativo após bloqueio e acrescenta dano com face baixa",
   assert.ok(rodada.observar(0).jogadores[1].condicoes.includes(3));
   const antes = energias(rodada);
   const eventos = turno(rodada, 3, 14);
-  assert.ok(eventos.some(evento => evento.tipo === "dano" && evento.jogador === 1 && evento.valor === 9));
-  assert.equal(energias(rodada)[1], antes[1] + 3 - 9);
+  assert.ok(eventos.some(evento => evento.tipo === "dano" && evento.jogador === 1 && evento.valor === 10));
+  assert.equal(energias(rodada)[1], antes[1] + 3 - 10);
   rodada.conferirDados();
 });
 
 test("uma condição sem gatilho vence no fim do segundo turno seguinte", () => {
-  const rodada = jogo(ficha("Cinzarisco", 2), ficha("Krakuron"));
+  const rodada = jogo(ficha("Cinzarisco", 2), ficha("Krakuron"), [1]);
   turno(rodada, 33, 1);
   turno(rodada, 2, 3);
   assert.ok(rodada.observar(0).jogadores[1].condicoes.includes(2));
@@ -360,7 +442,7 @@ test("Sobrecarga diferencia o risco da face 1 e o bônus da face 5", () => {
     const antes = energias(rodada);
     turno(rodada, 1, 14);
     assert.deepEqual(energias(rodada), [antes[0] - (resultado === 1 ? 2 : 0),
-      antes[1] - (resultado === 5 ? 10 : 5)]);
+      antes[1] - (resultado === 5 ? 11 : 6)]);
     rodada.conferirDados();
   }
 });

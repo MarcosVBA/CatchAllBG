@@ -13,7 +13,7 @@ id_habilidade,nome_habilidade,efeito,tag,id_condicao
 12,Pele Quente,"Realize um ataque. Se o rival também atacar, ele sofre 1 de dano direto.",monstro,
 13,Incinerar,"Cause ""Incendiar"" no oponente",monstro,1
 14,Curar I,"Role 1d6. Recupere 2 de energia com 1–4 ou 3 de energia com 5–6. Respeite sua energia máxima.",monstro,
-15,Bolha de água,"Bloqueie o ataque do rival. Se bloquear um ataque, cause 2 de dano direto ao rival.",monstro,
+15,Bolha de água,"Bloqueie metade do dano do ataque rival, arredondando a parcela bloqueada para baixo. Se bloquear um ataque, cause 4 de dano direto ao rival.",monstro,
 16,Cinza Sufocante,"Se o rival executar um ataque, aplique Ofuscado a ele após resolver o turno.",monstro,2
 17,Escudo de Seixos,"Bloqueie o ataque do rival. Se bloquear um ataque que explora sua fraqueza, recupere 3 de energia.",monstro,
 18,Raiz Funda,"Recupere 2 de energia. Se tiver menos energia atual que o rival ao revelar as cartas, recupere 3 em vez de 2.",monstro,
@@ -31,7 +31,7 @@ id_habilidade,nome_habilidade,efeito,tag,id_condicao
 30,Marola,"Realize um ataque. Se o rival revelar uma habilidade que recupere energia, acrescente 4 ao dano do seu ataque.",monstro,
 31,Eco Mental,"Realize um ataque. Se o rival revelar uma carta de habilidade base, acrescente 1 ao dano do seu ataque.",monstro,
 32,Faísca de Margem,"Realize um ataque rápido. Se o rival tiver o tipo Água ou Voador, acrescente 2 ao dano do seu ataque.",monstro,
-33,Véu de Cinza,"Bloqueie o ataque do rival. Se bloquear um ataque, aplique Ofuscado ao rival depois de resolver o turno.",monstro,2
+33,Véu de Cinza,"Bloqueie metade do dano do ataque rival, arredondando a parcela bloqueada para baixo. Se bloquear um ataque, cause 2 de dano direto e aplique Ofuscado ao rival depois de resolver o turno.",monstro,2
 34,Trinca de Cascalho,"Realize um ataque com 1 a menos de dano no cálculo. Se causar dano pelo cálculo do ataque, aplique Fissurado ao rival depois de resolver o turno.",monstro,3
 35,Pó de Esporos,"Realize um ataque. Se causar dano pelo cálculo do ataque, aplique Esporos ao rival depois de resolver o turno.",monstro,4
 36,Para-Raios,"Bloqueie o ataque do rival. Se bloquear um ataque, ganhe Sobrecarga depois de resolver o turno.",monstro,5
@@ -46,7 +46,7 @@ id_habilidade,nome_habilidade,efeito,tag,id_condicao
 45,Pulso da Maré,Realize um ataque com +1 de dano se o rival tiver energia atual igual ou menor que a sua ao revelar as cartas.,monstro,
 46,Estalo de Cauda,"Realize um ataque. Se tiver Sobrecarga ao revelar as cartas, acrescente 4 ao cálculo do dano. A condição é resolvida normalmente.",monstro,
 47,Prisma Partido,Realize um ataque. Acrescente 1 ao cálculo do dano contra um rival de um tipo ou 3 contra um rival de dois tipos.,monstro,
-48,Névoa de Fuga,"Bloqueie o ataque do rival. Se o rival não executar um ataque, ganhe +2 no próximo ataque. O bônus é consumido mesmo se esse ataque for bloqueado.",monstro,
+48,Névoa de Fuga,"Bloqueie metade do dano do ataque rival, arredondando a parcela bloqueada para baixo. Se bloquear um ataque ou se o rival não executar um ataque, ganhe +2 no próximo ataque. O bônus é consumido mesmo se esse ataque for bloqueado.",monstro,
 49,Redemoinho,"Realize um ataque. Se o rival bloquear, aplique Fissurado a ele após resolver o turno.",monstro,3
 50,Segunda Onda,"Realize um ataque. Se esta for a última carta de sua mão antes da renovação, acrescente 3 ao cálculo do dano.",monstro,
 51,Abrigo de Felpa,"Bloqueie o ataque do rival. Se bloquear, remova sua condição negativa mais antiga ainda ativa e recupere 2 de energia. Sobrecarga não é removida.",monstro,

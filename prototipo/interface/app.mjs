@@ -283,7 +283,7 @@ function arenaDeCombate(visao) {
   const revelada = d.itemRevelado ? catalogo.itens.get(d.itemRevelado)?.nome : catalogo.habilidades.get(d.revelada)?.nome;
   const aviso = revelada ? `Rastreado · o rival revelou ${revelada}.`
     : ordem?.[0] === seu && d.podeEscolher ? "Rastreado · você revela antes do rival." : "";
-  const fichas = d.renovacoes ? `<p class="aviso-turno">Fichas da rodada: ${d.renovacoes} · +${d.renovacoes} de ofensiva para ambos</p>` : "";
+  const fichas = d.renovacoes ? `<p class="aviso-turno">Fichas da rodada: ${d.renovacoes} · +${d.bonusOfensiva} de ofensiva para ambos</p>` : "";
   return `${meta}${fichas}
     <div class="combatentes">
       ${combatente(visao.participantes[d.participantes[seu]], d.jogadores[seu], true)}

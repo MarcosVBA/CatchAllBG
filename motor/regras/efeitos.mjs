@@ -1,4 +1,4 @@
-import { ATAQUES, BASE, BLOQUEIOS, CURAS, SALVA_VIDAS, SUPER_CURA, danoSemEfeitos, fraqueza } from "./cartas.mjs";
+import { ATAQUES, BASE, BLOQUEIOS, BLOQUEIOS_PARCIAIS, CURAS, SALVA_VIDAS, SUPER_CURA, danoSemEfeitos, fraqueza } from "./cartas.mjs";
 
 export function usarUmaVez(jogador, nome, contexto) {
   if (jogador.usos.has(nome)) return false;
@@ -115,29 +115,32 @@ function ataque(p, q, escolha, rival, ambosAtacam, rivalAtacouAntes, contexto) {
   p.foco = 0;
   const primeiroAtacar = skill === 1 && p.monstro.passiva === "Primeiro Atacar"
     && usarUmaVez(p, "Primeiro Atacar", contexto);
-  if (BLOQUEIOS.has(rival.efeito)) {
+  const bloqueado = BLOQUEIOS.has(rival.efeito);
+  const parcial = BLOQUEIOS_PARCIAIS.has(rival.efeito);
+  let direto = 0;
+  if (bloqueado) {
     if (p.monstro.passiva === "Desencaixe" && !p.usos.has("Desencaixe")) {
       p.foco = foco;
     }
-    let direto = skill === 11 || skill === 24 ? 2 : 0;
+    direto = skill === 11 || skill === 24 ? 2 : 0;
     if (skill === 1 && p.monstro.passiva === "Fio Cortante" && usarUmaVez(p, "Fio Cortante", contexto)
       && rolar("Fio Cortante") >= 3) {
       direto += 7;
       ativar(p, "Fio Cortante", contexto);
     }
-    return { total: direto, calculado: 0, sobrecarga: 0 };
+    if (!parcial) return { total: direto, calculado: 0, sobrecarga: 0 };
   }
-  if (primeiroAtacar) {
+  if (primeiroAtacar && !bloqueado) {
     bonus += 3;
     ativar(p, "Primeiro Atacar", contexto);
   }
   bonus += bonusDaCarta(p, q, skill, rival, ambosAtacam, contexto);
-  if (p.monstro.passiva === "Mergulho Oportuno" && CURAS.has(rival.efeito)
+  if (!bloqueado && p.monstro.passiva === "Mergulho Oportuno" && CURAS.has(rival.efeito)
     && usarUmaVez(p, "Mergulho Oportuno", contexto)) {
     bonus += 5;
     ativar(p, "Mergulho Oportuno", contexto);
   }
-  if (skill === 1 && p.monstro.passiva === "Atacar contra Psíquico" && q.monstro.tipos.includes("Psíquico")
+  if (!bloqueado && skill === 1 && p.monstro.passiva === "Atacar contra Psíquico" && q.monstro.tipos.includes("Psíquico")
     && usarUmaVez(p, "Atacar contra Psíquico", contexto)) {
     bonus += 7;
     ativar(p, "Atacar contra Psíquico", contexto);
@@ -178,8 +181,9 @@ function ataque(p, q, escolha, rival, ambosAtacam, rivalAtacouAntes, contexto) {
       ativar(q, "Casco de Arrasto", contexto);
     }
   }
-  const calculado = Math.max(0, dano);
-  return { total: calculado + (skill === 12 && ambosAtacam ? 1 : 0), calculado, sobrecarga };
+  dano = Math.max(0, dano);
+  const calculado = parcial ? dano - Math.floor(dano / 2) : dano;
+  return { total: calculado + direto + (skill === 12 && ambosAtacam ? 1 : 0), calculado, sobrecarga };
 }
 
 function consumirItem(jogador, id, contexto) {
@@ -194,8 +198,12 @@ function efeitoDeBloqueio(p, q, skill, rival, contexto, pendentes) {
     return { dano: 0, cura: 0 };
   }
   if (skill === 28) p.foco++;
-  if (skill === 33) pendentes.push([q, 2]);
+  if (skill === 33) {
+    pendentes.push([q, 2]);
+    return { dano: 2, cura: 0 };
+  }
   if (skill === 36) pendentes.push([p, 5]);
+  if (skill === 48) p.foco += 2;
   if (skill === 8) return { dano: contexto.habilidades.get(rival)?.classe === "monstro" ? 3 : 0, cura: 0 };
   if (skill === 17) return { dano: 0, cura: fraqueza(q.monstro, p.monstro) ? 3 : 0 };
   if (skill === 51) {
@@ -204,7 +212,7 @@ function efeitoDeBloqueio(p, q, skill, rival, contexto, pendentes) {
   }
   if (skill === 54) return { dano: consumirCondicao(q, 5, contexto) ? 5 : 0, cura: 0 };
   if (skill === 56) return { dano: 0, cura: 1 };
-  return { dano: skill === 15 ? 2 : 0, cura: skill === SALVA_VIDAS ? 4 : skill === 22 ? 2 : skill === 43 ? 3 : 0 };
+  return { dano: skill === 15 ? 4 : 0, cura: skill === SALVA_VIDAS ? 4 : skill === 22 ? 2 : skill === 43 ? 3 : 0 };
 }
 
 function habilidadeDeCura(p, q, skill, contexto) {
@@ -252,7 +260,7 @@ export function resolverAcoes(jogadores, escolhas, contexto, ataquesAnteriores) 
     const rival = efeitos[1 - i];
     const bloqueou = BLOQUEIOS.has(skill) && ATAQUES.has(rival) && 1 - i !== cancelado;
     if (bloqueou) {
-      contexto.emitir("bloqueio", { jogador: i, carta: escolhas[i].carta, itemId: escolhas[i].itemId });
+      contexto.emitir("bloqueio", { jogador: i, carta: escolhas[i].carta, itemId: escolhas[i].itemId, parcial: BLOQUEIOS_PARCIAIS.has(skill) });
       const extra = efeitoDeBloqueio(p, q, skill, rival, contexto, pendentes);
       danos[i] += extra.dano;
       curas[i] += extra.cura;

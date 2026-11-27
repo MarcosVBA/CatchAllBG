@@ -63,6 +63,7 @@ function turnoResumo(rodadas) {
   return {
     rodadas: n,
     turnos: estatisticas(rodadas.map(resultado => resultado.turno)),
+    acimaDe24Turnos: rodadas.filter(rodada => rodada.turno > 24).length,
     fracaoComDuasRenovacoes: arredondar(rodadas.filter(resultado => resultado.renovacoes >= 2).length / n),
     nocautesSimultaneos: rodadas.filter(rodada => rodada.resultado.tipo === "nocaute-simultaneo").length,
     limiteAtingido: rodadas.filter(rodada => rodada.resultado.tipo === "limite").length,

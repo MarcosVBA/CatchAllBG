@@ -29,6 +29,7 @@ export function criarRodada({
   let fase = "inicio";
   let turno = 0;
   let renovacoes = 0;
+  let bonusOfensiva = 0;
   let resultado = null;
   let escolhas = [null, null];
   let rastreados = [false, false];
@@ -38,7 +39,7 @@ export function criarRodada({
 
   const contexto = {
     get turno() { return turno; },
-    get bonusOfensiva() { return renovacoes; },
+    get bonusOfensiva() { return bonusOfensiva; },
     habilidades: catalogo.habilidades,
     pisoDano,
     emitir(tipo, dados = {}) { eventos.push({ tipo, turno, ...dados }); },
@@ -102,11 +103,11 @@ export function criarRodada({
     const visiveis = jogadores.map(p => ({
       id: p.id, monstroId: p.monstro.id, treinadorId: p.treinador.id,
       energia: Math.max(0, p.energia), energiaMaxima: p.monstro.energia,
-      ofensiva: p.monstro.ofensiva + renovacoes,
+      ofensiva: p.monstro.ofensiva + bonusOfensiva,
       condicoes: [...p.condicoes.keys()], anterior: p.anterior, tamanhoMao: p.mao.size,
     }));
     const visao = {
-      fase, turno, renovacoes, jogadores: visiveis, podeEscolher: podeEscolher(id),
+      fase, turno, renovacoes, bonusOfensiva, jogadores: visiveis, podeEscolher: podeEscolher(id),
       ordemDeEscolha: fase === "escolha" && primeiro !== null ? [primeiro, 1 - primeiro] : null,
       revelada: fase === "escolha" && primeiro === 1 - id ? escolhas[primeiro]?.carta ?? null : null,
       itemRevelado: fase === "escolha" && primeiro === 1 - id ? escolhas[primeiro]?.itemId ?? null : null,
@@ -140,8 +141,9 @@ export function criarRodada({
     for (const p of jogadores) encerrarEfeitos(p, contexto);
     if (jogadores.some(p => p.mao.size === 0)) {
       renovacoes++;
+      bonusOfensiva += renovacoes <= 2 ? 1 : 2;
       for (const p of jogadores) p.mao = new Set(p.baralho);
-      contexto.emitir("maos-renovadas", { renovacoes });
+      contexto.emitir("maos-renovadas", { renovacoes, bonusOfensiva });
       for (const [i, p] of jogadores.entries()) efeitoDaRenovacao(p, jogadores[1 - i], renovacoes, contexto);
     }
     fase = "inicio";

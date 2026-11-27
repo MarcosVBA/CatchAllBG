@@ -43,12 +43,12 @@ export function descrever(evento, visao, catalogo) {
     case "rolagem": return `${p} rolou ${evento.valor} · ${evento.motivo}${evento.repetida ? " (rerrolagem)" : ""}.`;
     case "dano": return `${p} perdeu ${evento.valor} de energia.`;
     case "cura": return `${p} recuperou ${evento.valor} de energia.`;
-    case "bloqueio": return `${p} bloqueou o ataque.`;
+    case "bloqueio": return `${p} bloqueou ${evento.parcial ? "parte do ataque" : "o ataque"}.`;
     case "condicao-aplicada": return `${catalogo.condicoes.get(evento.condicao).nome} foi aplicada em ${p}.`;
     case "condicao-removida": return `${catalogo.condicoes.get(evento.condicao).nome} saiu de ${p}.`;
     case "efeito-ativado": return `${p} ativou ${evento.efeito}.`;
     case "acao-cancelada": return `Ataque Rápido cancelou a ação de ${p}.`;
-    case "maos-renovadas": return `As duas mãos foram renovadas. Ambos ganham +1 de ofensiva (+${evento.renovacoes} nesta rodada).`;
+    case "maos-renovadas": return `As duas mãos foram renovadas. Ambos têm +${evento.bonusOfensiva} de ofensiva nesta rodada.`;
     case "rodada-vencida": return `${p} venceu a rodada (${evento.placar.join(" × ")}).`;
     case "repetir-rodada": return evento.motivo === "energia-igual"
       ? "Empate por proporção de energia igual. Escolham os combatentes novamente."

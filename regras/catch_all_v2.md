@@ -41,7 +41,7 @@
 3. A partir daqui, os jogadores devem escolher uma carta de habilidade para executar cada turno, revelando o efeito apenas quando ambos os jogadores já selecionaram sua ação
 	- Use todo o seu baralho na sua mão
 	- Sempre que realizar uma ação, com uma carta de habilidade, mantenha a carta exposta na lateral do tabuleiro de duelo
-	- Se pelo menos um jogador ficar sem cartas de habilidade na mão, ao fim do turno ambos recolhem as cartas e recompõem suas mãos. Adicione uma ficha à rodada, mesmo que os dois esvaziem a mão no mesmo turno. Cada ficha dá +1 de ofensiva aos dois monstros a partir do próximo turno. O bônus se acumula e todas as fichas são removidas ao fim da rodada.
+	- Se pelo menos um jogador ficar sem cartas de habilidade na mão, ao fim do turno ambos recolhem as cartas e recompõem suas mãos. Adicione uma ficha à rodada, mesmo que os dois esvaziem a mão no mesmo turno. Os bônus totais de ofensiva para ambos são +1, +2, +4, +6, +8 e assim por diante, aumentando em +2 a cada ficha a partir da terceira. O novo bônus vale a partir do próximo turno e as fichas são removidas ao fim da rodada.
 	- Se um monstro for nocauteado, o outro vence a rodada. Os dois combatentes ficam indisponíveis até o fim do duelo.
 	- Em caso de nocaute simultâneo, o placar fica igual. Os dois jogadores voltam a escolher e podem manter o combatente ou usar outro monstro disponível.
 	- No primeiro ciclo, vence o duelo quem ganhar uma rodada. Nos ciclos seguintes, vence quem ganhar duas.
@@ -50,6 +50,8 @@
 **Atacar**: Ao atacar, o jogador verificar o resultado do ataque do monstro atacante menos a defesa do monstro que foi atacado, esse valor é somado a uma rolagem de 1d6 para definir o dano
 
 **Ataques rápidos**: Resolva um ataque rápido antes de uma ação que não seja ataque rápido. Se ele nocautear o rival, a ação rival é cancelada. Se ambos usarem ataques rápidos, resolva-os simultaneamente. Bloqueios ainda bloqueiam ataques rápidos.
+
+**Bloqueio parcial**: Calcule o dano do ataque com seus modificadores e bloqueie metade desse valor, arredondando a parcela bloqueada para baixo. Um ataque de 5 causa 3 de dano. Efeitos que dependem de bloquear continuam funcionando. Dano direto causado por efeitos ao bloquear é aplicado separadamente.
 
 **Foco e bloqueio**: O bônus de Foco é consumido no próximo ataque do monstro, mesmo que o adversário bloqueie esse ataque. Passivas podem abrir exceções. Desencaixe, de Pinhisco, preserva o Foco acumulado no primeiro ataque que o rival bloquear em cada rodada.
 
@@ -120,7 +122,7 @@ Se um monstro tiver fraqueza ao tipo de seu rival, recebe +1 de dano no cálculo
 | 12 | Pele Quente | Realize um ataque, se o oponente também te atacou, ele sofre 2 de dano direto | monstro |
 | 13 | Incinerar | Cause "Incendiar" no oponente | monstro |
 | 14 | Curar I | Role 1d6. Recupere 2 de energia com 1–4 ou 3 de energia com 5–6. | monstro |
-| 15 | Bolha de água | Bloquei o ataque do oponente, se o oponente realmente jogou um ataque, realize um ataque | monstro |
+| 15 | Bolha de água | Bloqueie metade do dano do ataque rival, arredondando a parcela bloqueada para baixo. Se bloquear um ataque, cause 4 de dano direto ao rival. | monstro |
 
 #### Condições
 

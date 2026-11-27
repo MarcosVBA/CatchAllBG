@@ -1,5 +1,5 @@
 import {
-  ATAQUES, BLOQUEIOS, CURAS, efetiva, fraqueza, prepararMonstro, ITENS_COMBATE,
+  ATAQUES, BLOQUEIOS, BLOQUEIOS_PARCIAIS, CURAS, efetiva, fraqueza, prepararMonstro, ITENS_COMBATE,
 } from "../../motor/regras/cartas.mjs";
 
 const TRILHA_PREFERIDA = { agressiva: "Montanha", defensiva: "Floresta", oportunista: "Riacho" };
@@ -34,7 +34,7 @@ function pontuarCombate(opcao, observacao, catalogo, perfil) {
   if (ATAQUES.has(habilidade)) {
     let peso = 2.1 + esperado * 0.23 + Number(perfil === "agressiva") * 0.65;
     if (esperado >= q.energia) peso += 1.3 + Number(habilidade === 5) * 0.7;
-    if (revelou && BLOQUEIOS.has(efeitoRival)) peso -= [11, 24].includes(habilidade) ? 0.5 : 2.5;
+    if (revelou && BLOQUEIOS.has(efeitoRival)) peso -= BLOQUEIOS_PARCIAIS.has(efeitoRival) ? 0.8 : [11, 24].includes(habilidade) ? 0.5 : 2.5;
     if ([30, 52].includes(habilidade) && CURAS.has(efeitoRival)) peso += 0.8;
     if (p.condicoes.includes(2)) peso -= 0.5;
     if (habilidade === 35 && !alvo.inatas.some(id => CURAS.has(id))) peso -= 0.25;
@@ -43,9 +43,13 @@ function pontuarCombate(opcao, observacao, catalogo, perfil) {
   }
   if (BLOQUEIOS.has(habilidade)) {
     let peso = 0.8 + esperadoDoRival * 0.18 + Number(perfil === "defensiva") * 0.65;
+    if (BLOQUEIOS_PARCIAIS.has(habilidade)) peso -= esperadoDoRival * 0.09;
     if (revelou) peso += ATAQUES.has(efeitoRival) ? 2.6 : -2.8;
     if (p.energia <= esperadoDoRival) peso += 1.3;
     if (habilidade !== 2 && !p.condicoes.includes(7)) peso += 0.45;
+    if ([15, 33, 48].includes(habilidade) && !p.condicoes.includes(7)) {
+      peso += revelou && ATAQUES.has(efeitoRival) ? 0.6 : 0.2;
+    }
     if (habilidade === 54 && q.condicoes.includes(5) && !p.condicoes.includes(7)) peso += 1;
     if (habilidade === 48 && revelou && !ATAQUES.has(efeitoRival)) peso += 3;
     return peso;
