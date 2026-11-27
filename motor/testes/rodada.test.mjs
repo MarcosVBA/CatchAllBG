@@ -83,7 +83,7 @@ test("Redemoinho aplica Fissurado mesmo quando o rival bloqueia", () => {
   assert.equal(energias(rodada)[1], antes);
   assert.ok(rodada.observar(0).jogadores[1].condicoes.includes(3));
   turno(rodada, 1, 4);
-  assert.equal(energias(rodada)[1], antes - 13);
+  assert.equal(energias(rodada)[1], antes - 14);
   rodada.conferirDados();
 });
 
@@ -385,7 +385,7 @@ test("Preso mantém o bloqueio parcial de Bolha de Água e suprime o contra-ataq
   assert.ok(rodada.observar(0).jogadores[1].condicoes.includes(7));
   const antes = energias(rodada);
   const eventos = turno(rodada, 1, 15);
-  assert.deepEqual(energias(rodada), [antes[0], antes[1] - 3]);
+  assert.deepEqual(energias(rodada), [antes[0], antes[1] - 4]);
   assert.ok(eventos.some(evento => evento.tipo === "efeito-ativado" && evento.efeito === "Preso"));
   assert.equal(rodada.observar(0).jogadores[1].condicoes.includes(7), false);
   rodada.conferirDados();
@@ -396,7 +396,7 @@ test("Ofuscado diminui dano com face baixa e é consumido no primeiro acerto", (
   turno(rodada, 33, 1);
   const antes = energias(rodada);
   turno(rodada, 3, 3);
-  assert.equal(energias(rodada)[0], antes[0] - 5);
+  assert.equal(energias(rodada)[0], antes[0] - 6);
   assert.equal(rodada.observar(0).jogadores[1].condicoes.includes(2), false);
   rodada.conferirDados();
 });
@@ -442,7 +442,7 @@ test("Sobrecarga diferencia o risco da face 1 e o bônus da face 5", () => {
     const antes = energias(rodada);
     turno(rodada, 1, 14);
     assert.deepEqual(energias(rodada), [antes[0] - (resultado === 1 ? 2 : 0),
-      antes[1] - (resultado === 5 ? 11 : 6)]);
+      antes[1] - (resultado === 5 ? 12 : 7)]);
     rodada.conferirDados();
   }
 });
