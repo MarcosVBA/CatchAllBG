@@ -1,5 +1,5 @@
 export const FASES = {
-  treinador: ["Preparação", "Escolha seu treinador", "A habilidade do treinador compõe sua mão em todos os duelos."],
+  treinador: ["Preparação", "Escolha seu treinador", "Seis treinadores são sorteados. Cada jogador escolhe um disponível."],
   inicial: ["Preparação", "Escolha seu monstro inicial", "O inicial acompanha você desde a primeira captura."],
   trilha: ["Captura", "Escolha uma trilha", "Você verá até três monstros do monte escolhido."],
   captura: ["Captura", "Tente capturar um monstro", "O resultado precisa ser 3 ou mais no d6. Com 1 ou 2, o monstro foge."],

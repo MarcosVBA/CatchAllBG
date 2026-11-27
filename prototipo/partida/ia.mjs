@@ -59,7 +59,7 @@ function pontuarCombate(opcao, observacao, catalogo, perfil) {
       - Number(p.condicoes.includes(4));
   }
   if (habilidade === 13) return q.condicoes.includes(1) ? -1 : perfil === "oportunista" ? 2.9 : 2;
-  if (habilidade === 4) return q.energia > 6 ? 1.7 : 0.4;
+  if (habilidade === 4 || habilidade === 57) return q.energia > 6 ? 1.7 : 0.4;
   return -5;
 }
 
@@ -68,8 +68,11 @@ function pontuar(escolha, visao, catalogo, p) {
   const perfil = p.perfil;
   const formas = p.equipe.map(m => catalogo.monstros.get(m.formaId));
   switch (tipo) {
-    case "treinador":
-      return valor === { agressiva: 2, defensiva: 3, oportunista: 1 }[perfil] ? 1.6 : 0.2;
+    case "treinador": {
+      const carta = catalogo.treinadores.get(valor).cartas[0];
+      const preferencias = { agressiva: [5, 55, 4], defensiva: [56, 59, 57], oportunista: [58, 4, 57] };
+      return preferencias[perfil]?.includes(carta) ? 1.3 : 0.8;
+    }
     case "trilha":
       return Number(valor === TRILHA_PREFERIDA[perfil]) * 0.85 + visao.trilhas.find(t => t.trilha === valor).restantes * 0.055;
     case "inicial":

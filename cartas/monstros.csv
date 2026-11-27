@@ -1,10 +1,10 @@
 id_monstro,nome_monstro,energia,ofensiva,defesa,passiva_monstro,melhorias_monstro,verso_monstro,descricao_monstro,tipo,fraquezas,trilha,funcao_setup,habilidades_inatas
 1,krakon,26,4,2,,habilidade:11|habilidade:12|evolucao:2,2,"Dragão pequeno, vermelho e com escamas de pedra, possui pequenas asas",Fogo,Água,,inicial,
 2,krakuron,30,5,2,,habilidade:13,1,"Dragão maior, vermelho e com escamades de pedra, possui asas grandes e espinhos pelo corpo",Fogo,Água,,evolucao,
-3,owlzin,28,3,3,,habilidade:15|habilidade:14|evolucao:4,4,"Como um ornitorrinco amigavél, branco com manchas em formato de bolha azul",Água,Raio,,inicial,
-4,owlsel,32,3,4,Re-role uma vez o dado de cura e fique com o resultado,,3,"A mistura de um ornitorrinco e um urso, branco com manchas azuis, forte",Água,Raio,,evolucao,39
-5,flouly,27,3,4,,habilidade:26|habilidade:27|evolucao:6,6,Ouriço felpudo de cujo dorso brotam flores brancas que se fecham quando ele se encolhe.,Grama,Fogo,,inicial,
-6,Flourosa,30,3,4,"Rebrotar. Após o primeiro ataque que causar dano e deixá-la viva com metade da energia máxima ou menos ao fim das ações do turno, role 1d6. Com 3–6, recupere 6 de energia.",habilidade:41,5,Ouriço de focinho escuro com espinhos cobertos de brotos. As flores brancas se fecham juntas quando ele se defende.,Grama,Fogo,,evolucao,40
+3,owlzin,30,3,3,,habilidade:15|habilidade:14|evolucao:4,4,"Como um ornitorrinco amigavél, branco com manchas em formato de bolha azul",Água,Raio,,inicial,
+4,owlsel,35,3,4,Re-role uma vez o dado de cura e fique com o resultado,,3,"A mistura de um ornitorrinco e um urso, branco com manchas azuis, forte",Água,Raio,,evolucao,39
+5,flouly,25,3,4,,habilidade:26|habilidade:27|evolucao:6,6,Ouriço felpudo de cujo dorso brotam flores brancas que se fecham quando ele se encolhe.,Grama,Fogo,,inicial,
+6,Flourosa,25,3,4,"Rebrotar. Após o primeiro ataque que causar dano e deixá-la viva com metade da energia máxima ou menos ao fim das ações do turno, role 1d6. Com 3–6, recupere 6 de energia.",habilidade:41,5,Ouriço de focinho escuro com espinhos cobertos de brotos. As flores brancas se fecham juntas quando ele se defende.,Grama,Fogo,,evolucao,40
 101,Cascalhote,27,4,3,,habilidade:34|habilidade:22|evolucao:146,146,Cabrito de xisto com cascos largos que fazem estalar o cascalho.,Rocha,Água,Montanha,capturavel,
 146,Cascalforje,30,4,3,,habilidade:29,101,Cabra de xisto com chifres em camadas. Seus cascos se encaixam nas fendas da montanha.,Rocha,Água,,evolucao,42
 102,Pumicão,30,3,4,,habilidade:22|habilidade:29|evolucao:149,149,Lagarto de pedra-pomes que se prende aos paredões com a barriga.,Rocha,Grama,Montanha,capturavel,
@@ -14,7 +14,7 @@ id_monstro,nome_monstro,energia,ofensiva,defesa,passiva_monstro,melhorias_monstr
 106,Penaferro,27,3,4,,habilidade:8|habilidade:23,,Coruja cinzenta com penas de ferro dobráveis.,Voador,Raio,Montanha,capturavel,
 107,Pipavent,26,4,2,"Fio Cortante. Na primeira vez da rodada em que o rival bloquear seu Atacar, inclusive via Repetir, role 1d6. Com 3–6, cause 7 de dano direto.",habilidade:23|habilidade:21,,Pipa viva com quatro olhos nas pontas e uma cauda de fitas.,Voador,Rocha,Montanha,capturavel,
 108,Alapedra,24,4,3,,habilidade:21|habilidade:23,,Raia de ardósia que plana entre picos sem bater as asas.,Rocha|Voador,Água|Raio,Montanha,capturavel,
-109,Grotufo,24,5,1,,habilidade:53|habilidade:25,,Roedor de gruta cujos tufos de pelo ofuscam sua silhueta.,Noturno,Fogo,Montanha,capturavel,
+109,Grotufo,24,6,2,,habilidade:53|habilidade:25,,Roedor de gruta cujos tufos de pelo ofuscam sua silhueta.,Noturno,Fogo,Montanha,capturavel,
 110,Lanterno,24,3,4,"Facho na Névoa. Na primeira vez da rodada em que bloquear um ataque, recupere até 3 de energia e aplique Ofuscado ao rival após resolver as ações.",habilidade:48|habilidade:25,,Morador de cavernas que leva uma luz azul presa ao chifre.,Noturno,Psíquico,Montanha,capturavel,
 111,Sibilume,21,4,3,"Seu Atacar recebe +7 no cálculo de dano na primeira vez da rodada em que atacar um rival do tipo Psíquico sem ser bloqueado. Vale também via Repetir.",habilidade:25|habilidade:21,,Serpente preta com uma fileira de pontos brilhantes no pescoço.,Noturno,Inseto,Montanha,capturavel,
 112,Brasal,24,5,2,,habilidade:24|habilidade:29,,Texugo cuja juba de brasas deixa marcas nos túneis.,Fogo,Água,Montanha,capturavel,

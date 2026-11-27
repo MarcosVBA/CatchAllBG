@@ -17,6 +17,7 @@ export function criarPartida({ catalogo, rng }) {
   }));
   const itens = [...catalogo.itens.values()].flatMap(item => Array(item.quantidade).fill(item.id));
   const baralhoItens = amostrar(itens, itens.length, rng);
+  const treinadoresDisponiveis = amostrar([...catalogo.treinadores.keys()], 6, rng);
   const historico = [];
   const resultados = [];
   let iniciativa = rng.inteiro(0, 3);
@@ -234,7 +235,7 @@ export function criarPartida({ catalogo, rng }) {
     if (vez === null) return [];
     const jogador = jogadores[vez];
     switch (fase) {
-      case "treinador": return [...catalogo.treinadores.keys()].map(id => opcao("treinador", id));
+      case "treinador": return treinadoresDisponiveis.map(id => opcao("treinador", id));
       case "inicial": return [...catalogo.monstros.values()].filter(m => m.papel === "inicial").map(m => opcao("inicial", m.id));
       case "trilha": return TRILHAS.filter(trilha => montes.get(trilha).length).map(trilha => opcao("trilha", trilha));
       case "captura": return captura.opcoes.map(id => opcao("captura", id));
@@ -276,6 +277,7 @@ export function criarPartida({ catalogo, rng }) {
     switch (tipo) {
       case "treinador":
         jogador.treinadorId = valor;
+        treinadoresDisponiveis.splice(treinadoresDisponiveis.indexOf(valor), 1);
         emitir({ tipo: "treinador-escolhido", jogador: id, treinadorId: valor });
         proximo("treinador", () => novaOrdem("inicial"));
         break;

@@ -20,7 +20,7 @@ Para montar o mesmo pacote estático localmente, execute `bash prototipo/empacot
 
 ## Decisões do protótipo
 
-- A iniciativa inicial é sorteada. As fases de decisão giram a iniciativa entre os quatro lugares. Treinadores e iniciais podem ser escolhidos em cópias independentes.
+- A iniciativa inicial é sorteada. Seis treinadores diferentes são sorteados e escolhidos em sequência, sem reposição. As fases de decisão giram a iniciativa entre os quatro lugares. Iniciais podem ser escolhidos em cópias independentes.
 - Depois de uma captura bem-sucedida, as cartas não escolhidas voltam ao fundo da trilha. Um monstro que foge sai da disputa. Se a trilha acabar, é possível escolher outra. Com as três vazias, a fase de captura é encerrada.
 - Pontos de habilidade e de melhoria usam a mesma progressão do catálogo. Evoluções consomem a posição prevista na sequência de melhorias. Um vencedor também distribui a melhoria que recebeu no duelo.
 - Monstros evoluídos mantêm as habilidades inatas e desbloqueadas das formas anteriores. Após uma captura que deixe a equipe com quatro monstros, o jogador escolhe um deles para deixar ir antes de distribuir a melhoria; o recém-capturado também pode ser escolhido.

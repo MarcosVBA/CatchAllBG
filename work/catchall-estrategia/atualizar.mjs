@@ -11,7 +11,7 @@ const catalogo = await carregarCatalogo();
 const formas = [...catalogo.monstros.values()];
 const treinadores = [...catalogo.treinadores.values()];
 const duplas = treinadores.flatMap(a => treinadores.filter(b => a !== b).map(b => [a.id, b.id]));
-const amostras = 90;
+const amostras = duplas.length * 3;
 const semente = 47821;
 const sementeVariacao = 612007;
 const totalPartidas = 900;

@@ -39,6 +39,7 @@ export function criarRodada({
   const contexto = {
     get turno() { return turno; },
     get bonusOfensiva() { return renovacoes; },
+    habilidades: catalogo.habilidades,
     pisoDano,
     emitir(tipo, dados = {}) { eventos.push({ tipo, turno, ...dados }); },
     rolar(p, motivo, repetida = false) {

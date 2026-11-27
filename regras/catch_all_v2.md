@@ -13,7 +13,7 @@
 **Regra Importante**: Nas decisões em sequência, como o início da aventura, a escolha de trilha e os desafios, alterne o jogador inicial em sentido anti-horário.
 
 - 1. Façam um partida rápida de dois ou um, o vencedor começa escolhendo
-- 2. Partindo o jogador inicial, cada um escolhe um treinador, depois, um monstro inicial
+- 2. Sorteiem seis treinadores diferentes e revelem as cartas. Partindo do jogador inicial, cada jogador escolhe um dos treinadores ainda disponíveis. Depois, cada jogador escolhe um monstro inicial.
 - 3. Cada jogador também deve pegar as cartas de habilidade base mais qualquer carta que o seu treinador permita para montar o seu baralho
 
 

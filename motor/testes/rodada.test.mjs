@@ -403,6 +403,34 @@ function baixaEnergia(...nomes) {
   return { ...catalogo, monstros };
 }
 
+test("Plano de Campo adiciona 4 ao próximo ataque e Primeiros Cuidados cura 4", () => {
+  const atacante = ficha("Krakon", 0, 6);
+  const alvo = ficha("Owlzin", 0, 8);
+  const rodada = jogo(atacante, alvo, [4]);
+  turno(rodada, 57, 2);
+  const antes = energias(rodada)[1];
+  turno(rodada, 1, 59);
+  const dano = danoSemEfeitos(catalogo.monstros.get(atacante.monstroId), catalogo.monstros.get(alvo.monstroId), 4, 0, 4);
+  assert.equal(energias(rodada)[1], antes - dano);
+  turno(rodada, 2, 3);
+  assert.equal(energias(rodada)[1], antes - dano + 4);
+  rodada.conferirDados();
+});
+
+test("habilidades de treinador não ativam os bônus contra habilidades de monstro", () => {
+  const rodada = jogo(ficha("Grotufo", 0, 1), ficha("Krakon", 0, 4), [4]);
+  const antes = energias(rodada)[0];
+  const eventos = turno(rodada, 3, 55);
+  assert.ok(eventos.some(e => e.tipo === "dano" && e.jogador === 0));
+  assert.ok(energias(rodada)[0] < antes);
+  rodada.conferirDados();
+  const bloqueio = jogo(ficha("Penaferro", 1), ficha("Krakon", 0, 4), []);
+  const vida = energias(bloqueio)[1];
+  turno(bloqueio, 8, 55);
+  assert.equal(energias(bloqueio)[1], vida);
+  bloqueio.conferirDados();
+});
+
 test("Rasante letal cancela ataque normal, e dois ataques rápidos são simultâneos", () => {
   const catalogoBaixaEnergia = baixaEnergia("Agulhio", "Grotufo");
   const rapido = jogo(ficha("Agulhio", 1), ficha("Grotufo", 2), [6], { catalogo: catalogoBaixaEnergia });

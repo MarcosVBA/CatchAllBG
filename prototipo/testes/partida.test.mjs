@@ -81,15 +81,26 @@ test("captura com equipe cheia permite dispensar qualquer monstro antes da melho
   }
 });
 
-test("escolhas iniciais podem ter cópias próprias e opções privadas não vazam", () => {
+test("draft sorteia seis treinadores distintos sem reposição e protege opções privadas", () => {
   const p = criarPartida({ catalogo, rng: gerador(42) });
   assert.throws(() => p.agir((p.vez + 1) % 4, "treinador:1"), /Aguarde/);
   assert.throws(() => p.agir(p.vez, "treinador:999"), /não está disponível/);
-  while (p.observar().fase === "treinador") p.agir(p.vez, "treinador:3");
+  const sorteados = p.observar(p.vez).opcoes.map(opcao => opcao.valor);
+  assert.equal(sorteados.length, 6);
+  assert.equal(new Set(sorteados).size, 6);
+  const escolhidos = [];
+  while (p.observar().fase === "treinador") {
+    const opcoes = p.observar(p.vez).opcoes;
+    assert.equal(opcoes.length, 6 - escolhidos.length);
+    assert.ok(opcoes.every(opcao => !escolhidos.includes(opcao.valor)));
+    escolhidos.push(opcoes[0].valor);
+    p.agir(p.vez, opcoes[0].id);
+  }
   while (p.observar().fase === "inicial") p.agir(p.vez, "inicial:5");
   const v = p.observar();
   assert.equal(new Set(v.participantes.map(pessoa => pessoa.equipe[0].chave)).size, 4);
-  assert.ok(v.participantes.every(pessoa => pessoa.equipe[0].monstroId === 5 && pessoa.treinadorId === 3));
+  assert.ok(v.participantes.every(pessoa => pessoa.equipe[0].monstroId === 5));
+  assert.equal(new Set(v.participantes.map(pessoa => pessoa.treinadorId)).size, 4);
   p.agir(p.vez, "trilha:Montanha");
   const espectador = p.observar((p.vez + 1) % 4);
   assert.equal(espectador.captura, null);

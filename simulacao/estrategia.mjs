@@ -17,7 +17,7 @@ export function escolher(visao, jogador, catalogo, rng, defensiva) {
       if (BLOQUEIOS.has(revelada)) peso -= 2.1;
       if (CURAS.has(revelada) && [30, 52].includes(efeito)) peso += 0.8;
       if (revelada === 13) peso += 0.5;
-    } else if (efeito === 4) {
+    } else if (efeito === 4 || efeito === 57) {
       peso = rival.energia >= 5 ? 1.55 : 0.5;
     } else if (efeito === 13) {
       peso = !rival.condicoes.includes(1) && rival.energia >= 4 ? 2.05 : -0.2;
