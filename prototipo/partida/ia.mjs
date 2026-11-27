@@ -35,7 +35,7 @@ function pontuarCombate(opcao, observacao, catalogo, perfil) {
     let peso = 2.1 + esperado * 0.23 + Number(perfil === "agressiva") * 0.65;
     if (esperado >= q.energia) peso += 1.3 + Number(habilidade === 5) * 0.7;
     if (revelou && BLOQUEIOS.has(efeitoRival)) peso -= BLOQUEIOS_PARCIAIS.has(efeitoRival) ? 0.8 : [11, 24].includes(habilidade) ? 0.5 : 2.5;
-    if ([30, 52].includes(habilidade) && CURAS.has(efeitoRival)) peso += 0.8;
+    if ((habilidade === 52 || [30, 61].includes(habilidade) && typeof efeitoRival === "number") && CURAS.has(efeitoRival)) peso += 0.8;
     if (p.condicoes.includes(2)) peso -= 0.5;
     if (habilidade === 35 && !alvo.inatas.some(id => CURAS.has(id))) peso -= 0.25;
     if (CONDICOES_ATIVAS.has(habilidade) && perfil === "oportunista") peso += 0.7;

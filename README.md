@@ -21,7 +21,10 @@ Abra [a mesa de jogo](http://127.0.0.1:4178/). Consulte as [decisões do protót
 | [motor/](motor/README.md) | Leitura do catálogo e regras de combate compartilhadas |
 | [simulacao/](simulacao/README.md) | Cenários, estratégias e comandos para analisar duração e balanceamento |
 | [prototipo/](prototipo/README.md) | Interface HTML, fluxo da partida e estratégias dos três rivais |
+| [editor/monstros.html](editor/monstros.html) | Editor local de monstros e consulta de habilidades compartilhadas |
 | [arquivo/](arquivo/README.md) | Regras antigas, scripts experimentais, catálogos intermediários e resultados históricos |
+
+Para editar monstros, abra `editor/monstros.html` no navegador e selecione `cartas/monstros.csv` e `cartas/habilidades.csv`. Em navegadores compatíveis, use **Abrir monstros para editar** para salvar diretamente no arquivo selecionado; caso contrário, use a opção de download e substitua o CSV manualmente. A página funciona localmente, sem enviar os arquivos a um servidor.
 
 ## Validar e simular
 

@@ -31,7 +31,7 @@ id_habilidade,nome_habilidade,efeito,tag,id_condicao
 30,Marola,"Realize um ataque. Se o rival revelar uma habilidade que recupere energia, acrescente 4 ao dano do seu ataque.",monstro,
 31,Eco Mental,"Realize um ataque. Se o rival revelar uma carta de habilidade base, acrescente 2 ao dano do seu ataque.",monstro,
 32,Faísca de Margem,"Realize um ataque rápido. Se o rival tiver o tipo Água ou Voador, acrescente 2 ao dano do seu ataque.",monstro,
-33,Véu de Cinza,"Bloqueie metade do dano do ataque rival, arredondando a parcela bloqueada para baixo. Se bloquear um ataque, cause 2 de dano direto e aplique Ofuscado ao rival depois de resolver o turno.",monstro,2
+33,Véu de Cinza,"Bloqueie metade do dano do ataque rival, arredondando a parcela bloqueada para baixo. Se bloquear um ataque, cause 3 de dano direto e aplique Ofuscado ao rival depois de resolver o turno.",monstro,2
 34,Trinca de Cascalho,"Realize um ataque com 1 a menos de dano no cálculo. Se causar dano pelo cálculo do ataque, aplique Fissurado ao rival depois de resolver o turno.",monstro,3
 35,Pó de Esporos,"Realize um ataque. Se causar dano pelo cálculo do ataque, aplique Esporos ao rival depois de resolver o turno.",monstro,4
 36,Para-Raios,"Bloqueie o ataque do rival. Se bloquear um ataque, ganhe Sobrecarga depois de resolver o turno.",monstro,5
@@ -58,3 +58,7 @@ id_habilidade,nome_habilidade,efeito,tag,id_condicao
 57,Plano de Campo,Seu próximo ataque recebe +4 de dano. O bônus é consumido mesmo se o ataque for bloqueado.,treinador,
 58,Clarão Tático,"Realize um ataque. Se causar dano pelo cálculo, aplique Ofuscado ao rival após o turno.",treinador,2
 59,Primeiros Cuidados,"Recupere 4 de energia, respeitando a energia máxima.",treinador,
+60,Cipó Revigorante,"Realize um ataque. Se o rival também atacar, acrescente 1 ao dano do seu ataque. Se causar pelo menos 3 de dano pelo cálculo do ataque, recupere 2 de energia.",monstro,
+61,Marola Cintilante,"Realize um ataque. Se o rival revelar uma habilidade que recupere energia, acrescente 4 ao dano; caso contrário, acrescente 1.",monstro,
+62,Eco Luminoso,"Realize um ataque. Se o rival revelar uma carta de habilidade base, acrescente 3 ao dano do seu ataque.",monstro,
+63,Mergulho Restaurador,"Realize um ataque. Se causar pelo menos 2 de dano pelo cálculo do ataque, recupere 2 de energia.",monstro,

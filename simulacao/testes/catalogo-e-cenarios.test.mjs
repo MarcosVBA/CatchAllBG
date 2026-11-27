@@ -17,7 +17,7 @@ test("CSV lê BOM, CRLF, vírgulas, quebras e aspas dentro de campos", () => {
 test("catálogo atual resolve vínculos e rejeita melhoria inexistente", async () => {
   const catalogo = await carregarCatalogo();
   assert.equal(catalogo.monstros.size, 59);
-  assert.deepEqual([...catalogo.habilidades.keys()], Array.from({ length: 59 }, (_, i) => i + 1));
+  assert.deepEqual([...catalogo.habilidades.keys()], Array.from({ length: 63 }, (_, i) => i + 1));
   assert.equal(catalogo.condicoes.size, 7);
   assert.equal(catalogo.treinadores.size, 8);
   assert.equal(catalogo.itens.get(1).quantidade, 2);

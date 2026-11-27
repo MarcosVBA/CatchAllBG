@@ -103,9 +103,9 @@ Os exemplos abaixo refletem o catálogo atual. Consulte os [CSVs de cartas](../c
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | krakon | 26 | 6 | 2 | — | — | habilidade:11 / habilidade:12 / evolucao:2 | Fogo | Água | Dragão vermelho de escamas rochosas e pequenas asas. Brasas escapam de sua boca quando se prepara para cuspir fogo. |
 | 2 | krakuron | 30 | 7 | 2 | — | — | habilidade:13 | Fogo | Água | A forma adulta de Krakon tem asas largas e espinhos de pedra incandescente. Seu sopro espalha fogo pelas fendas da montanha. |
-| 3 | owlzin | 30 | 4 | 3 | — | — | habilidade:15 / habilidade:14 / evolucao:4 | Água | Raio | Pequeno ornitorrinco branco com manchas azuis. Sopra bolhas protetoras e mergulha em águas frescas para recuperar as forças. |
+| 3 | owlzin | 30 | 4 | 3 | — | — | habilidade:15 / habilidade:63 / evolucao:4 | Água | Raio | Pequeno ornitorrinco branco com manchas azuis. Sopra bolhas protetoras e mergulha em águas frescas para recuperar as forças. |
 | 4 | owlsel | 35 | 4 | 4 | Re-role uma vez o dado de cura e fique com o resultado | 39 | — | Água | Raio | Criatura robusta de pelo branco e manchas azuis, entre um urso e um ornitorrinco. Suas bolhas e águas cintilantes acalmam ferimentos. |
-| 5 | flouly | 25 | 4 | 4 | — | — | habilidade:26 / habilidade:27 / evolucao:6 | Grama | Fogo | Ouriço felpudo com flores brancas no dorso. De seus espinhos brotam cipós e gotas de seiva luminosa. |
+| 5 | flouly | 25 | 4 | 4 | — | — | habilidade:26 / habilidade:60 / evolucao:6 | Grama | Fogo | Ouriço felpudo com flores brancas no dorso. De seus espinhos brotam cipós e gotas de seiva luminosa. |
 
 #### Carta de Treinador
 
@@ -152,7 +152,7 @@ Uso único:
 - Armadilha x2 - Remova um monstro do seu time, realize a fase de captura novamente e no fim, adicione um ponto de melhoria em qualquer monstro
 - Super Cura x2 - Recupere toda a energia de seu monstro em combate
 - Salva Vidas x2 - Ao ser atacado, bloqueie o ataque e recupere 4 pontos de vidas
-- Mapa da trilha x2 - Durante a fase da trilha, busque mais 3 cartas e realize a captura
+- Mapa da trilha x2 - Durante a preparação, realize uma captura extra: escolha uma trilha, compre até 3 monstros e tente capturar um deles. Após a captura, adicione um ponto de melhoria em qualquer monstro.
 - Poção de Força x2 - 2 pontos de melhoria
 
 

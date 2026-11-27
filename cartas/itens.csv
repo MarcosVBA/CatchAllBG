@@ -2,5 +2,5 @@ id_item,nome_item,quantidade,uso_unico,momento_uso,efeito
 1,Armadilha,2,sim,,"Remova um monstro do seu time, realize a fase de captura novamente e no fim, adicione um ponto de melhoria em qualquer monstro"
 2,Super Cura,2,sim,Durante o combate,Recupere toda a energia de seu monstro em combate
 3,Salva Vidas,2,sim,Ao ser atacado,"Ao ser atacado, bloqueie o ataque e recupere 4 pontos de vidas"
-4,Mapa da trilha,2,sim,Durante a fase da trilha,"Durante a fase da trilha, busque mais 3 cartas e realize a captura"
+4,Mapa da trilha,2,sim,Durante a preparação,"Realize uma captura extra: escolha uma trilha, compre até 3 monstros e tente capturar um deles. Após a captura, adicione um ponto de melhoria em qualquer monstro."
 5,Poção de Força,2,sim,,2 pontos de melhoria

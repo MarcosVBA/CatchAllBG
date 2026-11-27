@@ -20,6 +20,13 @@ function jogo(a, b, valores = [], opcoes = {}) {
   return { ...rodada, conferirDados: () => assert.deepEqual(dados, []) };
 }
 
+function catalogoComCurarI() {
+  const monstros = new Map(catalogo.monstros);
+  const owlzin = monstros.get(id("Owlzin"));
+  monstros.set(owlzin.id, { ...owlzin, melhorias: owlzin.melhorias.map(m => m.tipo === "habilidade" && m.id === 63 ? { ...m, id: 14 } : m) });
+  return { ...catalogo, monstros };
+}
+
 function turno(rodada, a, b) {
   const abertura = rodada.iniciarTurno();
   const visao = rodada.observar(0);
@@ -197,7 +204,7 @@ test("Véu de Cinza causa dano direto e aplica Ofuscado ao bloquear", () => {
   const rodada = jogo(ficha("Cinzarisco", 1, 1), ficha("Krakon", 0, 1), [2]);
   const antes = energias(rodada);
   const eventos = turno(rodada, 33, 1);
-  assert.equal(energias(rodada)[1], antes[1] - 2);
+  assert.equal(energias(rodada)[1], antes[1] - 3);
   assert.ok(eventos.some(e => e.tipo === "bloqueio" && e.parcial));
   assert.ok(rodada.observar(0).jogadores[1].condicoes.includes(2));
   rodada.conferirDados();
@@ -292,7 +299,7 @@ test("Carapaça Fechada concede dois de Foco após bloquear", () => {
 });
 
 test("Eco Mental acrescenta dois de dano contra carta base", () => {
-  const atacante = ficha("Ecolume", 1, 1);
+  const atacante = ficha("Ondívago", 2, 1);
   const defensor = ficha("Owlzin", 0, 1);
   const rodada = jogo(atacante, defensor, [4]);
   const antes = energias(rodada)[1];
@@ -324,7 +331,7 @@ test("bloqueio parcial ativa o efeito mesmo quando o ataque causa zero de dano",
   const rodada = jogo(ficha("Cinzarisco", 1, 1), ficha("Krakon", 0, 1), [1], { catalogo: { ...catalogo, monstros } });
   const antes = energias(rodada);
   turno(rodada, 33, 1);
-  assert.deepEqual(energias(rodada), [antes[0], antes[1] - 2]);
+  assert.deepEqual(energias(rodada), [antes[0], antes[1] - 3]);
   assert.ok(rodada.observar(0).jogadores[1].condicoes.includes(2));
   rodada.conferirDados();
 });
@@ -358,13 +365,13 @@ test("Névoa de Fuga concede foco ao bloquear e ao enfrentar uma ação sem ataq
 
 test("evolução conserva as habilidades anteriores e combina as da nova forma", () => {
   const flouly = id("Flouly");
-  assert.deepEqual(prepararMonstro(catalogo, flouly, 2).cartas, [26, 27]);
+  assert.deepEqual(prepararMonstro(catalogo, flouly, 2).cartas, [26, 60]);
   assert.equal(prepararMonstro(catalogo, flouly, 3).monstro.nome, "Flourosa");
-  assert.deepEqual(prepararMonstro(catalogo, flouly, 3).cartas, [26, 27, 40]);
-  assert.deepEqual(prepararMonstro(catalogo, flouly, 4).cartas, [26, 27, 40, 41]);
+  assert.deepEqual(prepararMonstro(catalogo, flouly, 3).cartas, [26, 60, 40]);
+  assert.deepEqual(prepararMonstro(catalogo, flouly, 4).cartas, [26, 60, 40, 41]);
   assert.equal(prepararMonstro(catalogo, flouly, 3, false).monstro.id, flouly);
   const rodada = jogo(ficha("Flouly", 3), ficha("Owlzin"));
-  assert.deepEqual(rodada.observar(0).mao, [1, 2, 3, 26, 27, 40]);
+  assert.deepEqual(rodada.observar(0).mao, [1, 2, 3, 26, 40, 60]);
   assert.deepEqual(prepararMonstro(catalogo, id("Krakon"), 3).cartas, [11, 12]);
   assert.deepEqual(prepararMonstro(catalogo, id("Krakon"), 4).cartas, [11, 12, 13]);
 });
@@ -415,7 +422,7 @@ test("novas evoluções herdam habilidades e ativam suas passivas", () => {
   turno(rodada, 3, 1);
   const ferido = energias(rodada)[0];
   const eventos = turno(rodada, 26, 2);
-  assert.equal(energias(rodada)[0], ferido + 4);
+  assert.equal(energias(rodada)[0], ferido + 5);
   assert.ok(eventos.some(e => e.tipo === "efeito-ativado" && e.efeito === "Jardim de Retorno"));
   rodada.conferirDados();
 });
@@ -423,7 +430,7 @@ test("novas evoluções herdam habilidades e ativam suas passivas", () => {
 test("novas habilidades de cura e bloqueio recuperam os valores descritos", () => {
   for (const [nome, pontos, habilidade, dados, cura] of [
     ["Owlzin", 3, 39, [6, 6], 4],
-    ["Flouly", 4, 41, [6], 3],
+    ["Flouly", 4, 41, [6], 5],
     ["Cascalhote", 2, 22, [6], 2],
     ["Sardâmbar", 3, 43, [6], 3],
   ]) {
@@ -516,7 +523,7 @@ test("Ofuscado diminui dano com face baixa e é consumido no primeiro acerto", (
 });
 
 test("Fissurado continua ativo após bloqueio e acrescenta dano com face baixa", () => {
-  const rodada = jogo(ficha("Cascalhote", 1), ficha("Owlzin", 2, 1), [5, 2, 4, 3, 5]);
+  const rodada = jogo(ficha("Cascalhote", 1), ficha("Owlzin", 2, 1), [5, 2, 4, 3, 5], { catalogo: catalogoComCurarI() });
   turno(rodada, 34, 4);
   turno(rodada, 1, 2);
   assert.ok(rodada.observar(0).jogadores[1].condicoes.includes(3));
@@ -539,7 +546,7 @@ test("uma condição sem gatilho vence no fim do segundo turno seguinte", () => 
 
 test("Esporos pune 3 e deixa a cura inteira com 4", () => {
   for (const resultado of [3, 4]) {
-    const rodada = jogo(ficha("Vinhabril", 1), ficha("Owlzin", 3, 1), [4, 2, 6, resultado]);
+    const rodada = jogo(ficha("Vinhabril", 1), ficha("Owlzin", 3, 1), [4, 2, 6, resultado], { catalogo: catalogoComCurarI() });
     turno(rodada, 35, 4);
     const antes = energias(rodada)[1];
     turno(rodada, 2, 14);
@@ -551,7 +558,7 @@ test("Esporos pune 3 e deixa a cura inteira com 4", () => {
 
 test("Sobrecarga diferencia o risco da face 1 e o bônus da face 5", () => {
   for (const resultado of [1, 5]) {
-    const rodada = jogo(ficha("Estalume", 2), ficha("Owlzin", 3), [4, resultado, 2]);
+    const rodada = jogo(ficha("Estalume", 2), ficha("Owlzin", 3), [4, resultado, 2], { catalogo: catalogoComCurarI() });
     turno(rodada, 36, 1);
     const antes = energias(rodada);
     turno(rodada, 1, 14);
@@ -670,7 +677,7 @@ test("nocaute simultâneo é exposto ao chamador sem decidir vencedor", () => {
 
 test("Gustavo não rerrola ataque nem condição de Sobrecarga", () => {
   const rodada = jogo(ficha("Estalume", 2), ficha("Owlzin", 3), [3, 1, 2], {
-    rerrolar: ({ jogador }) => jogador === 0,
+    catalogo: catalogoComCurarI(), rerrolar: ({ jogador }) => jogador === 0,
   });
   turno(rodada, 36, 1);
   const antes = energias(rodada)[0];
@@ -682,7 +689,7 @@ test("Gustavo não rerrola ataque nem condição de Sobrecarga", () => {
 
 test("Gustavo pode rerrolar o dado de uma habilidade de cura", () => {
   const rodada = jogo(ficha("Owlzin", 2, 3), ficha("Krakon", 0, 1), [4, 1, 6], {
-    rerrolar: ({ jogador, motivo }) => jogador === 0 && motivo === "Curar I",
+    catalogo: catalogoComCurarI(), rerrolar: ({ jogador, motivo }) => jogador === 0 && motivo === "Curar I",
   });
   turno(rodada, 3, 1);
   const antes = energias(rodada)[0];
@@ -690,4 +697,124 @@ test("Gustavo pode rerrolar o dado de uma habilidade de cura", () => {
   assert.equal(energias(rodada)[0], antes + 3);
   assert.equal(eventos.filter(e => e.tipo === "rolagem" && e.repetida).length, 1);
   rodada.conferirDados();
+});
+
+test("Cipó Revigorante e Mergulho Restaurador curam apenas ao atingir o limiar", () => {
+  for (const [nome, carta, limiar] of [["Flouly", 60, 3], ["Owlzin", 63, 2]]) {
+    for (const acertou of [false, true]) {
+      const monstros = new Map(catalogo.monstros);
+      const original = monstros.get(id(nome));
+      const rival = monstros.get(id("Krakon"));
+      monstros.set(original.id, { ...original, ofensiva: 3 });
+      monstros.set(rival.id, { ...rival, defesa: 4, ofensiva: 7 });
+      const rodada = jogo(ficha(nome, 2, 1), ficha("Krakon", 0, 1), [6, acertou ? limiar + 1 : 1, 1], { catalogo: { ...catalogo, monstros } });
+      turno(rodada, 3, 1);
+      const antes = energias(rodada)[0];
+      const eventos = turno(rodada, carta, 4);
+      assert.equal(energias(rodada)[0], antes + (acertou ? 2 : 0), nome);
+      assert.equal(eventos.some(e => e.tipo === "cura" && e.jogador === 0), acertou);
+      rodada.conferirDados();
+    }
+  }
+});
+
+test("Marola Cintilante e Eco Luminoso aplicam os bônus conforme a carta rival", () => {
+  for (const [nome, carta, treinador, escolha, bonus] of [["Borbulim", 61, 8, 59, 4], ["Borbulim", 61, 1, 4, 1], ["Ecolume", 62, 1, 3, 3], ["Ecolume", 62, 1, 4, 0]]) {
+    const atacante = ficha(nome, 1, 1), defensor = ficha("Krakon", 0, treinador);
+    const dados = escolha === 4 ? [2, 1] : [2];
+    const rodada = jogo(atacante, defensor, dados);
+    const antes = energias(rodada)[1];
+    turno(rodada, carta, escolha);
+    assert.equal(energias(rodada)[1], antes - danoSemEfeitos(catalogo.monstros.get(atacante.monstroId), catalogo.monstros.get(defensor.monstroId), 2, 0, bonus));
+    rodada.conferirDados();
+  }
+});
+
+test("Seiva Clara recupera 3 e Flor Revigorante recupera 5", () => {
+  for (const [nome, pontos, carta, cura] of [["Borbulim", 2, 26, 3], ["Flouly", 4, 41, 5]]) {
+    const rodada = jogo(ficha(nome, pontos, 1), ficha("Krakon", 0, 1), [6]);
+    turno(rodada, 3, 1);
+    const antes = energias(rodada)[0];
+    const eventos = turno(rodada, carta, 2);
+    assert.equal(energias(rodada)[0], antes + cura);
+    assert.equal(eventos.find(e => e.tipo === "cura").valor, cura);
+    rodada.conferirDados();
+  }
+});
+
+test("Cipó Revigorante ganha um de dano em trocas de ataques", () => {
+  for (const [escolha, bonus] of [[1, 1], [4, 0]]) {
+    const atacante = ficha("Flouly", 2, 1), defensor = ficha("Krakon", 0, 1);
+    const rodada = jogo(atacante, defensor, [4, 2]);
+    const antes = energias(rodada)[1];
+    turno(rodada, 60, escolha);
+    assert.equal(energias(rodada)[1], antes - danoSemEfeitos(catalogo.monstros.get(atacante.monstroId), catalogo.monstros.get(defensor.monstroId), 4, 0, bonus));
+    rodada.conferirDados();
+  }
+});
+
+test("Mergulho Restaurador não cura quando é bloqueado integralmente", () => {
+  const rodada = jogo(ficha("Owlzin", 2, 1), ficha("Krakon", 0, 1), [6]);
+  turno(rodada, 3, 1);
+  const antes = energias(rodada)[0];
+  const eventos = turno(rodada, 63, 2);
+  assert.equal(energias(rodada)[0], antes);
+  assert.ok(!eventos.some(e => e.tipo === "cura" && e.jogador === 0));
+  rodada.conferirDados();
+});
+
+test("Preso não consome nem impede a cura do item Salva Vidas", () => {
+  const rodada = jogo(ficha("Lamatim", 1, 1), { ...ficha("Owlzin", 0, 1), itens: [3] }, [3]);
+  turno(rodada, 38, 3);
+  assert.ok(rodada.observar(1).jogadores[1].condicoes.includes(7));
+  const antes = energias(rodada)[1];
+  rodada.iniciarTurno();
+  rodada.escolherCarta(0, 1);
+  const eventos = rodada.escolherItem(1, 3);
+  assert.equal(energias(rodada)[1], antes + 4);
+  assert.ok(rodada.observar(1).jogadores[1].condicoes.includes(7));
+  assert.ok(eventos.some(e => e.tipo === "item-consumido" && e.itemId === 3));
+  turno(rodada, 3, 2);
+  assert.ok(!rodada.observar(1).jogadores[1].condicoes.includes(7));
+  rodada.conferirDados();
+});
+
+test("Esporos não afeta a cura de Super Cura nem consome a condição", () => {
+  const rodada = jogo(ficha("Vinhabril", 1, 1), { ...ficha("Owlzin", 0, 1), itens: [2] }, [3]);
+  turno(rodada, 35, 3);
+  assert.ok(rodada.observar(1).jogadores[1].condicoes.includes(4));
+  rodada.iniciarTurno();
+  rodada.escolherCarta(0, 2);
+  const eventos = rodada.escolherItem(1, 2);
+  assert.equal(energias(rodada)[1], 30);
+  assert.ok(rodada.observar(1).jogadores[1].condicoes.includes(4));
+  assert.ok(!eventos.some(e => e.tipo === "rolagem" && e.motivo === "Esporos"));
+  rodada.conferirDados();
+});
+
+test("Esporos distingue a cura do item da cura da passiva Facho na Névoa", () => {
+  const rodada = jogo(ficha("Vinhabril", 1, 1), { ...ficha("Lanterno", 0, 1), itens: [3] }, [6, 3]);
+  turno(rodada, 35, 3);
+  const antes = energias(rodada)[1];
+  rodada.iniciarTurno();
+  rodada.escolherCarta(0, 1);
+  const eventos = rodada.escolherItem(1, 3);
+  assert.equal(energias(rodada)[1], antes + 4);
+  assert.ok(eventos.some(e => e.tipo === "rolagem" && e.motivo === "Esporos"));
+  assert.ok(!rodada.observar(1).jogadores[1].condicoes.includes(4));
+  rodada.conferirDados();
+});
+
+test("Marola e Marola Cintilante não tratam Super Cura como habilidade", () => {
+  for (const [nome, carta, bonus] of [["Jaturru", 30, 0], ["Borbulim", 61, 1]]) {
+    const atacante = ficha(nome, 1, 1), defensor = { ...ficha("Owlzin", 0, 1), itens: [2] };
+    const rodada = jogo(atacante, defensor, [3, 3]);
+    turno(rodada, 1, 3);
+    rodada.iniciarTurno();
+    rodada.escolherCarta(0, carta);
+    const eventos = rodada.escolherItem(1, 2);
+    const dano = danoSemEfeitos(catalogo.monstros.get(atacante.monstroId), catalogo.monstros.get(defensor.monstroId), 3, 0, bonus);
+    assert.ok(eventos.some(e => e.tipo === "dano" && e.jogador === 1 && e.valor === dano), nome);
+    rodada.conferirDados();
+  }
 });

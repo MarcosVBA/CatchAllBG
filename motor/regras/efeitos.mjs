@@ -35,10 +35,10 @@ export function perderEnergia(jogador, valor, contexto, origem) {
   contexto.emitir("dano", { jogador: jogador.id, valor, origem });
 }
 
-function recuperar(jogador, valor, contexto) {
+function recuperar(jogador, valor, contexto, podeAtivarEsporos = true) {
   valor = Math.min(valor, jogador.monstro.energia - jogador.energia);
   if (valor <= 0) return 0;
-  if (consumirCondicao(jogador, 4, contexto) && contexto.rolar(jogador, "Esporos") <= 3) {
+  if (podeAtivarEsporos && consumirCondicao(jogador, 4, contexto) && contexto.rolar(jogador, "Esporos") <= 3) {
     valor = Math.max(0, valor - 3);
     ativar(jogador, "Esporos", contexto);
   }
@@ -86,10 +86,12 @@ function bonusDaCarta(p, q, skill, rival, ambosAtacam, contexto) {
     case 21: return Number(q.energia > p.energia);
     case 23: return q.monstro.tipos.some(tipo => tipo === "Inseto" || tipo === "Grama") ? 2 : 0;
     case 25: return q.energia * 2 <= q.monstro.energia ? 3 : 0;
-    case 27: return Number(ambosAtacam);
+    case 27: case 60: return Number(ambosAtacam);
     case 29: return q.monstro.defesa > p.monstro.defesa ? 2 : 0;
-    case 30: return CURAS.has(rival.efeito) ? 4 : 0;
+    case 30: return rival.carta !== null && CURAS.has(rival.efeito) ? 4 : 0;
     case 31: return BASE.has(rival.carta) ? 2 : 0;
+    case 61: return rival.carta !== null && CURAS.has(rival.efeito) ? 4 : 1;
+    case 62: return BASE.has(rival.carta) ? 3 : 0;
     case 32: return q.monstro.tipos.some(tipo => tipo === "Água" || tipo === "Voador") ? 2 : 0;
     case 34: return -1;
     case 40: return p.energia * 2 <= p.monstro.energia ? 3 : 0;
@@ -194,7 +196,7 @@ function consumirItem(jogador, id, contexto) {
 
 function efeitoDeBloqueio(p, q, skill, rival, contexto, pendentes) {
   if (skill === SALVA_VIDAS) consumirItem(p, 3, contexto);
-  if (consumirCondicao(p, 7, contexto)) {
+  if (skill !== SALVA_VIDAS && consumirCondicao(p, 7, contexto)) {
     if (skill !== 2) ativar(p, "Preso", contexto);
     return { dano: 0, cura: 0 };
   }
@@ -206,7 +208,7 @@ function efeitoDeBloqueio(p, q, skill, rival, contexto, pendentes) {
   if (skill === 20 && contexto.habilidades.get(rival)?.classe === "monstro") pendentes.push([q, 6]);
   if (skill === 33) {
     pendentes.push([q, 2]);
-    return { dano: 2, cura: 0 };
+    return { dano: 3, cura: 0 };
   }
   if (skill === 36) pendentes.push([p, 5]);
   if (skill === 48) p.foco += 2;
@@ -226,9 +228,10 @@ function habilidadeDeCura(p, q, skill, contexto) {
     consumirItem(p, 2, contexto);
     return p.monstro.energia - p.energia;
   }
-  if (skill === 9 || skill === 26) return 2;
+  if (skill === 9) return 2;
+  if (skill === 26) return 3;
   if (skill === 18) return p.energia < q.energia ? 3 : 2;
-  if (skill === 41) return 3;
+  if (skill === 41) return 5;
   if (skill === 59) return 4;
   if (skill !== 14 && skill !== 39) return 0;
   const motivo = skill === 14 ? "Curar I" : "Maré Restauradora";
@@ -258,6 +261,7 @@ export function resolverAcoes(jogadores, escolhas, contexto, ataquesAnteriores) 
   const danos = golpes.map(golpe => golpe.total);
   const diretos = golpes.map(golpe => golpe.sobrecarga);
   const curas = [0, 0];
+  const curasDeItens = [0, 0];
   const pendentes = [];
   for (const [i, p] of jogadores.entries()) {
     if (i === cancelado) continue;
@@ -269,10 +273,10 @@ export function resolverAcoes(jogadores, escolhas, contexto, ataquesAnteriores) 
       contexto.emitir("bloqueio", { jogador: i, carta: escolhas[i].carta, itemId: escolhas[i].itemId, parcial: BLOQUEIOS_PARCIAIS.has(skill) });
       const extra = efeitoDeBloqueio(p, q, skill, rival, contexto, pendentes);
       danos[i] += extra.dano;
-      curas[i] += extra.cura;
+      (escolhas[i].itemId ? curasDeItens : curas)[i] += extra.cura;
     }
     if (skill === 9) removerCondicaoNegativaMaisAntiga(p, contexto);
-    curas[i] += habilidadeDeCura(p, q, skill, contexto);
+    (escolhas[i].itemId ? curasDeItens : curas)[i] += habilidadeDeCura(p, q, skill, contexto);
     if (skill === 4) {
       let dado = contexto.rolar(p, "Foco");
       if (p.treinador.sorte && contexto.querRerrolar(p, "Foco", dado)) dado = contexto.rolar(p, "Foco", true);
@@ -281,7 +285,7 @@ export function resolverAcoes(jogadores, escolhas, contexto, ataquesAnteriores) 
     if (skill === 57) p.foco += 4;
     if (skill === 13) pendentes.push([q, 1]);
     const golpe = golpes[i].calculado;
-    if (skill === 7 && golpe >= 3) curas[i] += 2;
+    if ((skill === 7 || skill === 60) && golpe >= 3 || skill === 63 && golpe >= 2) curas[i] += 2;
     if (skill === 19 && BLOQUEIOS.has(rival)) pendentes.push([q, 7]);
     if (skill === 20 && !bloqueou && contexto.habilidades.get(rival)?.classe === "monstro") pendentes.push([q, 6]);
     if (skill === 48 && !bloqueou) p.foco += 2;
@@ -345,7 +349,7 @@ export function resolverAcoes(jogadores, escolhas, contexto, ataquesAnteriores) 
       curas[i] += 2;
       ativar(p, "Jardim de Retorno", contexto);
     }
-    recuperados[i] = recuperar(p, curas[i], contexto);
+    recuperados[i] = recuperar(p, curasDeItens[i], contexto, false) + recuperar(p, curas[i], contexto);
     perderEnergia(p, danos[1 - i], contexto, "acao");
     perderEnergia(p, diretos[i], contexto, "dano direto");
     if (p.energia > 0 && p.energia * 2 <= p.monstro.energia && danos[1 - i] > 0 && ATAQUES.has(efeitos[1 - i])
