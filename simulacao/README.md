@@ -25,4 +25,10 @@ A saída é JSON. `--comparar` executa o mesmo cenário e a mesma configuração
 
 As simulações usam energia cheia, refazem a mão conforme a forma em combate e omitem itens. Por padrão, o cálculo usa piso zero, Ataque Rápido letal cancela a ação rival e o desempate no cenário de duração é por sorteio. A configuração defensiva e as decisões de rerrolagem da CLI pertencem à estratégia da simulação. O [protótipo jogável](../prototipo/README.md) usa o mesmo motor e permite escolher os combatentes a cada rodada, inclusive após empate.
 
+## Dashboard de balanceamento
+
+Execute `node work/catchall-estrategia/atualizar.mjs` para atualizar o [dashboard](../work/catchall-estrategia/dashboard-balanceamento.html) e a [visualização de variação](../work/catchall-estrategia/variacao-dos-combates.html) com o motor e os CSVs atuais. O processo pode demorar: ele simula todos os pares de formas com treinadores e melhorias variados, repete cenários para medir sensibilidade à sorte e simula 900 partidas completas com as IAs do protótipo.
+
+As rodadas por pares não usam itens e têm limite de 80 turnos; uma rodada sem resultado até esse limite conta como empate. As partidas completas seguem o fluxo do protótipo, inclusive itens e seu limite de 120 turnos por rodada. A porcentagem acima de 24 turnos é calculada sobre as rodadas por pares, não sobre duelos ou partidas inteiras. O percentual de bloqueios parciais refere-se aos bloqueios efetivamente registrados nessas rodadas, não à disponibilidade de cartas no catálogo. A data de geração aparece no dashboard; as sementes e os tamanhos das amostras estão no próprio painel.
+
 Consulte [a referência em Python](../arquivo/balanceamento/referencia-python.md) para ver a comparação da migração.

@@ -66,8 +66,8 @@ function jogarRodada(combatentes, seed, opcoes = {}) {
     if (!detalhar) return;
     for (const e of eventos) {
       if (e.tipo === "dano") {
-        const efetivo = Math.min(energia[e.jogador], e.valor);
-        energia[e.jogador] -= efetivo;
+        const efetivo = Math.min(Math.max(0, energia[e.jogador]), e.valor);
+        energia[e.jogador] -= e.valor;
         dano[1 - e.jogador] += efetivo;
         if (efetivo) turnosComDano.add(e.turno);
       }
@@ -76,7 +76,10 @@ function jogarRodada(combatentes, seed, opcoes = {}) {
         detalhar.cura += e.valor;
       }
       if (e.tipo === "cartas-reveladas") detalhar.ataquesRevelados += e.escolhas.filter(c => ATAQUES.has(c.efeito)).length;
-      if (e.tipo === "bloqueio") detalhar.bloqueios++;
+      if (e.tipo === "bloqueio") {
+        detalhar.bloqueios++;
+        if (e.parcial) detalhar.bloqueiosParciais++;
+      }
       if (e.tipo === "condicao-aplicada") detalhar.condicoes[e.condicao] = (detalhar.condicoes[e.condicao] ?? 0) + 1;
     }
   }
@@ -114,7 +117,7 @@ function simularPares() {
   const dadosTreinadores = treinadores.map(({ id, nome }) => ({ id, nome, ...resultado(),
     rivais: Object.fromEntries(treinadores.filter(t => t.id !== id).map(t => [t.id, resultado()])) }));
   const porTreinador = new Map(dadosTreinadores.map(t => [t.id, t]));
-  const dano = { dano: 0, cura: 0, ataquesRevelados: 0, bloqueios: 0, condicoes: {} };
+  const dano = { dano: 0, cura: 0, ataquesRevelados: 0, bloqueios: 0, bloqueiosParciais: 0, condicoes: {} };
   const impactos = { todos: impacto(), ataque: impacto(), efeitos: impacto(), escolhas: impacto() };
   const variacao = { todos: impacto(), ataque: impacto(), efeitos: impacto(), escolhas: impacto(), estreito: impacto() };
   const contraUniforme = resultado();
@@ -175,7 +178,8 @@ function simularPares() {
     matriz.push([i, j, par.v, par.n - par.v - par.e, par.e, +media(tPar).toFixed(2), +media(dPar).toFixed(2)]);
   }
   return { pares: { semente, amostras, matriz, formas: dadosFormas, treinadores: dadosTreinadores, dano, turnosComDano,
-    limites, simultaneos, turnos: estatisticas(turnos), danoRodadas: estatisticas(danos), impacto: impactos, contraUniforme },
+    limites, simultaneos, acimaDe24Turnos: turnos.filter(t => t > 24).length,
+    turnos: estatisticas(turnos), danoRodadas: estatisticas(danos), impacto: impactos, contraUniforme },
     fraqueza: fraquezas, variacao };
 }
 
@@ -236,7 +240,7 @@ const partidas = simularPartidas();
 const condicoes = Object.fromEntries([...catalogo.condicoes.values()].map(c => [c.id, c.nome]));
 const painel = new URL("./dashboard-balanceamento.html", import.meta.url);
 const figura = new URL("./variacao-dos-combates.html", import.meta.url);
-const dados = JSON.stringify({ pares, partidas, fraqueza, condicoes }).replaceAll("<", "\\u003c");
+const dados = JSON.stringify({ geradoEm: new Date().toISOString(), pares, partidas, fraqueza, condicoes }).replaceAll("<", "\\u003c");
 const html = await readFile(painel, "utf8");
 const atualizado = html.replace(/(<script type="application\/json" id="ca-dados">)[^\n]*(<\/script>)/, (_, abre, fecha) => abre + dados + fecha);
 if (atualizado === html && !html.includes(dados)) throw new Error("Dados do painel não encontrados.");

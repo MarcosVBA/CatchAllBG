@@ -47,15 +47,19 @@
 	- No primeiro ciclo, vence o duelo quem ganhar uma rodada. Nos ciclos seguintes, vence quem ganhar duas.
 4. O jogador vitorioso do duelo ganha um ponto de habilidade e um troféu (usado para contar vitória)
 
-**Atacar**: Ao atacar, o jogador verificar o resultado do ataque do monstro atacante menos a defesa do monstro que foi atacado, esse valor é somado a uma rolagem de 1d6 para definir o dano
+**Atacar**: Para calcular o dano de um ataque, some a ofensiva do atacante ao resultado de 1d6, subtraia a defesa do alvo e aplique os modificadores. O dano calculado tem mínimo de zero.
 
 **Ataques rápidos**: Resolva um ataque rápido antes de uma ação que não seja ataque rápido. Se ele nocautear o rival, a ação rival é cancelada. Se ambos usarem ataques rápidos, resolva-os simultaneamente. Bloqueios ainda bloqueiam ataques rápidos.
+
+**Bloqueio integral**: Bloqueia todo o dano calculado do ataque, mas efeitos diretos previstos nas cartas são resolvidos separadamente.
 
 **Bloqueio parcial**: Calcule o dano do ataque com seus modificadores e bloqueie metade desse valor, arredondando a parcela bloqueada para baixo. Um ataque de 5 causa 3 de dano. Efeitos que dependem de bloquear continuam funcionando. Dano direto causado por efeitos ao bloquear é aplicado separadamente.
 
 **Foco e bloqueio**: O bônus de Foco é consumido no próximo ataque do monstro, mesmo que o adversário bloqueie esse ataque. Passivas podem abrir exceções. Desencaixe, de Pinhisco, preserva o Foco acumulado no primeiro ataque que o rival bloquear em cada rodada.
 
 **Evolução**: Ao evoluir, o monstro mantém suas habilidades inatas e as habilidades desbloqueadas nas formas anteriores, além das habilidades da nova forma. A evolução ocupa sua posição na sequência de melhorias.
+
+O protótipo limita cada rodada a 120 turnos. Nesse limite, vence quem tiver a maior proporção de energia restante; se as proporções forem iguais, o placar não muda e os jogadores escolhem novamente. Consulte as demais [decisões do protótipo](../prototipo/README.md).
 
 #### Andamento do jogo
 
@@ -91,44 +95,55 @@ Se um monstro tiver fraqueza ao tipo de seu rival, recebe +1 de dano no cálculo
 
 ### Exemplo de cartas
 
+Os exemplos abaixo refletem o catálogo atual. Consulte os [CSVs de cartas](../cartas/) para a lista completa de monstros, habilidades, treinadores, condições e itens.
+
 #### Carta de monstro
 
-| id_monstro | nome_monstro | energia | ofensiva | defesa | passiva_monstro | melhorias_monstro | verso_monstro | descricao_monstro | tipo |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | krakon | 8 | 4 | 2 | - | Guspe de Chama (id=11) -> Pele Quente (id=12) -> Evolução | 2 | Dragão pequeno, vermelho e com escamas de pedra, possui pequenas asas | Fogo |
-| 2 | krakuron | 10 | 5 | 2 | - | Incinerar (id=13) | 1 | Dragão maior, vermelho e com escamades de pedra, possui asas grandes e espinhos pelo corpo | Fogo |
-| 3 | owlzin | 26 | 3 | 3 | - | Bolha de água (id=15) -> Curar I (id=14) -> Evolução | 4 | Como um ornitorrinco amigavél, branco com manchas em formato de bolha azul | Água |
-| 4 | owlsel | 10 | 3 | 3 | Re-role uma vez o dado de cura e fique com o resultado | - | 3 | A mistura de um ornitorrinco e um urso, branco com manchas azuis, forte | Água |
-| 5 | flouly | 24 | 3 | 4 | - | Seiva Clara (id=26) -> Golpe de Cipó (id=27) -> Evolução | 6 | Ouriço felpudo com flores brancas que se fecham quando ele se encolhe. | Grama |
+| ID | Nome | Energia | Ofensiva | Defesa | Passiva | Habilidades inatas | Melhorias | Tipo | Fraquezas | Descrição |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | krakon | 26 | 6 | 2 | — | — | habilidade:11 / habilidade:12 / evolucao:2 | Fogo | Água | Dragão vermelho de escamas rochosas e pequenas asas. Brasas escapam de sua boca quando se prepara para cuspir fogo. |
+| 2 | krakuron | 30 | 7 | 2 | — | — | habilidade:13 | Fogo | Água | A forma adulta de Krakon tem asas largas e espinhos de pedra incandescente. Seu sopro espalha fogo pelas fendas da montanha. |
+| 3 | owlzin | 30 | 4 | 3 | — | — | habilidade:15 / habilidade:14 / evolucao:4 | Água | Raio | Pequeno ornitorrinco branco com manchas azuis. Sopra bolhas protetoras e mergulha em águas frescas para recuperar as forças. |
+| 4 | owlsel | 35 | 4 | 4 | Re-role uma vez o dado de cura e fique com o resultado | 39 | — | Água | Raio | Criatura robusta de pelo branco e manchas azuis, entre um urso e um ornitorrinco. Suas bolhas e águas cintilantes acalmam ferimentos. |
+| 5 | flouly | 25 | 4 | 4 | — | — | habilidade:26 / habilidade:27 / evolucao:6 | Grama | Fogo | Ouriço felpudo com flores brancas no dorso. De seus espinhos brotam cipós e gotas de seiva luminosa. |
 
 #### Carta de Treinador
 
-| id_treinador | nome_treinador | passiva_treinador | melhorias_treinador | descricao_treinador |
+| ID | Nome | Passiva | Habilidades iniciais | Descrição |
 | --- | --- | --- | --- | --- |
-| 1 | Marcos | - | Foco (grátis, id=3) | Garoto com oculos, timido. Sempre calculando como vencer seus desafios. Cabelo no topo loiro e base escura, camisa florida |
-| 2 | Dri | - | Ataque Rápido (grátis, id=4) | Garota linda, com cabelos vermelho, agitada e energética. Vestido preto, brincos chamativos e dourados |
-| 3 | Gustavo | Sorte: Uma vez por tentativa de captura ou dado de habilidade, rerrole o dado e fique com o novo resultado. Não se aplica a dados de ataque, condições ou passivas | -- | Garoto moreno, com cabelo crespo e magro. Bastante na dele, porem, amigavél. Regata e roupa de estilo esportivo |
+| 1 | Marcos | — | 4 | Garoto com oculos, timido. Sempre calculando como vencer seus desafios. Cabelo no topo loiro e base escura, camisa florida |
+| 2 | Dri | — | 5 | Garota linda, com cabelos vermelho, agitada e energética. Vestido preto, brincos chamativos e dourados |
+| 3 | Gustavo | Sorte: Uma vez por tentativa de captura ou dado de habilidade, rerrole o dado e fique com o novo resultado. Não se aplica a dados de ataque, condições ou passivas | — | Garoto moreno, com cabelo crespo e magro. Bastante na dele, porem, amigavél. Regata e roupa de estilo esportivo |
+
 
 #### Cartas de habilidade
 
-| id_habilidade | nome_habilidade | efeito | tag |
-| --- | --- | --- |
+| ID | Nome | Efeito | Tipo |
+| --- | --- | --- | --- |
 | 1 | Atacar | Realize um ataque | base |
 | 2 | Defesa | Bloquei o ataque do oponente | base |
-| 3 | Repita a ultima ação, apenas se ela for uma habilidade base ou de treinador | base |
+| 3 | Repetir | Repita a ultima ação, apenas se ela for uma habilidade base ou de treinador | base |
 | 4 | Foco | Role 1d6 e acrescente o resultado integral ao cálculo de dano do próximo ataque. | treinador |
-| 5 | Ataque Rápido | Realize um ataque, porem, considere o dano aplicado antes de executar a ação do oponente | treinador | 
-| 11 | Guspe de Chama | Realize um ataque. Se o oponente bloquear, cause 2 de dano direto. | monstro |
-| 12 | Pele Quente | Realize um ataque, se o oponente também te atacou, ele sofre 2 de dano direto | monstro |
+| 5 | Ataque Rápido | Realize um ataque, porem, considere o dano aplicado antes de executar a ação do oponente | treinador |
+| 11 | Guspe de Chama | Realize um ataque, se o oponente bloquear, cause 2 de dano direto | monstro |
+| 12 | Pele Quente | Realize um ataque. Se o rival também atacar, ele sofre 1 de dano direto. | monstro |
 | 13 | Incinerar | Cause "Incendiar" no oponente | monstro |
-| 14 | Curar I | Role 1d6. Recupere 2 de energia com 1–4 ou 3 de energia com 5–6. | monstro |
+| 14 | Curar I | Role 1d6. Recupere 2 de energia com 1–4 ou 3 de energia com 5–6. Respeite sua energia máxima. | monstro |
 | 15 | Bolha de água | Bloqueie metade do dano do ataque rival, arredondando a parcela bloqueada para baixo. Se bloquear um ataque, cause 4 de dano direto ao rival. | monstro |
+
 
 #### Condições
 
-| nome_condicao | descricao_condicao|
+| Condição | Descrição |
 | --- | --- |
-| Incendiar | No inicio do turno de combate, o jogador joga 1d6. Resultados diferentes de 6 geram 1 de dano direto, se o resultado for 6, remova a condição. |
+| Incendiar | No início de cada um dos próximos 3 turnos da rodada, role 1d6. Com 6, remova a condição sem causar dano. Com 1 a 5, sofra 1 de dano direto. Remova a condição depois do terceiro teste ou no fim da rodada, o que ocorrer primeiro. Aplicar Incendiar a um monstro já incendiado não acumula dano nem reinicia a contagem. |
+| Ofuscado | Quando seu próximo ataque causar dano positivo pelo cálculo do ataque, antes dos ajustes das condições, role 1d6. Com 1–3, reduza em 4 o dano desse ataque, até o mínimo de zero. Com 4–6, mantenha o dano. A ficha dura até o fim do segundo turno seguinte à aplicação ou até o fim da rodada, o que ocorrer primeiro. Consuma a ficha após resolver o gatilho, qualquer que seja o resultado. Reaplicar enquanto ativa não acumula nem renova a duração. |
+| Fissurado | Quando sofrer o próximo ataque com dano positivo pelo cálculo do ataque, antes dos ajustes das condições, role 1d6. Com 1–3, receba 4 de dano adicional nesse ataque. Com 4–6, mantenha o dano. A ficha dura até o fim do segundo turno seguinte à aplicação ou até o fim da rodada, o que ocorrer primeiro. Consuma a ficha após resolver o gatilho, qualquer que seja o resultado. Reaplicar enquanto ativa não acumula nem renova a duração. |
+| Esporos | Quando uma habilidade ou passiva estiver prestes a recuperar sua energia, role 1d6. Com 1–3, reduza aquela cura em até 3, até o mínimo de zero. Com 4–6, aplique a cura integral. O gatilho exige que a cura pudesse recuperar pelo menos 1 de energia. A ficha dura até o fim do segundo turno seguinte à aplicação ou até o fim da rodada, o que ocorrer primeiro. Consuma a ficha após resolver o gatilho, qualquer que seja o resultado. Reaplicar enquanto ativa não acumula nem renova a duração. |
+| Sobrecarga | Quando seu próximo ataque causar dano positivo pelo cálculo do ataque, antes dos ajustes das condições, role 1d6. Com 1, sofra 2 de dano direto depois de resolver as ações. Com 2–4, mantenha o dano. Com 5–6, cause 5 de dano adicional nesse ataque. A ficha dura até o fim do segundo turno seguinte à aplicação ou até o fim da rodada, o que ocorrer primeiro. Consuma a ficha após resolver o gatilho, qualquer que seja o resultado. Reaplicar enquanto ativa não acumula nem renova a duração. |
+| Rastreado | No próximo turno, escolha e revele sua carta antes de o rival escolher a dele. Se ambos estiverem Rastreados, escolham e revelem simultaneamente. Remova a ficha depois das escolhas. Remova a ficha se a rodada acabar antes. Reaplicar enquanto ativa não acumula nem adia o efeito. |
+| Preso | Na próxima vez que uma das suas cartas bloquear um ataque, resolva o bloqueio e suprima os demais efeitos daquela carta. Passivas continuam funcionando. A ficha dura até o fim do segundo turno seguinte à aplicação ou até o fim da rodada, o que ocorrer primeiro. Consuma a ficha após resolver o gatilho, qualquer que seja o resultado. Reaplicar enquanto ativa não acumula nem renova a duração. |
+
 
 #### Item
 
