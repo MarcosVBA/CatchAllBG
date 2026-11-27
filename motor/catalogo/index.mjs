@@ -48,11 +48,11 @@ function indexar(linhas, converter) {
 
 export function lerCatalogo(textos) {
   const condicoes = indexar(tabelaCsv(textos.condicoes), linha => ({
-    id: inteiro(linha.id_condicao, "id_condicao"), nome: linha.nome_condicao, descricao: linha.descricao_condicao,
+    id: inteiro(linha.id_condicao, "id_condicao"), nome: linha.nome_condicao, descricao: linha.descricao_condicao, imagem: linha.imagem ?? "",
   }));
   const habilidades = indexar(tabelaCsv(textos.habilidades), linha => ({
     id: inteiro(linha.id_habilidade, "id_habilidade"), nome: linha.nome_habilidade, efeito: linha.efeito,
-    classe: linha.tag, condicao: linha.id_condicao ? inteiro(linha.id_condicao, "id_condicao") : null,
+    classe: linha.tag, condicao: linha.id_condicao ? inteiro(linha.id_condicao, "id_condicao") : null, imagem: linha.imagem ?? "",
   }));
   const treinadores = indexar(tabelaCsv(textos.treinadores), linha => {
     if (linha.passiva_treinador && !linha.passiva_treinador.startsWith("Sorte:")) {
@@ -60,14 +60,14 @@ export function lerCatalogo(textos) {
     }
     return {
       id: inteiro(linha.id_treinador, "id_treinador"), nome: linha.nome_treinador, cartas: ids(linha.habilidades_iniciais),
-      sorte: Boolean(linha.passiva_treinador), descricao: linha.descricao_treinador,
+      sorte: Boolean(linha.passiva_treinador), descricao: linha.descricao_treinador, imagem: linha.imagem ?? "",
     };
   });
   const monstros = indexar(tabelaCsv(textos.monstros), linha => ({
     id: inteiro(linha.id_monstro, "id_monstro"), nome: linha.nome_monstro,
     energia: inteiro(linha.energia, "energia"), ofensiva: inteiro(linha.ofensiva, "ofensiva", 0),
     defesa: inteiro(linha.defesa, "defesa", 0), passiva: passiva(linha.passiva_monstro),
-    descricaoPassiva: linha.passiva_monstro, descricao: linha.descricao_monstro,
+    descricaoPassiva: linha.passiva_monstro, descricao: linha.descricao_monstro, imagem: linha.imagem ?? "",
     melhorias: lista(linha.melhorias_monstro).map(texto => {
       const partes = /^(habilidade|evolucao):(\d+)$/.exec(texto);
       if (!partes) throw new Error(`Melhoria desconhecida: ${texto}.`);
@@ -79,7 +79,7 @@ export function lerCatalogo(textos) {
   }));
   const itens = indexar(tabelaCsv(textos.itens), linha => ({
     id: inteiro(linha.id_item, "id_item"), nome: linha.nome_item, quantidade: inteiro(linha.quantidade, "quantidade"),
-    unico: linha.uso_unico === "sim", momento: linha.momento_uso, efeito: linha.efeito,
+    unico: linha.uso_unico === "sim", momento: linha.momento_uso, efeito: linha.efeito, imagem: linha.imagem ?? "",
   }));
 
   function exigirHabilidade(id, classe) {

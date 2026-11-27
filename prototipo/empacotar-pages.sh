@@ -14,6 +14,14 @@ cp -- motor/regras/{cartas,efeitos,rodada}.mjs "$destino/motor/regras/"
 cp -- simulacao/{sorteio,estrategia}.mjs "$destino/simulacao/"
 cp -- cartas/{condicoes,habilidades,itens,monstros,treinadores}.csv "$destino/cartas/"
 
+for categoria in monstros habilidades condicoes treinadores itens; do
+  for imagem in "imagens/$categoria/"*.png; do
+    [[ -f "$imagem" && ${imagem##*/} =~ ^[0-9]+\.png$ ]] || continue
+    mkdir -p -- "$destino/imagens/$categoria"
+    cp -- "$imagem" "$destino/imagens/$categoria/"
+  done
+done
+
 cat > "$destino/index.html" <<'EOF'
 <!doctype html>
 <html lang="pt-BR">

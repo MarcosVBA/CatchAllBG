@@ -12,11 +12,15 @@ node prototipo/servidor.mjs
 
 Abra [a mesa de jogo](http://127.0.0.1:4178/prototipo/). A semente é opcional. A mesma semente e as mesmas escolhas humanas reproduzem a partida. O servidor aceita outra porta como primeiro argumento.
 
+O jogo mostra automaticamente as artes finais indicadas pela coluna `imagem` dos CSVs, quando os arquivos existem em `imagens/`. Por exemplo, escolha uma candidata do Krakon e copie-a para `imagens/monstros/1.png`. As candidatas numeradas não são exibidas automaticamente. As cartas continuam funcionando sem a imagem. Consulte o [guia de geração](../imagens/README.md).
+
 ## Publicar no GitHub Pages
 
 Na configuração **Settings → Pages** do repositório, selecione **GitHub Actions** como fonte. O [workflow](../.github/workflows/pages.yml) executa os testes e publica o jogo a cada atualização na branch `main`. Também é possível iniciar a publicação em **Actions → Publicar protótipo → Run workflow**.
 
 Para montar o mesmo pacote estático localmente, execute `bash prototipo/empacotar-pages.sh /caminho/para/diretorio-vazio` na raiz do repositório. O site usa caminhos relativos e abre a mesa de jogo pelo `index.html` do pacote.
+
+O pacote inclui apenas artes finais presentes em `imagens/<categoria>/<id>.png`, não as candidatas. As pastas de imagens são ignoradas pelo Git; para que o workflow publicado as receba, é preciso disponibilizar as artes finais ao workflow, por exemplo adicionando-as explicitamente ao repositório.
 
 ## Decisões do protótipo
 

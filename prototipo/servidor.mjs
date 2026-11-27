@@ -11,8 +11,9 @@ const publicos = [
   /^\/motor\/(?:catalogo\/(?:index|csv)|regras\/(?:cartas|efeitos|rodada))\.mjs$/,
   /^\/simulacao\/(?:sorteio|estrategia)\.mjs$/,
   /^\/cartas\/(?:monstros|habilidades|condicoes|treinadores|itens)\.csv$/,
+  /^\/imagens\/(?:monstros|habilidades|condicoes|treinadores|itens)\/\d+\.png$/,
 ];
-const mime = { html: "text/html", css: "text/css", mjs: "text/javascript", csv: "text/csv" };
+const mime = { html: "text/html", css: "text/css", mjs: "text/javascript", csv: "text/csv", png: "image/png" };
 
 createServer(async (pedido, resposta) => {
   try {
@@ -32,7 +33,7 @@ createServer(async (pedido, resposta) => {
     }
     const corpo = await readFile(new URL(pathname.slice(1), raiz));
     const extensao = pathname.split(".").at(-1);
-    resposta.writeHead(200, { "Content-Type": `${mime[extensao]}; charset=utf-8`, "Cache-Control": "no-store",
+    resposta.writeHead(200, { "Content-Type": extensao === "png" ? mime.png : `${mime[extensao]}; charset=utf-8`, "Cache-Control": "no-store",
       "X-Content-Type-Options": "nosniff" }).end(pedido.method === "HEAD" ? undefined : corpo);
   } catch (erro) {
     resposta.writeHead(erro.code === "ENOENT" ? 404 : 500).end("Falha ao carregar o arquivo.");

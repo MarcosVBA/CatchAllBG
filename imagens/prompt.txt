@@ -1,0 +1,12 @@
+Crie uma ilustração original para um jogo de aventura e captura de criaturas fantásticas, no estilo de animação japonesa infantil. Use line art clara e expressiva, cores vibrantes, formas bem definidas e personagens carismáticos. Busque o clima de aventura e amizade de Pokémon e Digimon, criando personagens e visuais próprios.
+
+Mostre uma cena composta com poucos elementos e leitura visual imediata. O assunto principal ocupa a maior parte da imagem e é reconhecível em tamanho pequeno. Use o ambiente, a iluminação e pequenos detalhes para reforçar sua personalidade e a ação, sem competir com o foco principal. Siga a descrição do catálogo para a aparência e a personalidade.
+
+A imagem deve ser vertical, preenchida pela cena de ponta a ponta. Não inclua texto, letras, números, logotipos, molduras, bordas, ícones, estatísticas ou outros componentes de carta ou interface.
+
+Orientação para esta carta: {{orientacao}}
+Categoria: {{categoria}}
+Nome: {{nome}}
+Informações do catálogo:
+{{dados}}
+{{anterior}}

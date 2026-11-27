@@ -4,6 +4,9 @@ import { gerador } from "../../simulacao/sorteio.mjs";
 import { avancarIas } from "../partida/ia.mjs";
 import { criarPartida } from "../partida/partida.mjs";
 import { FASES, descrever, nomeJogada } from "./textos.mjs";
+import { arteDaCarta, revelarArteCarregada } from "./imagens.mjs";
+
+document.addEventListener("load", revelarArteCarregada, true);
 
 const $ = id => document.getElementById(id);
 const html = valor => String(valor ?? "").replace(/[&<>"']/g, c => ({
@@ -128,7 +131,7 @@ function cartaMonstro(opcao, m, equipe) {
   const passos = m.melhorias.map(
     e => e.tipo === "evolucao" ? `Evolui para ${catalogo.monstros.get(e.id).nome}` : catalogo.habilidades.get(e.id).nome,
   );
-  return opcaoDoJogador(opcao, m.nome, `${m.descricao ? `<span class="carta-descricao">${html(m.descricao)}</span>` : ""}${resumoMonstro(m)}${pontos}
+  return opcaoDoJogador(opcao, m.nome, `${arteDaCarta(m)}${m.descricao ? `<span class="carta-descricao">${html(m.descricao)}</span>` : ""}${resumoMonstro(m)}${pontos}
     ${passos.length ? `<span class="carta-texto">Melhorias desta forma · ${html(passos.join(" · "))}</span>` : ""}
     ${m.descricaoPassiva ? `<span class="carta-texto">${html(m.descricaoPassiva)}</span>` : ""}`, "carta-monstro");
 }
@@ -141,7 +144,7 @@ function escolhas(visao) {
       const treinador = catalogo.treinadores.get(valor);
       const efeito = treinador.cartas.map(id => catalogo.habilidades.get(id).efeito).join(" ");
       const beneficio = treinador.sorte ? "Sorte" : treinador.cartas.map(id => catalogo.habilidades.get(id).nome).join(", ");
-      return opcaoDoJogador(opcao, treinador.nome, `<span class="destaque">${html(beneficio)}</span>
+      return opcaoDoJogador(opcao, treinador.nome, `${arteDaCarta(treinador)}<span class="destaque">${html(beneficio)}</span>
         <span class="carta-texto">${html(treinador.sorte ? "Uma rerrolagem por captura ou dado de habilidade; não vale para ataques." : efeito)}</span>`);
     }
     if (tipo === "inicial" || tipo === "captura") return cartaMonstro(opcao, catalogo.monstros.get(valor));
@@ -161,12 +164,12 @@ function escolhas(visao) {
       const anterior = efetiva(valor, visao.duelo.jogadores[visao.duelo.lado].anterior, catalogo.habilidades);
       const efeito = valor !== 3 ? h.efeito : anterior
         ? `Repete ${catalogo.habilidades.get(anterior).nome}.` : "Sem ação válida para repetir neste turno.";
-      return opcaoDoJogador(opcao, h.nome, `<span class="classe">${html(h.classe)}</span><span class="carta-texto">${html(efeito)}</span>
-        ${condicao ? `<span class="carta-condicao"><strong>${html(condicao.nome)}</strong> ${html(condicao.descricao)}</span>` : ""}`, "carta-habilidade");
+      return opcaoDoJogador(opcao, h.nome, `${arteDaCarta(h)}<span class="classe">${html(h.classe)}</span><span class="carta-texto">${html(efeito)}</span>
+        ${condicao ? `<span class="carta-condicao">${arteDaCarta(condicao, "arte-condicao")}<strong>${html(condicao.nome)}</strong> ${html(condicao.descricao)}</span>` : ""}`, "carta-habilidade");
     }
     if (tipo === "item" || tipo === "preparacao") {
       const item = catalogo.itens.get(valor);
-      return opcaoDoJogador(opcao, item.nome, `<span class="classe">Item · uso único</span><span class="carta-texto">${html(item.efeito)}</span>`, "carta-item");
+      return opcaoDoJogador(opcao, item.nome, `${arteDaCarta(item)}<span class="classe">Item · uso único</span><span class="carta-texto">${html(item.efeito)}</span>`, "carta-item");
     }
     if (tipo === "desafio") {
       const rival = visao.participantes[valor];
@@ -204,7 +207,7 @@ function renderEquipe(visao) {
     const disponiveis = prepararMonstro(catalogo, m.monstroId, m.melhorias).cartas;
     return `<li><details><summary><strong>${html(forma.nome)}</strong>
       <span class="classe">${m.melhorias} melhoria(s)</span></summary>
-      <div class="detalhe-monstro">${resumoMonstro(forma)}
+      <div class="detalhe-monstro">${arteDaCarta(forma)}${resumoMonstro(forma)}
         ${forma.descricao ? `<p class="descricao-monstro">${html(forma.descricao)}</p>` : ""}
         ${forma.descricaoPassiva ? `<p>${html(forma.descricaoPassiva)}</p>` : ""}
         ${disponiveis.length ? `<p>Habilidades · ${html(disponiveis.map(id => catalogo.habilidades.get(id).nome).join(", "))}</p>` : ""}
@@ -221,10 +224,10 @@ function combatente(p, e, seuLado) {
   const fraquezas = html(m.fraquezas.join(", "));
   const condicoes = e.condicoes.map(id => {
     const c = catalogo.condicoes.get(id);
-    return `<span class="condicao" title="${html(c.descricao)}">${html(c.nome)}</span>`;
+    return `<span class="condicao" title="${html(c.descricao)}">${arteDaCarta(c, "arte-condicao")} ${html(c.nome)}</span>`;
   }).join("");
   return `<article class="combatente ${seuLado ? "meu-combatente" : "rival-combatente"}">
-    <span class="rotulo">${p.nome}</span><h3>${html(m.nome)}</h3><div class="tipos">${tipos(m)}</div>
+    <span class="rotulo">${p.nome}</span><h3>${html(m.nome)}</h3>${arteDaCarta(m)}<div class="tipos">${tipos(m)}</div>
     <div class="energia-texto"><span>Energia</span> <b>${e.energia} / ${e.energiaMaxima}</b></div>
     <progress max="${e.energiaMaxima}" value="${e.energia}" aria-label="Energia de ${html(m.nome)}"></progress>
     <p class="combatente-meta">Ofensiva ${e.ofensiva} · Defesa ${m.defesa} · Mão ${e.tamanhoMao}</p>

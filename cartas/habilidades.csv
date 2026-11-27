@@ -1,64 +1,64 @@
-id_habilidade,nome_habilidade,efeito,tag,id_condicao
-1,Atacar,Realize um ataque,base,
-2,Defesa,Bloquei o ataque do oponente,base,
-3,Repetir,"Repita a ultima ação, apenas se ela for uma habilidade base ou de treinador",base,
-4,Foco,Role 1d6 e acrescente o resultado integral ao cálculo de dano do próximo ataque.,treinador,
-5,Ataque Rápido,"Realize um ataque, porem, considere o dano aplicado antes de executar a ação do oponente",treinador,
-6,Brasa de Cerco,"Realize um ataque. Se o rival usar Foco, acrescente 5 ao cálculo do dano.",monstro,
-7,Mordida de Seiva,"Realize um ataque. Se causar pelo menos 3 de dano pelo cálculo, recupere 2 de energia.",monstro,
-8,Pena de Aço,"Bloqueie o ataque do rival. Se bloquear uma habilidade de monstro, cause 3 de dano direto ao rival.",monstro,
-9,Muda de Casca,Remova sua condição negativa mais antiga ainda ativa antes da cura e recupere 2 de energia. Sobrecarga não é removida.,monstro,
-10,Salto de Emboscada,"Realize um ataque rápido. Se o rival usar um ataque de monstro, acrescente 3 ao cálculo do dano.",monstro,
-11,Guspe de Chama,"Realize um ataque, se o oponente bloquear, cause 2 de dano direto",monstro,
-12,Pele Quente,"Realize um ataque. Se o rival também atacar, ele sofre 1 de dano direto.",monstro,
-13,Incinerar,"Cause ""Incendiar"" no oponente",monstro,1
-14,Curar I,Role 1d6. Recupere 2 de energia com 1–4 ou 3 de energia com 5–6. Respeite sua energia máxima.,monstro,
-15,Bolha de água,"Bloqueie metade do dano do ataque rival, arredondando a parcela bloqueada para baixo. Se bloquear um ataque, cause 4 de dano direto ao rival.",monstro,
-16,Cinza Sufocante,"Bloqueie metade do dano do ataque rival, arredondando a parcela bloqueada para baixo. Se bloquear um ataque, cause 2 de dano direto e aplique Ofuscado ao rival depois de resolver o turno.",monstro,2
-17,Escudo de Seixos,"Bloqueie o ataque do rival. Se bloquear um ataque que explora sua fraqueza, recupere 3 de energia.",monstro,
-18,Raiz Funda,"Recupere 2 de energia. Se tiver menos energia atual que o rival ao revelar as cartas, recupere 3 em vez de 2.",monstro,
-19,Fio de Seda,"Se o rival usar uma ação de bloqueio, aplique Preso a ele após resolver o turno.",monstro,7
-20,Sussurro Hipnótico,"Bloqueie o ataque do rival. Se o rival usar uma habilidade de monstro, aplique Rastreado a ele após resolver o turno.",monstro,6
-21,Investida de Cascalho,Realize um ataque rápido. Ele causa 1 de dano adicional se o rival tiver mais energia atual que você ao revelar as cartas.,monstro,
-22,Abrigo de Pedra,"Bloqueie o ataque do rival. Se bloquear um ataque, recupere 2 de energia após a resolução do turno.",monstro,
-23,Rasante,Realize um ataque rápido com +2 de dano se o rival tiver o tipo Inseto ou Grama.,monstro,
-24,Chama de Fenda,"Realize um ataque. Se o rival bloquear, cause 2 de dano direto.",monstro,
-25,Bote na Penumbra,Realize um ataque rápido com +3 de dano se o rival tiver metade ou menos da energia máxima dele ao revelar as cartas.,monstro,
-26,Seiva Clara,Recupere 3 de energia.,monstro,
-27,Golpe de Cipó,"Realize um ataque. Se o rival também atacar, acrescente 1 ao dano do seu ataque.",monstro,
-28,Carapaça Fechada,"Bloqueie o ataque do rival. Se bloquear um ataque, seu próximo ataque causa +2 de dano.",monstro,
-29,Tranco de Ombro,Realize um ataque com +2 de dano se o rival tiver defesa superior à sua.,monstro,
-30,Marola,"Realize um ataque. Se o rival revelar uma habilidade que recupere energia, acrescente 4 ao dano do seu ataque.",monstro,
-31,Eco Mental,"Realize um ataque. Se o rival revelar uma carta de habilidade base, acrescente 2 ao dano do seu ataque.",monstro,
-32,Faísca de Margem,"Realize um ataque rápido. Se o rival tiver o tipo Água ou Voador, acrescente 2 ao dano do seu ataque.",monstro,
-33,Véu de Cinza,"Bloqueie metade do dano do ataque rival, arredondando a parcela bloqueada para baixo. Se bloquear um ataque, cause 3 de dano direto e aplique Ofuscado ao rival depois de resolver o turno.",monstro,2
-34,Trinca de Cascalho,"Realize um ataque com 1 a menos de dano no cálculo. Se causar dano pelo cálculo do ataque, aplique Fissurado ao rival depois de resolver o turno.",monstro,3
-35,Pó de Esporos,"Realize um ataque. Se causar dano pelo cálculo do ataque, aplique Esporos ao rival depois de resolver o turno.",monstro,4
-36,Para-Raios,"Bloqueie o ataque do rival. Se bloquear um ataque, ganhe Sobrecarga depois de resolver o turno.",monstro,5
-37,Marca de Penumbra,"Realize um ataque. Se causar pelo menos 1 de dano pelo cálculo do ataque, aplique Rastreado ao rival depois de resolver o turno.",monstro,6
-38,Lama Pegajosa,"Realize um ataque. Se causar pelo menos 2 de dano pelo cálculo do ataque, aplique Preso ao rival depois de resolver o turno.",monstro,7
-39,Maré Restauradora,"Role 1d6. Recupere 2 de energia com 1–2, 3 com 3–4 ou 4 com 5–6. Respeite sua energia máxima.",monstro,
-40,Espinho Resiliente,Realize um ataque com +3 de dano se você tiver metade ou menos da energia máxima ao revelar as cartas.,monstro,
-41,Flor Revigorante,Recupere 5 de energia.,monstro,
-42,Impacto de Laje,Realize um ataque com +1 de dano se sua defesa for igual ou superior à do rival.,monstro,
-43,Guarda de Âmbar,"Bloqueie o ataque do rival. Se bloquear um ataque, recupere 3 de energia após a resolução do turno.",monstro,
-44,Investida Oportunista,Realize um ataque com +3 de dano se o rival tiver uma condição ativa ao revelar as cartas.,monstro,
-45,Pulso da Maré,Realize um ataque com +1 de dano se o rival tiver energia atual igual ou menor que a sua ao revelar as cartas.,monstro,
-46,Estalo de Cauda,"Realize um ataque. Se tiver Sobrecarga ao revelar as cartas, acrescente 4 ao cálculo do dano. A condição é resolvida normalmente.",monstro,
-47,Prisma Partido,Realize um ataque. Acrescente 1 ao cálculo do dano contra um rival de um tipo ou 3 contra um rival de dois tipos.,monstro,
-48,Névoa de Fuga,"Bloqueie metade do dano do ataque rival, arredondando a parcela bloqueada para baixo. Se bloquear um ataque ou se o rival não executar um ataque, ganhe +2 no próximo ataque. O bônus é consumido mesmo se esse ataque for bloqueado.",monstro,
-49,Redemoinho,"Realize um ataque. Se o rival bloquear, aplique Fissurado a ele após resolver o turno.",monstro,3
-50,Segunda Onda,"Realize um ataque. Se esta for a última carta de sua mão antes da renovação, acrescente 3 ao cálculo do dano.",monstro,
-51,Abrigo de Felpa,"Bloqueie o ataque do rival. Se bloquear, remova sua condição negativa mais antiga ainda ativa e recupere 2 de energia. Sobrecarga não é removida.",monstro,
-52,Emboscada de Folhas,"Realize um ataque. Se o rival revelar uma ação que recupere energia, acrescente 3 ao cálculo do dano.",monstro,
-53,Garra de Fenda,"Realize um ataque. Se o rival tiver defesa 4 ou maior, acrescente 2 ao cálculo do dano. Se causar pelo menos 3 de dano pelo cálculo, aplique Fissurado após resolver o turno.",monstro,3
-54,Raízes de Aterramento,"Bloqueie o ataque do rival. Se bloquear um ataque de um rival com Sobrecarga, remova a Sobrecarga dele e cause 5 de dano direto.",monstro,
-55,Investida Coordenada,"Realize um ataque com 1 a menos no cálculo de dano. Se o rival também atacar, acrescente 2 ao cálculo.",treinador,
-56,Proteção Compartilhada,"Bloqueie o ataque rival. Se bloquear um ataque, recupere 1 de energia.",treinador,
-57,Plano de Campo,Seu próximo ataque recebe +4 de dano. O bônus é consumido mesmo se o ataque for bloqueado.,treinador,
-58,Clarão Tático,"Realize um ataque. Se causar dano pelo cálculo, aplique Ofuscado ao rival após o turno.",treinador,2
-59,Primeiros Cuidados,"Recupere 4 de energia, respeitando a energia máxima.",treinador,
-60,Cipó Revigorante,"Realize um ataque. Se o rival também atacar, acrescente 1 ao dano do seu ataque. Se causar pelo menos 3 de dano pelo cálculo do ataque, recupere 2 de energia.",monstro,
-61,Marola Cintilante,"Realize um ataque. Se o rival revelar uma habilidade que recupere energia, acrescente 4 ao dano; caso contrário, acrescente 1.",monstro,
-62,Eco Luminoso,"Realize um ataque. Se o rival revelar uma carta de habilidade base, acrescente 3 ao dano do seu ataque.",monstro,
-63,Mergulho Restaurador,"Realize um ataque. Se causar pelo menos 2 de dano pelo cálculo do ataque, recupere 2 de energia.",monstro,
+id_habilidade,nome_habilidade,efeito,tag,id_condicao,imagem
+1,Atacar,Realize um ataque,base,,habilidades/1.png
+2,Defesa,Bloquei o ataque do oponente,base,,habilidades/2.png
+3,Repetir,"Repita a ultima ação, apenas se ela for uma habilidade base ou de treinador",base,,habilidades/3.png
+4,Foco,Role 1d6 e acrescente o resultado integral ao cálculo de dano do próximo ataque.,treinador,,habilidades/4.png
+5,Ataque Rápido,"Realize um ataque, porem, considere o dano aplicado antes de executar a ação do oponente",treinador,,habilidades/5.png
+6,Brasa de Cerco,"Realize um ataque. Se o rival usar Foco, acrescente 5 ao cálculo do dano.",monstro,,habilidades/6.png
+7,Mordida de Seiva,"Realize um ataque. Se causar pelo menos 3 de dano pelo cálculo, recupere 2 de energia.",monstro,,habilidades/7.png
+8,Pena de Aço,"Bloqueie o ataque do rival. Se bloquear uma habilidade de monstro, cause 3 de dano direto ao rival.",monstro,,habilidades/8.png
+9,Muda de Casca,Remova sua condição negativa mais antiga ainda ativa antes da cura e recupere 2 de energia. Sobrecarga não é removida.,monstro,,habilidades/9.png
+10,Salto de Emboscada,"Realize um ataque rápido. Se o rival usar um ataque de monstro, acrescente 3 ao cálculo do dano.",monstro,,habilidades/10.png
+11,Guspe de Chama,"Realize um ataque, se o oponente bloquear, cause 2 de dano direto",monstro,,habilidades/11.png
+12,Pele Quente,"Realize um ataque. Se o rival também atacar, ele sofre 1 de dano direto.",monstro,,habilidades/12.png
+13,Incinerar,"Cause ""Incendiar"" no oponente",monstro,1,habilidades/13.png
+14,Curar I,Role 1d6. Recupere 2 de energia com 1–4 ou 3 de energia com 5–6. Respeite sua energia máxima.,monstro,,habilidades/14.png
+15,Bolha de água,"Bloqueie metade do dano do ataque rival, arredondando a parcela bloqueada para baixo. Se bloquear um ataque, cause 4 de dano direto ao rival.",monstro,,habilidades/15.png
+16,Cinza Sufocante,"Bloqueie metade do dano do ataque rival, arredondando a parcela bloqueada para baixo. Se bloquear um ataque, cause 2 de dano direto e aplique Ofuscado ao rival depois de resolver o turno.",monstro,2,habilidades/16.png
+17,Escudo de Seixos,"Bloqueie o ataque do rival. Se bloquear um ataque que explora sua fraqueza, recupere 3 de energia.",monstro,,habilidades/17.png
+18,Raiz Funda,"Recupere 2 de energia. Se tiver menos energia atual que o rival ao revelar as cartas, recupere 3 em vez de 2.",monstro,,habilidades/18.png
+19,Fio de Seda,"Se o rival usar uma ação de bloqueio, aplique Preso a ele após resolver o turno.",monstro,7,habilidades/19.png
+20,Sussurro Hipnótico,"Bloqueie o ataque do rival. Se o rival usar uma habilidade de monstro, aplique Rastreado a ele após resolver o turno.",monstro,6,habilidades/20.png
+21,Investida de Cascalho,Realize um ataque rápido. Ele causa 1 de dano adicional se o rival tiver mais energia atual que você ao revelar as cartas.,monstro,,habilidades/21.png
+22,Abrigo de Pedra,"Bloqueie o ataque do rival. Se bloquear um ataque, recupere 2 de energia após a resolução do turno.",monstro,,habilidades/22.png
+23,Rasante,Realize um ataque rápido com +2 de dano se o rival tiver o tipo Inseto ou Grama.,monstro,,habilidades/23.png
+24,Chama de Fenda,"Realize um ataque. Se o rival bloquear, cause 2 de dano direto.",monstro,,habilidades/24.png
+25,Bote na Penumbra,Realize um ataque rápido com +3 de dano se o rival tiver metade ou menos da energia máxima dele ao revelar as cartas.,monstro,,habilidades/25.png
+26,Seiva Clara,Recupere 3 de energia.,monstro,,habilidades/26.png
+27,Golpe de Cipó,"Realize um ataque. Se o rival também atacar, acrescente 1 ao dano do seu ataque.",monstro,,habilidades/27.png
+28,Carapaça Fechada,"Bloqueie o ataque do rival. Se bloquear um ataque, seu próximo ataque causa +2 de dano.",monstro,,habilidades/28.png
+29,Tranco de Ombro,Realize um ataque com +2 de dano se o rival tiver defesa superior à sua.,monstro,,habilidades/29.png
+30,Marola,"Realize um ataque. Se o rival revelar uma habilidade que recupere energia, acrescente 4 ao dano do seu ataque.",monstro,,habilidades/30.png
+31,Eco Mental,"Realize um ataque. Se o rival revelar uma carta de habilidade base, acrescente 2 ao dano do seu ataque.",monstro,,habilidades/31.png
+32,Faísca de Margem,"Realize um ataque rápido. Se o rival tiver o tipo Água ou Voador, acrescente 2 ao dano do seu ataque.",monstro,,habilidades/32.png
+33,Véu de Cinza,"Bloqueie metade do dano do ataque rival, arredondando a parcela bloqueada para baixo. Se bloquear um ataque, cause 3 de dano direto e aplique Ofuscado ao rival depois de resolver o turno.",monstro,2,habilidades/33.png
+34,Trinca de Cascalho,"Realize um ataque com 1 a menos de dano no cálculo. Se causar dano pelo cálculo do ataque, aplique Fissurado ao rival depois de resolver o turno.",monstro,3,habilidades/34.png
+35,Pó de Esporos,"Realize um ataque. Se causar dano pelo cálculo do ataque, aplique Esporos ao rival depois de resolver o turno.",monstro,4,habilidades/35.png
+36,Para-Raios,"Bloqueie o ataque do rival. Se bloquear um ataque, ganhe Sobrecarga depois de resolver o turno.",monstro,5,habilidades/36.png
+37,Marca de Penumbra,"Realize um ataque. Se causar pelo menos 1 de dano pelo cálculo do ataque, aplique Rastreado ao rival depois de resolver o turno.",monstro,6,habilidades/37.png
+38,Lama Pegajosa,"Realize um ataque. Se causar pelo menos 2 de dano pelo cálculo do ataque, aplique Preso ao rival depois de resolver o turno.",monstro,7,habilidades/38.png
+39,Maré Restauradora,"Role 1d6. Recupere 2 de energia com 1–2, 3 com 3–4 ou 4 com 5–6. Respeite sua energia máxima.",monstro,,habilidades/39.png
+40,Espinho Resiliente,Realize um ataque com +3 de dano se você tiver metade ou menos da energia máxima ao revelar as cartas.,monstro,,habilidades/40.png
+41,Flor Revigorante,Recupere 5 de energia.,monstro,,habilidades/41.png
+42,Impacto de Laje,Realize um ataque com +1 de dano se sua defesa for igual ou superior à do rival.,monstro,,habilidades/42.png
+43,Guarda de Âmbar,"Bloqueie o ataque do rival. Se bloquear um ataque, recupere 3 de energia após a resolução do turno.",monstro,,habilidades/43.png
+44,Investida Oportunista,Realize um ataque com +3 de dano se o rival tiver uma condição ativa ao revelar as cartas.,monstro,,habilidades/44.png
+45,Pulso da Maré,Realize um ataque com +1 de dano se o rival tiver energia atual igual ou menor que a sua ao revelar as cartas.,monstro,,habilidades/45.png
+46,Estalo de Cauda,"Realize um ataque. Se tiver Sobrecarga ao revelar as cartas, acrescente 4 ao cálculo do dano. A condição é resolvida normalmente.",monstro,,habilidades/46.png
+47,Prisma Partido,Realize um ataque. Acrescente 1 ao cálculo do dano contra um rival de um tipo ou 3 contra um rival de dois tipos.,monstro,,habilidades/47.png
+48,Névoa de Fuga,"Bloqueie metade do dano do ataque rival, arredondando a parcela bloqueada para baixo. Se bloquear um ataque ou se o rival não executar um ataque, ganhe +2 no próximo ataque. O bônus é consumido mesmo se esse ataque for bloqueado.",monstro,,habilidades/48.png
+49,Redemoinho,"Realize um ataque. Se o rival bloquear, aplique Fissurado a ele após resolver o turno.",monstro,3,habilidades/49.png
+50,Segunda Onda,"Realize um ataque. Se esta for a última carta de sua mão antes da renovação, acrescente 3 ao cálculo do dano.",monstro,,habilidades/50.png
+51,Abrigo de Felpa,"Bloqueie o ataque do rival. Se bloquear, remova sua condição negativa mais antiga ainda ativa e recupere 2 de energia. Sobrecarga não é removida.",monstro,,habilidades/51.png
+52,Emboscada de Folhas,"Realize um ataque. Se o rival revelar uma ação que recupere energia, acrescente 3 ao cálculo do dano.",monstro,,habilidades/52.png
+53,Garra de Fenda,"Realize um ataque. Se o rival tiver defesa 4 ou maior, acrescente 2 ao cálculo do dano. Se causar pelo menos 3 de dano pelo cálculo, aplique Fissurado após resolver o turno.",monstro,3,habilidades/53.png
+54,Raízes de Aterramento,"Bloqueie o ataque do rival. Se bloquear um ataque de um rival com Sobrecarga, remova a Sobrecarga dele e cause 5 de dano direto.",monstro,,habilidades/54.png
+55,Investida Coordenada,"Realize um ataque com 1 a menos no cálculo de dano. Se o rival também atacar, acrescente 2 ao cálculo.",treinador,,habilidades/55.png
+56,Proteção Compartilhada,"Bloqueie o ataque rival. Se bloquear um ataque, recupere 1 de energia.",treinador,,habilidades/56.png
+57,Plano de Campo,Seu próximo ataque recebe +4 de dano. O bônus é consumido mesmo se o ataque for bloqueado.,treinador,,habilidades/57.png
+58,Clarão Tático,"Realize um ataque. Se causar dano pelo cálculo, aplique Ofuscado ao rival após o turno.",treinador,2,habilidades/58.png
+59,Primeiros Cuidados,"Recupere 4 de energia, respeitando a energia máxima.",treinador,,habilidades/59.png
+60,Cipó Revigorante,"Realize um ataque. Se o rival também atacar, acrescente 1 ao dano do seu ataque. Se causar pelo menos 3 de dano pelo cálculo do ataque, recupere 2 de energia.",monstro,,habilidades/60.png
+61,Marola Cintilante,"Realize um ataque. Se o rival revelar uma habilidade que recupere energia, acrescente 4 ao dano; caso contrário, acrescente 1.",monstro,,habilidades/61.png
+62,Eco Luminoso,"Realize um ataque. Se o rival revelar uma carta de habilidade base, acrescente 3 ao dano do seu ataque.",monstro,,habilidades/62.png
+63,Mergulho Restaurador,"Realize um ataque. Se causar pelo menos 2 de dano pelo cálculo do ataque, recupere 2 de energia.",monstro,,habilidades/63.png

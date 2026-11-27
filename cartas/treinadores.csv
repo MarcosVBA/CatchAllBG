@@ -1,9 +1,9 @@
-id_treinador,nome_treinador,passiva_treinador,habilidades_iniciais,descricao_treinador
-1,Marcos,,4,"Garoto com oculos, timido. Sempre calculando como vencer seus desafios. Cabelo no topo loiro e base escura, camisa florida"
-2,Dri,,5,"Garota linda, com cabelos vermelho, agitada e energética. Vestido preto, brincos chamativos e dourados"
-3,Gustavo,"Sorte: Uma vez por tentativa de captura ou dado de habilidade, rerrole o dado e fique com o novo resultado. Não se aplica a dados de ataque, condições ou passivas",,"Garoto moreno, com cabelo crespo e magro. Bastante na dele, porem, amigavél. Regata e roupa de estilo esportivo"
-4,Iara,,55,Guia de expedições que coordena seus monstros durante a ofensiva.
-5,Bento,,56,Protetor paciente que ensina sua equipe a resistir e recuperar o fôlego.
-6,Lia,,57,Estrategista que prepara o momento certo para uma investida.
-7,Nina,,58,Exploradora que usa luz e distrações para abrir caminhos.
-8,Caio,,59,Cuidador de trilha que ajuda seus companheiros a se recuperarem.
+id_treinador,nome_treinador,passiva_treinador,habilidades_iniciais,descricao_treinador,imagem
+1,Marcos,,4,"Garoto com oculos, timido. Sempre calculando como vencer seus desafios. Cabelo no topo loiro e base escura, camisa florida",treinadores/1.png
+2,Dri,,5,"Garota linda, com cabelos vermelho, agitada e energética. Vestido preto, brincos chamativos e dourados",treinadores/2.png
+3,Gustavo,"Sorte: Uma vez por tentativa de captura ou dado de habilidade, rerrole o dado e fique com o novo resultado. Não se aplica a dados de ataque, condições ou passivas",,"Garoto moreno, com cabelo crespo e magro. Bastante na dele, porem, amigavél. Regata e roupa de estilo esportivo",treinadores/3.png
+4,Iara,,55,Guia de expedições que coordena seus monstros durante a ofensiva.,treinadores/4.png
+5,Bento,,56,Protetor paciente que ensina sua equipe a resistir e recuperar o fôlego.,treinadores/5.png
+6,Lia,,57,Estrategista que prepara o momento certo para uma investida.,treinadores/6.png
+7,Nina,,58,Exploradora que usa luz e distrações para abrir caminhos.,treinadores/7.png
+8,Caio,,59,Cuidador de trilha que ajuda seus companheiros a se recuperarem.,treinadores/8.png

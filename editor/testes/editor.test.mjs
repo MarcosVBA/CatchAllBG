@@ -9,7 +9,7 @@ assert.ok(script, 'Script do editor ausente');
 const monstros = await readFile(new URL('../../cartas/monstros.csv', import.meta.url), 'utf8');
 const habilidades = await readFile(new URL('../../cartas/habilidades.csv', import.meta.url), 'utf8');
 
-function criarEditor() {
+function criarEditor(url = URL) {
   class Elemento {
     constructor() { this.value = ''; this.textContent = ''; this.hidden = false; this.children = []; this.listeners = {}; this.classList = { toggle() {} }; }
     addEventListener(tipo, fn) { this.listeners[tipo] = fn; }
@@ -21,7 +21,7 @@ function criarEditor() {
   }
   const elementos = new Map();
   const get = id => { if (!elementos.has(id)) elementos.set(id, new Elemento()); return elementos.get(id); };
-  const contexto = vm.createContext({ document: { getElementById: get, createElement: () => new Elemento() }, window: { addEventListener() {} }, confirm: () => true, URL, Blob, setTimeout });
+  const contexto = vm.createContext({ document: { getElementById: get, createElement: () => new Elemento() }, window: { addEventListener() {} }, confirm: () => true, URL: url, Blob, setTimeout });
   vm.runInContext(script, contexto);
   return { get, executar: s => vm.runInContext(s, contexto), contexto };
 }
@@ -38,6 +38,42 @@ test('CSV preserva campos e caracteres especiais ao editar', () => {
   assert.equal(e.executar('lerCsv(alterado).linhas[0].descricao_monstro'), descricao);
   assert.equal(e.executar('lerCsv(alterado).linhas.length'), 59);
   assert.equal(e.executar('lerCsv(alterado).linhas[1].estrategia_monstro'), e.executar('lerCsv(texto).linhas[1].estrategia_monstro'));
+});
+
+test('prévias opcionais usam caminhos dos CSVs, navegam e liberam imagens anteriores', () => {
+  const revogadas = [], arquivos = [];
+  const url = { createObjectURL(arquivo) { arquivos.push(arquivo); return `blob:${arquivos.length}`; }, revokeObjectURL(valor) { revogadas.push(valor); } };
+  const e = criarEditor(url);
+  e.contexto.texto = monstros; e.contexto.cartas = habilidades;
+  e.executar('carregarMonstros(texto, null); carregarHabilidades(cartas)');
+  assert.equal(e.get('imagem-monstro').children.length, 0);
+  e.contexto.imagens = [
+    { webkitRelativePath: 'imagens/monstros/1.png' },
+    { webkitRelativePath: 'imagens/monstros/2.png' },
+    { webkitRelativePath: 'imagens/habilidades/11.png' },
+    { webkitRelativePath: 'imagens/monstros/1_1.png' },
+  ];
+  e.executar('carregarImagens(imagens)');
+  assert.match(e.get('estado-imagens').textContent, /3 imagem/);
+  let imagem = e.get('imagem-monstro').children[0];
+  assert.match(imagem.alt, /krakon/i);
+  assert.equal(imagem.hidden, true);
+  imagem.listeners.load();
+  assert.equal(imagem.hidden, false);
+  imagem.listeners.error();
+  assert.equal(imagem.hidden, true);
+  const habilidade = e.get('habilidades').children.find(bloco => bloco.children[0].textContent.includes('11'));
+  assert.match(habilidade.children[4].alt, /ilustração/i);
+  e.executar('navegar(1)');
+  imagem = e.get('imagem-monstro').children[0];
+  assert.match(imagem.alt, /krakuron/i);
+  const campoImagem = e.get('formulario').children.find(campo => campo.children[1].id === 'campo-imagem').children[1];
+  campoImagem.value = 'monstros/999.png';
+  campoImagem.listeners.input();
+  assert.equal(e.get('imagem-monstro').children.length, 0);
+  e.executar('carregarImagens([])');
+  assert.equal(revogadas.length, arquivos.length);
+  assert.equal(e.get('imagem-monstro').children.length, 0);
 });
 
 test('habilidades incluem inatas, melhorias e herança anterior à evolução', () => {

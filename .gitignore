@@ -1,3 +1,9 @@
 node_modules/
 __pycache__/
 *.pyc
+/imagens/geradas/
+/imagens/monstros/
+/imagens/habilidades/
+/imagens/treinadores/
+/imagens/itens/
+/imagens/condicoes/
