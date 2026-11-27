@@ -24,7 +24,7 @@ function estatisticas(valores) {
 function rodada(catalogo, combatentes, rng, opcoes, ocorrencias) {
   const jogo = criarRodada({
     catalogo, combatentes, d6: () => rng.inteiro(1, 6), rerrolar: rerrolagemAutomatica,
-    pisoDano: opcoes.pisoDano, sorteEmCondicoes: opcoes.sorteEmCondicoes,
+    pisoDano: opcoes.pisoDano,
   });
   function contar(eventos) {
     if (!ocorrencias) return;
@@ -78,9 +78,9 @@ function ataquesPossiveis(a, b, piso) {
 }
 
 export function simularPares(catalogo, {
-  amostras = 30, semente = 53131, limite = 80, pisoDano = 0, defensivo = false, sorteEmCondicoes = false,
+  amostras = 30, semente = 53131, limite = 80, pisoDano = 0, defensivo = false,
 } = {}) {
-  const opcoes = { amostras, semente, limite, pisoDano, defensivo, sorteEmCondicoes };
+  const opcoes = { amostras, semente, limite, pisoDano, defensivo };
   conferirOpcoes(opcoes);
   const monstros = [...catalogo.monstros.values()];
   if (monstros.length < 2) throw new Error("O cenário por pares exige pelo menos dois monstros.");
@@ -148,9 +148,9 @@ function times(catalogo, ciclo, rng, bonusMelhoria) {
 
 export function simularDuracao(catalogo, {
   amostras = 6000, semente = 47821, limite = 60, pisoDano = 0, defensivo = false,
-  sorteEmCondicoes = false, empate = "sorteio", bonusMelhoria = false,
+  empate = "sorteio", bonusMelhoria = false,
 } = {}) {
-  const opcoes = { amostras, semente, limite, pisoDano, defensivo, sorteEmCondicoes, empate, bonusMelhoria };
+  const opcoes = { amostras, semente, limite, pisoDano, defensivo, empate, bonusMelhoria };
   conferirOpcoes(opcoes);
   if (!["sorteio", "repetir"].includes(empate)) throw new RangeError("Desempate de simulação inválido.");
   const ciclos = [];

@@ -19,7 +19,7 @@ function combatente(catalogo, escolha, id) {
 }
 
 export function criarRodada({
-  catalogo, combatentes, d6, rerrolar = () => false, pisoDano = 0, sorteEmCondicoes = false,
+  catalogo, combatentes, d6, rerrolar = () => false, pisoDano = 0,
 }) {
   if (!Array.isArray(combatentes) || combatentes.length !== 2 || typeof d6 !== "function" || typeof rerrolar !== "function") {
     throw new TypeError("A rodada exige dois combatentes e uma fonte de d6.");
@@ -39,7 +39,7 @@ export function criarRodada({
   const contexto = {
     get turno() { return turno; },
     get bonusOfensiva() { return renovacoes; },
-    pisoDano, sorteEmCondicoes,
+    pisoDano,
     emitir(tipo, dados = {}) { eventos.push({ tipo, turno, ...dados }); },
     rolar(p, motivo, repetida = false) {
       const detalhe = { jogador: p.id, motivo, repetida, turno };

@@ -58,7 +58,20 @@ test("Desencaixe conserva Foco no primeiro ataque bloqueado e aplica Preso", () 
   assert.ok(rodada.observar(0).jogadores[1].condicoes.includes(7));
   const antes = energias(rodada)[1];
   turno(rodada, 3, 4);
-  const dano = danoSemEfeitos(catalogo.monstros.get(atacante.monstroId), catalogo.monstros.get(defensor.monstroId), 4, 0, 3);
+  const dano = danoSemEfeitos(catalogo.monstros.get(atacante.monstroId), catalogo.monstros.get(defensor.monstroId), 4, 0, 6);
+  assert.equal(energias(rodada)[1], antes - dano);
+  rodada.conferirDados();
+});
+
+test("Foco e Repetir acumulam os resultados integrais dos dados", () => {
+  const atacante = ficha("Krakon", 0, 1);
+  const defensor = ficha("Owlzin", 0, 1);
+  const rodada = jogo(atacante, defensor, [3, 4, 2, 1]);
+  turno(rodada, 4, 2);
+  turno(rodada, 3, 3);
+  const antes = energias(rodada)[1];
+  turno(rodada, 1, 4);
+  const dano = danoSemEfeitos(catalogo.monstros.get(atacante.monstroId), catalogo.monstros.get(defensor.monstroId), 2, 0, 7);
   assert.equal(energias(rodada)[1], antes - dano);
   rodada.conferirDados();
 });
@@ -70,7 +83,7 @@ test("Redemoinho aplica Fissurado mesmo quando o rival bloqueia", () => {
   assert.equal(energias(rodada)[1], antes);
   assert.ok(rodada.observar(0).jogadores[1].condicoes.includes(3));
   turno(rodada, 1, 4);
-  assert.equal(energias(rodada)[1], antes - 12);
+  assert.equal(energias(rodada)[1], antes - 13);
   rodada.conferirDados();
 });
 
@@ -84,6 +97,30 @@ test("Muda de Casca remove Incendiar antes de recuperar energia", () => {
   assert.equal(energias(rodada)[0], antes + 1);
   assert.equal(eventos.find(e => e.tipo === "cura").valor, 2);
   assert.deepEqual(rodada.observar(0).jogadores[0].condicoes, []);
+  rodada.conferirDados();
+});
+
+test("Abrigo de Felpa remove Incendiar e cura ao bloquear", () => {
+  const rodada = jogo(ficha("Mofurim", 1), ficha("Krakuron", 1, 2), [4, 1]);
+  turno(rodada, 3, 5);
+  turno(rodada, 2, 13);
+  const antes = energias(rodada)[0];
+  const eventos = turno(rodada, 51, 1);
+  assert.ok(eventos.some(e => e.tipo === "bloqueio"));
+  assert.ok(eventos.some(e => e.tipo === "cura" && e.valor === 2));
+  assert.equal(energias(rodada)[0], antes + 1);
+  assert.deepEqual(rodada.observar(0).jogadores[0].condicoes, []);
+  rodada.conferirDados();
+});
+
+test("Raízes de Aterramento dissipa Sobrecarga e causa dano direto no bloqueio", () => {
+  const rodada = jogo(ficha("Vesperaiz", 2), ficha("Estalume", 2));
+  turno(rodada, 1, 36);
+  assert.ok(rodada.observar(0).jogadores[1].condicoes.includes(5));
+  const antes = energias(rodada);
+  turno(rodada, 54, 1);
+  assert.deepEqual(energias(rodada), [antes[0], antes[1] - 5]);
+  assert.deepEqual(rodada.observar(0).jogadores[1].condicoes, []);
   rodada.conferirDados();
 });
 
@@ -142,7 +179,7 @@ test("Ritmo de Caça ativa após o segundo ataque seguido do rival mesmo se Coro
   turno(rodada, 2, 1);
   const eventos = turno(rodada, 1, 3);
   assert.ok(eventos.some(e => e.tipo === "efeito-ativado" && e.efeito === "Ritmo de Caça"));
-  assert.equal(energias(rodada)[1], antes - 10);
+  assert.equal(energias(rodada)[1], antes - 11);
   rodada.conferirDados();
 });
 
@@ -277,20 +314,20 @@ test("Ofuscado diminui dano com face baixa e é consumido no primeiro acerto", (
   turno(rodada, 33, 1);
   const antes = energias(rodada);
   turno(rodada, 3, 3);
-  assert.equal(energias(rodada)[0], antes[0] - 3);
+  assert.equal(energias(rodada)[0], antes[0] - 4);
   assert.equal(rodada.observar(0).jogadores[1].condicoes.includes(2), false);
   rodada.conferirDados();
 });
 
 test("Fissurado continua ativo após bloqueio e acrescenta dano com face baixa", () => {
-  const rodada = jogo(ficha("Cascalhote", 1), ficha("Owlzin", 1, 1), [5, 2, 4, 3, 5]);
+  const rodada = jogo(ficha("Cascalhote", 1), ficha("Owlzin", 2, 1), [5, 2, 4, 3, 5]);
   turno(rodada, 34, 4);
   turno(rodada, 1, 2);
   assert.ok(rodada.observar(0).jogadores[1].condicoes.includes(3));
   const antes = energias(rodada);
   const eventos = turno(rodada, 3, 14);
-  assert.ok(eventos.some(evento => evento.tipo === "dano" && evento.jogador === 1 && evento.valor === 8));
-  assert.equal(energias(rodada)[1], antes[1] + 3 - 8);
+  assert.ok(eventos.some(evento => evento.tipo === "dano" && evento.jogador === 1 && evento.valor === 9));
+  assert.equal(energias(rodada)[1], antes[1] + 3 - 9);
   rodada.conferirDados();
 });
 
@@ -351,7 +388,7 @@ test("renovação repõe ambas as mãos e preserva o gasto de Fio Cortante", () 
   turno(rodada, 3, 3);
   assert.equal(rodada.observar(0).renovacoes, 1);
   assert.deepEqual(rodada.observar(0).mao, [1, 2, 3]);
-  assert.deepEqual(rodada.observar(1).mao, [1, 2, 3, 5, 14]);
+  assert.deepEqual(rodada.observar(1).mao, [1, 2, 3, 5, 15]);
   turno(rodada, 1, 2);
   assert.equal(energias(rodada)[1], antes[1] - 7);
   rodada.conferirDados();
@@ -365,6 +402,19 @@ function baixaEnergia(...nomes) {
   }
   return { ...catalogo, monstros };
 }
+
+test("Rasante letal cancela ataque normal, e dois ataques rápidos são simultâneos", () => {
+  const catalogoBaixaEnergia = baixaEnergia("Agulhio", "Grotufo");
+  const rapido = jogo(ficha("Agulhio", 1), ficha("Grotufo", 2), [6], { catalogo: catalogoBaixaEnergia });
+  const eventos = turno(rapido, 23, 1);
+  assert.ok(eventos.some(e => e.tipo === "acao-cancelada" && e.jogador === 1));
+  rapido.conferirDados();
+  const ambos = jogo(ficha("Agulhio", 1), ficha("Agulhio", 1), [6, 6], { catalogo: catalogoBaixaEnergia });
+  const simultaneo = turno(ambos, 23, 23);
+  assert.ok(!simultaneo.some(e => e.tipo === "acao-cancelada"));
+  assert.equal(ambos.observar(0).resultado.tipo, "nocaute-simultaneo");
+  ambos.conferirDados();
+});
 
 test("Ataque Rápido letal cancela a ação adversária antes de outra rolagem", () => {
   const rodada = jogo(ficha("Flouly"), ficha("Krakuron", 0, 2), [6], { catalogo: baixaEnergia("Flouly") });
@@ -382,14 +432,26 @@ test("nocaute simultâneo é exposto ao chamador sem decidir vencedor", () => {
   rodada.conferirDados();
 });
 
-test("Gustavo gasta no máximo uma rerrolagem por ataque, mesmo com Sobrecarga", () => {
-  const rodada = jogo(ficha("Estalume", 2), ficha("Owlzin", 3), [3, 4, 1, 2], {
-    sorteEmCondicoes: true, rerrolar: ({ jogador }) => jogador === 0,
+test("Gustavo não rerrola ataque nem condição de Sobrecarga", () => {
+  const rodada = jogo(ficha("Estalume", 2), ficha("Owlzin", 3), [3, 1, 2], {
+    rerrolar: ({ jogador }) => jogador === 0,
   });
   turno(rodada, 36, 1);
   const antes = energias(rodada)[0];
   const eventos = turno(rodada, 1, 14);
-  assert.equal(eventos.filter(evento => evento.jogador === 0 && evento.repetida).length, 1);
+  assert.equal(eventos.filter(evento => evento.jogador === 0 && evento.repetida).length, 0);
   assert.equal(energias(rodada)[0], antes - 2);
+  rodada.conferirDados();
+});
+
+test("Gustavo pode rerrolar o dado de uma habilidade de cura", () => {
+  const rodada = jogo(ficha("Owlzin", 2, 3), ficha("Krakon", 0, 1), [4, 1, 6], {
+    rerrolar: ({ jogador, motivo }) => jogador === 0 && motivo === "Curar I",
+  });
+  turno(rodada, 3, 1);
+  const antes = energias(rodada)[0];
+  const eventos = turno(rodada, 14, 2);
+  assert.equal(energias(rodada)[0], antes + 3);
+  assert.equal(eventos.filter(e => e.tipo === "rolagem" && e.repetida).length, 1);
   rodada.conferirDados();
 });

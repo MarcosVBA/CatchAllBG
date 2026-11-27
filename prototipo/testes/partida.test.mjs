@@ -33,7 +33,7 @@ function executar(semente) {
 test("quatro participantes atravessam os três ciclos e todos os itens aparecem nas amostras", () => {
   const itens = new Set();
   const tipos = new Set();
-  for (const semente of [1, 2, 3, 4, 5, 912]) {
+  for (const semente of [1, 2, 3, 4, 5, 6, 7, 8, 912]) {
     const { visao, eventos } = executar(semente);
     assert.equal(visao.fase, "final");
     assert.ok(visao.campeao >= 0 && visao.campeao < 4);
@@ -213,7 +213,8 @@ test("Super Cura recupera energia e consome uma cópia sem gastar carta da mão"
   assert.equal(rodada.observar(1).itemRevelado, null);
   const eventos = rodada.escolherCarta(1, 2);
   assert.equal(eventos.find(e => e.tipo === "item-consumido").itemId, 2);
-  assert.equal(rodada.observar(0).jogadores[0].energia, 21);
+  const { energia, energiaMaxima } = rodada.observar(0).jogadores[0];
+  assert.equal(energia, energiaMaxima);
   assert.deepEqual(rodada.observar(0).mao, mao);
 });
 
@@ -233,6 +234,7 @@ test("Salva Vidas mantém a cópia sem ataque e bloqueia, cura e consome ao ser 
   const bloqueou = rodada.escolherCarta(1, 5);
   assert.ok(bloqueou.some(e => e.tipo === "bloqueio" && e.itemId === 3));
   assert.ok(bloqueou.some(e => e.tipo === "item-consumido" && e.itemId === 3));
-  assert.equal(rodada.observar(0).jogadores[0].energia, Math.min(21, ferido + 4));
+  const { energia, energiaMaxima } = rodada.observar(0).jogadores[0];
+  assert.equal(energia, Math.min(energiaMaxima, ferido + 4));
   assert.deepEqual(rodada.observar(0).itens, []);
 });

@@ -1,8 +1,8 @@
-export const ATAQUES = new Set([1, 5, 6, 7, 10, 11, 12, 21, 23, 24, 25, 27, 29, 30, 31, 32, 34, 35, 37, 38, 40, 42, 44, 45, 46, 47, 49, 50]);
+export const ATAQUES = new Set([1, 5, 6, 7, 10, 11, 12, 21, 23, 24, 25, 27, 29, 30, 31, 32, 34, 35, 37, 38, 40, 42, 44, 45, 46, 47, 49, 50, 52, 53]);
 export const SUPER_CURA = "item:2";
 export const SALVA_VIDAS = "item:3";
-export const BLOQUEIOS = new Set([2, 8, 15, 17, 22, 28, 33, 36, 43, 48, SALVA_VIDAS]);
-export const CURAS = new Set([7, 9, 14, 17, 18, 22, 26, 39, 41, 43, SUPER_CURA, SALVA_VIDAS]);
+export const BLOQUEIOS = new Set([2, 8, 15, 17, 22, 28, 33, 36, 43, 48, 51, 54, SALVA_VIDAS]);
+export const CURAS = new Set([7, 9, 14, 17, 18, 22, 26, 39, 41, 43, 51, SUPER_CURA, SALVA_VIDAS]);
 export const BASE = new Set([1, 2, 3]);
 export const HABILIDADES_IMPLEMENTADAS = new Set([...ATAQUES, ...BLOQUEIOS, ...CURAS, 3, 4, 13, 16, 19, 20].filter(Number.isInteger));
 export const ITENS_COMBATE = new Map([[2, SUPER_CURA], [3, SALVA_VIDAS]]);

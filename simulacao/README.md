@@ -15,7 +15,7 @@ node simulacao/simular.mjs duracao
 `pares` usa 30 rodadas para cada par distinto, inclui as evoluções com as habilidades anteriores e registra a média por monstro, os gatilhos de efeitos, a duração e os nocautes possíveis no ataque básico. `duracao` usa 6.000 duelos por ciclo, com uma rodada no primeiro e melhor de três nos seguintes. As amostras de captura e a ordem dos times são sorteadas pelo cenário. No terceiro ciclo, um dos quatro monstros é sorteado para sair antes da melhoria da captura, deixando três na equipe.
 
 ```sh
-node simulacao/simular.mjs pares --amostras 15 --defensivo --piso-dano 1 --sorte-em-condicoes
+node simulacao/simular.mjs pares --amostras 15 --defensivo --piso-dano 1
 node simulacao/simular.mjs duracao --amostras 1000 --semente 47821 --empate repetir
 node simulacao/simular.mjs pares --comparar /caminho/para/outro/catalogo
 node simulacao/simular.mjs --help

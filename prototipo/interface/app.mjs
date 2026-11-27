@@ -67,7 +67,7 @@ function escolhas(visao) {
       const efeito = treinador.cartas.map(id => catalogo.habilidades.get(id).efeito).join(" ");
       const beneficio = treinador.sorte ? "Sorte" : treinador.cartas.map(id => catalogo.habilidades.get(id).nome).join(", ");
       return opcaoDoJogador(opcao, treinador.nome, `<span class="destaque">${html(beneficio)}</span>
-        <span class="carta-texto">${html(treinador.sorte ? "Uma rerrolagem por ataque ou tentativa de captura." : efeito)}</span>`);
+        <span class="carta-texto">${html(treinador.sorte ? "Uma rerrolagem por captura ou dado de habilidade; não vale para ataques." : efeito)}</span>`);
     }
     if (tipo === "inicial" || tipo === "captura") return cartaMonstro(opcao, catalogo.monstros.get(valor));
     if (["melhoria", "alvo-item", "combatente", "dispensar"].includes(tipo)) {

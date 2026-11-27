@@ -49,6 +49,8 @@
 
 **Atacar**: Ao atacar, o jogador verificar o resultado do ataque do monstro atacante menos a defesa do monstro que foi atacado, esse valor é somado a uma rolagem de 1d6 para definir o dano
 
+**Ataques rápidos**: Resolva um ataque rápido antes de uma ação que não seja ataque rápido. Se ele nocautear o rival, a ação rival é cancelada. Se ambos usarem ataques rápidos, resolva-os simultaneamente. Bloqueios ainda bloqueiam ataques rápidos.
+
 **Foco e bloqueio**: O bônus de Foco é consumido no próximo ataque do monstro, mesmo que o adversário bloqueie esse ataque. Passivas podem abrir exceções. Desencaixe, de Pinhisco, preserva o Foco acumulado no primeiro ataque que o rival bloquear em cada rodada.
 
 **Evolução**: Ao evoluir, o monstro mantém suas habilidades inatas e as habilidades desbloqueadas nas formas anteriores, além das habilidades da nova forma. A evolução ocupa sua posição na sequência de melhorias.
@@ -91,11 +93,11 @@ Se um monstro tiver fraqueza do tipo de seu rival durante uma rodada do duelo, r
 
 | id_monstro | nome_monstro | energia | ofensiva | defesa | passiva_monstro | melhorias_monstro | verso_monstro | descricao_monstro | tipo |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | krakon | 8 | 3 | 2 | - | Guspe de Chama (id=11) -> Pele Quente (id=12) -> Evolução | 2 | Dragão pequeno, vermelho e com escamas de pedra, possui pequenas asas | Fogo |
+| 1 | krakon | 8 | 4 | 2 | - | Guspe de Chama (id=11) -> Pele Quente (id=12) -> Evolução | 2 | Dragão pequeno, vermelho e com escamas de pedra, possui pequenas asas | Fogo |
 | 2 | krakuron | 10 | 5 | 2 | - | Incinerar (id=13) | 1 | Dragão maior, vermelho e com escamades de pedra, possui asas grandes e espinhos pelo corpo | Fogo |
-| 3 | owlzin | 8 | 2 | 3 | - | Curar I (id=14) -> Bolha de água (id=15) -> Evolução | 4 | Como um ornitorrinco amigavél, branco com manchas em formato de bolha azul | Água |
-| 4 | owlsel | 10 | 2 | 3 | Re-role uma vez o dado de cura e fique com o resultado | - | 3 | A mistura de um ornitorrinco e um urso, branco com manchas azuis, forte | Água |
-| 5 | flouly | 6 | 1 | 5 | - | | | |
+| 3 | owlzin | 26 | 3 | 3 | - | Bolha de água (id=15) -> Curar I (id=14) -> Evolução | 4 | Como um ornitorrinco amigavél, branco com manchas em formato de bolha azul | Água |
+| 4 | owlsel | 10 | 3 | 3 | Re-role uma vez o dado de cura e fique com o resultado | - | 3 | A mistura de um ornitorrinco e um urso, branco com manchas azuis, forte | Água |
+| 5 | flouly | 24 | 3 | 4 | - | Seiva Clara (id=26) -> Golpe de Cipó (id=27) -> Evolução | 6 | Ouriço felpudo com flores brancas que se fecham quando ele se encolhe. | Grama |
 
 #### Carta de Treinador
 
@@ -103,7 +105,7 @@ Se um monstro tiver fraqueza do tipo de seu rival durante uma rodada do duelo, r
 | --- | --- | --- | --- | --- |
 | 1 | Marcos | - | Foco (grátis, id=3) | Garoto com oculos, timido. Sempre calculando como vencer seus desafios. Cabelo no topo loiro e base escura, camisa florida |
 | 2 | Dri | - | Ataque Rápido (grátis, id=4) | Garota linda, com cabelos vermelho, agitada e energética. Vestido preto, brincos chamativos e dourados |
-| 3 | Gustavo | Sorte: Uma vez por ataque ou coleta, rerole um dado e fique com o novo resultado | -- | Garoto moreno, com cabelo crespo e magro. Bastante na dele, porem, amigavél. Regata e roupa de estilo esportivo |
+| 3 | Gustavo | Sorte: Uma vez por tentativa de captura ou dado de habilidade, rerrole o dado e fique com o novo resultado. Não se aplica a dados de ataque, condições ou passivas | -- | Garoto moreno, com cabelo crespo e magro. Bastante na dele, porem, amigavél. Regata e roupa de estilo esportivo |
 
 #### Cartas de habilidade
 
@@ -112,7 +114,7 @@ Se um monstro tiver fraqueza do tipo de seu rival durante uma rodada do duelo, r
 | 1 | Atacar | Realize um ataque | base |
 | 2 | Defesa | Bloquei o ataque do oponente | base |
 | 3 | Repita a ultima ação, apenas se ela for uma habilidade base ou de treinador | base |
-| 4 | Foco | Role 1d6, o próximo ataque terá a metade do valor, arredondado pra cima, como bonus de ataque | treinador |
+| 4 | Foco | Role 1d6 e acrescente o resultado integral ao cálculo de dano do próximo ataque. | treinador |
 | 5 | Ataque Rápido | Realize um ataque, porem, considere o dano aplicado antes de executar a ação do oponente | treinador | 
 | 11 | Guspe de Chama | Realize um ataque. Se o oponente bloquear, cause 2 de dano direto. | monstro |
 | 12 | Pele Quente | Realize um ataque, se o oponente também te atacou, ele sofre 2 de dano direto | monstro |
