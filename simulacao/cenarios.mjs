@@ -101,10 +101,13 @@ export function simularPares(catalogo, {
       for (let t = 0; t < amostras; t++) {
         const rng = gerador(semente + 317 * a.id + 2879 * b.id + 131 * t);
         const dupla = amostrar(treinadores, 2, rng);
-        const combatentes = [a, b].map((monstro, j) => ({
-          monstroId: monstro.id, treinadorId: dupla[j], evoluir: false,
-          melhorias: monstro.papel === "evolucao" ? t % 2 : t % 3 + 1,
-        }));
+        const combatentes = [a, b].map((monstro, j) => {
+          const anterior = monstro.papel === "evolucao" ? catalogo.monstros.get(monstro.verso) : null;
+          const indice = anterior?.melhorias.findIndex(m => m.tipo === "evolucao" && m.id === monstro.id) ?? -1;
+          return indice >= 0
+            ? { monstroId: anterior.id, treinadorId: dupla[j], melhorias: indice + 1 + t % 2 }
+            : { monstroId: monstro.id, treinadorId: dupla[j], evoluir: false, melhorias: t % 3 + 1 };
+        });
         const resultado = rodada(catalogo, combatentes, rng, opcoes, ocorrencias);
         rodadas.push(resultado);
         for (const [j, monstro] of [a, b].entries()) {
@@ -134,8 +137,10 @@ function times(catalogo, ciclo, rng, bonusMelhoria) {
       monstroId: id, treinadorId: treinadores[i], melhorias: 0,
     }));
     for (let etapa = 0; etapa < ciclo; etapa++) {
-      time[rng.inteiro(0, etapa + 1)].melhorias++;
-      if (bonusMelhoria) time[rng.inteiro(0, etapa + 1)].melhorias++;
+      if (etapa === 2) time.splice(rng.inteiro(0, 3), 1);
+      const ultimo = Math.min(etapa + 1, 2);
+      time[rng.inteiro(0, ultimo)].melhorias++;
+      if (bonusMelhoria) time[rng.inteiro(0, ultimo)].melhorias++;
     }
     return amostrar(time, time.length, rng);
   });

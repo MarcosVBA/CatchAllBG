@@ -22,8 +22,8 @@ function pontuarCombate(opcao, observacao, catalogo, perfil) {
   const efeitoRival = duelo.efeitoRevelado;
   const revelou = duelo.revelada !== null || duelo.itemRevelado !== null;
   const perdida = p.energiaMaxima - p.energia;
-  const esperado = atacante.ofensiva - alvo.defesa + 3.5 + fraqueza(atacante, alvo);
-  const esperadoDoRival = alvo.ofensiva - atacante.defesa + 3.5 + fraqueza(alvo, atacante);
+  const esperado = p.ofensiva - alvo.defesa + 3.5 + fraqueza(atacante, alvo);
+  const esperadoDoRival = q.ofensiva - atacante.defesa + 3.5 + fraqueza(alvo, atacante);
   if (opcao.tipo === "item" && opcao.valor === 2) {
     return perdida / 3 - 2 + (perfil === "defensiva" ? 0.6 : 0) - Number(p.condicoes.includes(4));
   }
@@ -45,8 +45,13 @@ function pontuarCombate(opcao, observacao, catalogo, perfil) {
     if (revelou) peso += ATAQUES.has(efeitoRival) ? 2.6 : -2.8;
     if (p.energia <= esperadoDoRival) peso += 1.3;
     if (habilidade !== 2 && !p.condicoes.includes(7)) peso += 0.45;
+    if (habilidade === 48 && revelou && !ATAQUES.has(efeitoRival)) peso += 3;
     return peso;
   }
+  if (habilidade === 16) return revelou ? (ATAQUES.has(efeitoRival) ? 2.6 : -2) : 1.35;
+  if (habilidade === 19) return revelou ? (BLOQUEIOS.has(efeitoRival) ? 2.3 : -2) : 0.8;
+  if (habilidade === 20) return revelou ? (catalogo.habilidades.get(efeitoRival)?.classe === "monstro" ? 2.5 : -2) : 1.25;
+  if (habilidade === 9 && p.condicoes.some(id => id !== 5)) return 3.1;
   if (CURAS.has(habilidade)) {
     return Math.min(perdida, 2) * (perfil === "defensiva" ? 1.2 : 0.9)
       - Number(p.condicoes.includes(4));
@@ -71,6 +76,10 @@ function pontuar(escolha, visao, catalogo, p) {
       return valorMonstro(m, perfil) + m.tipos.filter(tipo => !formas.some(forma => forma.tipos.includes(tipo))).length * 0.5;
     }
     case "sorte": return valor === "rerrolar" ? 10 : -15;
+    case "dispensar": {
+      const m = p.equipe.find(m => m.chave === valor);
+      return -valorMonstro(catalogo.monstros.get(m.formaId), perfil) - m.melhorias;
+    }
     case "recompensa":
       return valor === "item" ? (perfil === "oportunista" ? 1.6 : 0.2) - p.itens.length * 0.5 : 1;
     case "continuar": return 0.5;

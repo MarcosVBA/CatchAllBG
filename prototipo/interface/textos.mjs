@@ -4,6 +4,7 @@ export const FASES = {
   trilha: ["Captura", "Escolha uma trilha", "Você verá até três monstros do monte escolhido."],
   captura: ["Captura", "Tente capturar um monstro", "O resultado precisa ser 3 ou mais no d6. Com 1 ou 2, o monstro foge."],
   "sorte-captura": ["Captura", "Use a Sorte de Gustavo", "Você pode rerrolar uma vez e ficar com o novo resultado."],
+  dispensar: ["Equipe", "Escolha um monstro para deixar ir", "Sua equipe pode ter até três monstros. Você também pode deixar o recém-capturado ir."],
   melhoria: ["Equipe", "Distribua um ponto de melhoria", "As melhorias liberam habilidades e evoluções na ordem da carta."],
   recompensa: ["Equipe", "Escolha sua recompensa", "Pegue um ponto de melhoria extra ou compre um item do baralho."],
   poscaptura: ["Equipe", "Prepare sua equipe", "Use um item de preparação disponível ou conclua sua vez."],
@@ -47,7 +48,7 @@ export function descrever(evento, visao, catalogo) {
     case "condicao-removida": return `${catalogo.condicoes.get(evento.condicao).nome} saiu de ${p}.`;
     case "efeito-ativado": return `${p} ativou ${evento.efeito}.`;
     case "acao-cancelada": return `Ataque Rápido cancelou a ação de ${p}.`;
-    case "maos-renovadas": return "As duas mãos foram renovadas.";
+    case "maos-renovadas": return `As duas mãos foram renovadas. Ambos ganham +1 de ofensiva (+${evento.renovacoes} nesta rodada).`;
     case "rodada-vencida": return `${p} venceu a rodada (${evento.placar.join(" × ")}).`;
     case "repetir-rodada": return evento.motivo === "energia-igual"
       ? "Empate por proporção de energia igual. Escolham os combatentes novamente."

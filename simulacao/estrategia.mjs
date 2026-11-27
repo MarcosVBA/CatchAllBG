@@ -24,7 +24,15 @@ export function escolher(visao, jogador, catalogo, rng, defensiva) {
     } else if (BLOQUEIOS.has(efeito)) {
       peso = 1.15 + Number(proprio.energia <= 6) * 0.65 + Number(efeito !== 2) * 0.45 + Number(defensiva) * 0.50;
       if (houveRevelacao) peso += ATAQUES.has(revelada) ? 2.9 : -2;
-    } else if (efeito === 14 || efeito === 26) {
+    } else if (efeito === 16) {
+      peso = houveRevelacao ? (ATAQUES.has(revelada) ? 2.6 : -2) : 1.35;
+    } else if (efeito === 19) {
+      peso = houveRevelacao ? (BLOQUEIOS.has(revelada) ? 2.3 : -2) : 0.8;
+    } else if (efeito === 20) {
+      peso = houveRevelacao ? (catalogo.habilidades.get(revelada)?.classe === "monstro" ? 2.5 : -2) : 1.25;
+    } else if (efeito === 9) {
+      peso = proprio.condicoes.some(id => id !== 5) ? 3.1 : Number(proprio.energia < proprio.energiaMaxima) * 0.8;
+    } else if (CURAS.has(efeito)) {
       peso = 0.90 * Math.min(proprio.energiaMaxima - proprio.energia, 2) - Number(proprio.condicoes.includes(4)) * 0.65;
     }
     const pontuacao = peso + (rng.uniforme() * 2.5 - 1.25);

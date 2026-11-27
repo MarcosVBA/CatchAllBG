@@ -24,6 +24,7 @@
 3. Para efetivamente pegar o monstro, o jogador deve jogar um dado, os resultados 1 e 2 fazem o monstro fugir, não estando mais disponível no jogo.
 	- Se caso o monstro fugiu, compre outro monstro da trilha até ter 3 cartas e tente novamente uma captura.
 4. Após adicionar um novo monstro no time, adicione um ponto de melhoria em qualquer monstro.
+	- Cada time pode ter até 3 monstros. Se uma captura resultar em 4, escolha um dos quatro, inclusive o recém-capturado, para deixar ir antes de distribuir a melhoria. O monstro removido sai da disputa.
 5. Você pode escolher entre mais um ponto de habilidade ou uma carta de item.
 
 #### Fase do Desafio
@@ -40,13 +41,17 @@
 3. A partir daqui, os jogadores devem escolher uma carta de habilidade para executar cada turno, revelando o efeito apenas quando ambos os jogadores já selecionaram sua ação
 	- Use todo o seu baralho na sua mão
 	- Sempre que realizar uma ação, com uma carta de habilidade, mantenha a carta exposta na lateral do tabuleiro de duelo
-	- Se qualquer jogador ficar sem cartas de ação na mão, ambos os jogadores devem pegar todas as cartas jogadas e montar uma nova mão cheia
+	- Se pelo menos um jogador ficar sem cartas de habilidade na mão, ao fim do turno ambos recolhem as cartas e recompõem suas mãos. Adicione uma ficha à rodada, mesmo que os dois esvaziem a mão no mesmo turno. Cada ficha dá +1 de ofensiva aos dois monstros a partir do próximo turno. O bônus se acumula e todas as fichas são removidas ao fim da rodada.
 	- Se um monstro for nocauteado, o outro vence a rodada. Os dois combatentes ficam indisponíveis até o fim do duelo.
 	- Em caso de nocaute simultâneo, o placar fica igual. Os dois jogadores voltam a escolher e podem manter o combatente ou usar outro monstro disponível.
 	- No primeiro ciclo, vence o duelo quem ganhar uma rodada. Nos ciclos seguintes, vence quem ganhar duas.
 4. O jogador vitorioso do duelo ganha um ponto de habilidade e um troféu (usado para contar vitória)
 
 **Atacar**: Ao atacar, o jogador verificar o resultado do ataque do monstro atacante menos a defesa do monstro que foi atacado, esse valor é somado a uma rolagem de 1d6 para definir o dano
+
+**Foco e bloqueio**: O bônus de Foco é consumido no próximo ataque do monstro, mesmo que o adversário bloqueie esse ataque. Passivas podem abrir exceções. Desencaixe, de Pinhisco, preserva o Foco acumulado no primeiro ataque que o rival bloquear em cada rodada.
+
+**Evolução**: Ao evoluir, o monstro mantém suas habilidades inatas e as habilidades desbloqueadas nas formas anteriores, além das habilidades da nova forma. A evolução ocupa sua posição na sequência de melhorias.
 
 #### Andamento do jogo
 
@@ -109,10 +114,10 @@ Se um monstro tiver fraqueza do tipo de seu rival durante uma rodada do duelo, r
 | 3 | Repita a ultima ação, apenas se ela for uma habilidade base ou de treinador | base |
 | 4 | Foco | Role 1d6, o próximo ataque terá a metade do valor, arredondado pra cima, como bonus de ataque | treinador |
 | 5 | Ataque Rápido | Realize um ataque, porem, considere o dano aplicado antes de executar a ação do oponente | treinador | 
-| 11 | Guspe de Chama | Realize um ataque, se o oponente bloquear, cause 1 de dano direto | monstro |
+| 11 | Guspe de Chama | Realize um ataque. Se o oponente bloquear, cause 2 de dano direto. | monstro |
 | 12 | Pele Quente | Realize um ataque, se o oponente também te atacou, ele sofre 2 de dano direto | monstro |
 | 13 | Incinerar | Cause "Incendiar" no oponente | monstro |
-| 14 | Curar I | Role 1d6 e recupere energia igual o valor | monstro |
+| 14 | Curar I | Role 1d6. Recupere 2 de energia com 1–4 ou 3 de energia com 5–6. | monstro |
 | 15 | Bolha de água | Bloquei o ataque do oponente, se o oponente realmente jogou um ataque, realize um ataque | monstro |
 
 #### Condições

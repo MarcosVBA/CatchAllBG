@@ -27,6 +27,7 @@ export function criarPartida({ catalogo, rng }) {
   let ciclo = 1;
   let chaveMonstro = 0;
   let captura = null;
+  let origemCapturaPendente = null;
   let depoisMelhoria;
   let pares = [];
   let duelo;
@@ -115,6 +116,14 @@ export function criarPartida({ catalogo, rng }) {
     const { origem } = captura;
     devolverOpcoes();
     captura = null;
+    origemCapturaPendente = origem;
+    if (jogadores[vez].equipe.length > 3) fase = "dispensar";
+    else concluirCaptura();
+  }
+
+  function concluirCaptura() {
+    const origem = origemCapturaPendente;
+    origemCapturaPendente = null;
     concederMelhoria(vez, origem === "normal" ? "captura" : origem, () => {
       fase = origem === "normal" ? "recompensa" : "poscaptura";
     });
@@ -230,6 +239,7 @@ export function criarPartida({ catalogo, rng }) {
       case "trilha": return TRILHAS.filter(trilha => montes.get(trilha).length).map(trilha => opcao("trilha", trilha));
       case "captura": return captura.opcoes.map(id => opcao("captura", id));
       case "sorte-captura": return [opcao("sorte", "rerrolar"), opcao("sorte", "aceitar")];
+      case "dispensar": return jogador.equipe.map(m => opcao("dispensar", m.chave));
       case "melhoria": return jogador.equipe.map(m => opcao("melhoria", m.chave));
       case "recompensa": return [opcao("recompensa", "melhoria"), ...(baralhoItens.length ? [opcao("recompensa", "item")] : [])];
       case "poscaptura": {
@@ -287,6 +297,14 @@ export function criarPartida({ catalogo, rng }) {
         if (valor === "rerrolar") rolarCaptura(true);
         else confirmarCaptura(captura.rolagem);
         break;
+      case "dispensar": {
+        const dispensado = alvo();
+        const forma = prepararMonstro(catalogo, dispensado.monstroId, dispensado.melhorias).monstro;
+        jogador.equipe.splice(jogador.equipe.indexOf(dispensado), 1);
+        emitir({ tipo: "monstro-removido", jogador: id, monstroId: forma.id });
+        concluirCaptura();
+        break;
+      }
       case "melhoria":
         distribuirPontos(jogador, alvo(), 1, depoisMelhoria.motivo);
         depoisMelhoria.aoConcluir();

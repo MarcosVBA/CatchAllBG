@@ -70,7 +70,7 @@ function escolhas(visao) {
         <span class="carta-texto">${html(treinador.sorte ? "Uma rerrolagem por ataque ou tentativa de captura." : efeito)}</span>`);
     }
     if (tipo === "inicial" || tipo === "captura") return cartaMonstro(opcao, catalogo.monstros.get(valor));
-    if (["melhoria", "alvo-item", "combatente"].includes(tipo)) {
+    if (["melhoria", "alvo-item", "combatente", "dispensar"].includes(tipo)) {
       const m = p.equipe.find(m => m.chave === valor);
       return cartaMonstro(opcao, catalogo.monstros.get(m.formaId), m);
     }
@@ -151,7 +151,7 @@ function combatente(p, e, seuLado) {
     <span class="rotulo">${p.nome}</span><h3>${html(m.nome)}</h3><div class="tipos">${tipos(m)}</div>
     <div class="energia-texto"><span>Energia</span> <b>${e.energia} / ${e.energiaMaxima}</b></div>
     <progress max="${e.energiaMaxima}" value="${e.energia}" aria-label="Energia de ${html(m.nome)}"></progress>
-    <p class="combatente-meta">Ofensiva ${m.ofensiva} · Defesa ${m.defesa} · Mão ${e.tamanhoMao}</p>
+    <p class="combatente-meta">Ofensiva ${e.ofensiva} · Defesa ${m.defesa} · Mão ${e.tamanhoMao}</p>
     <p class="fraqueza">Fraqueza · ${fraquezas}</p>
     ${condicoes ? `<div class="condicoes" aria-label="Condições">${condicoes}</div>` : ""}
     ${m.descricaoPassiva ? `<details class="passiva"><summary>Passiva</summary><p>${html(m.descricaoPassiva)}</p></details>` : ""}
@@ -208,7 +208,8 @@ function arenaDeCombate(visao) {
   const revelada = d.itemRevelado ? catalogo.itens.get(d.itemRevelado)?.nome : catalogo.habilidades.get(d.revelada)?.nome;
   const aviso = revelada ? `Rastreado · o rival revelou ${revelada}.`
     : ordem?.[0] === seu && d.podeEscolher ? "Rastreado · você revela antes do rival." : "";
-  return `${meta}
+  const fichas = d.renovacoes ? `<p class="aviso-turno">Fichas da rodada: ${d.renovacoes} · +${d.renovacoes} de ofensiva para ambos</p>` : "";
+  return `${meta}${fichas}
     <div class="combatentes">
       ${combatente(visao.participantes[d.participantes[seu]], d.jogadores[seu], true)}
       ${combatente(rival, d.jogadores[outro], false)}

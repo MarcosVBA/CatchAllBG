@@ -6,6 +6,7 @@ export const TABELAS = ["monstros", "habilidades", "condicoes", "treinadores", "
 const PASSIVAS = new Set([
   "Rebrotar", "Fio Cortante", "Refração", "Curto-Circuito", "Facho na Névoa", "Faro de Trilha",
   "Desencaixe", "Peso da Laje", "Esporos de Retorno", "Casco de Arrasto", "Ritmo de Caça", "Eco de Margem",
+  "Cascalho em Órbita", "Mergulho Oportuno", "Jardim de Retorno", "Bolha Errante", "Corrente de Retorno",
 ]);
 
 function passiva(texto) {
@@ -94,7 +95,7 @@ export function lerCatalogo(textos) {
     if (!HABILIDADES_IMPLEMENTADAS.has(id)) throw new Error(`Habilidade sem implementação: ${id}.`);
     if (!["base", "monstro", "treinador"].includes(classe)) throw new Error(`Classe de habilidade inválida: ${classe}.`);
     if (condicao !== null && !condicoes.has(condicao)) throw new Error(`Condição ${condicao} ausente na habilidade ${id}.`);
-    const esperado = id === 13 ? 1 : id >= 33 && id <= 38 ? id - 31 : null;
+    const esperado = id >= 33 && id <= 38 ? id - 31 : ({ 13: 1, 16: 2, 19: 7, 20: 6, 49: 3 })[id] ?? null;
     if (condicao !== esperado) throw new Error(`Condição inesperada para a habilidade ${id}.`);
   }
   for (const treinador of treinadores.values()) {

@@ -33,11 +33,12 @@ export function criarRodada({
   let escolhas = [null, null];
   let rastreados = [false, false];
   let primeiro = null;
-  let ritmoAnterior = false;
+  let ataquesAnteriores = [false, false];
   let eventos = [];
 
   const contexto = {
     get turno() { return turno; },
+    get bonusOfensiva() { return renovacoes; },
     pisoDano, sorteEmCondicoes,
     emitir(tipo, dados = {}) { eventos.push({ tipo, turno, ...dados }); },
     rolar(p, motivo, repetida = false) {
@@ -100,6 +101,7 @@ export function criarRodada({
     const visiveis = jogadores.map(p => ({
       id: p.id, monstroId: p.monstro.id, treinadorId: p.treinador.id,
       energia: Math.max(0, p.energia), energiaMaxima: p.monstro.energia,
+      ofensiva: p.monstro.ofensiva + renovacoes,
       condicoes: [...p.condicoes.keys()], anterior: p.anterior, tamanhoMao: p.mao.size,
     }));
     const visao = {
@@ -131,7 +133,7 @@ export function criarRodada({
       if (rastreados[i]) consumirCondicao(p, 6, contexto);
     }
     if (primeiro !== null) contexto.emitir("efeito-ativado", { jogador: primeiro, efeito: "Rastreado" });
-    ritmoAnterior = resolverAcoes(jogadores, escolhas, contexto, ritmoAnterior);
+    ataquesAnteriores = resolverAcoes(jogadores, escolhas, contexto, ataquesAnteriores);
     if (verificarNocaute()) return eventos;
 
     for (const p of jogadores) encerrarEfeitos(p, contexto);

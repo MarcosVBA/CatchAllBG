@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { carregarCatalogo } from "../catalogo/arquivo.mjs";
-import { prepararMonstro } from "../regras/cartas.mjs";
+import { danoSemEfeitos, prepararMonstro } from "../regras/cartas.mjs";
 import { criarRodada } from "../regras/rodada.mjs";
 
 const catalogo = await carregarCatalogo();
@@ -35,15 +35,188 @@ function energias(rodada) {
   return rodada.observar(0).jogadores.map(jogador => jogador.energia);
 }
 
-test("evolução consome os pontos da forma e a nova mão usa as cartas da evolução", () => {
+test("ataque bloqueado consome o bônus de Foco", () => {
+  const atacante = ficha("Krakon", 0, 1);
+  const defensor = ficha("Owlzin", 0, 1);
+  const rodada = jogo(atacante, defensor, [6, 4, 1]);
+  turno(rodada, 4, 2);
+  const antes = energias(rodada)[1];
+  turno(rodada, 1, 3); // Repetir usa Defesa novamente.
+  assert.equal(energias(rodada)[1], antes);
+  turno(rodada, 3, 4); // Repetir usa Atacar, agora sem Foco.
+  const dano = danoSemEfeitos(catalogo.monstros.get(atacante.monstroId), catalogo.monstros.get(defensor.monstroId), 4);
+  assert.equal(energias(rodada)[1], antes - dano);
+  rodada.conferirDados();
+});
+
+test("Desencaixe conserva Foco no primeiro ataque bloqueado e aplica Preso", () => {
+  const atacante = ficha("Pinhisco", 0, 1);
+  const defensor = ficha("Owlzin", 0, 1);
+  const rodada = jogo(atacante, defensor, [6, 4, 2]);
+  turno(rodada, 4, 3);
+  turno(rodada, 1, 2);
+  assert.ok(rodada.observar(0).jogadores[1].condicoes.includes(7));
+  const antes = energias(rodada)[1];
+  turno(rodada, 3, 4);
+  const dano = danoSemEfeitos(catalogo.monstros.get(atacante.monstroId), catalogo.monstros.get(defensor.monstroId), 4, 0, 3);
+  assert.equal(energias(rodada)[1], antes - dano);
+  rodada.conferirDados();
+});
+
+test("Redemoinho aplica Fissurado mesmo quando o rival bloqueia", () => {
+  const rodada = jogo(ficha("Jaturru", 2), ficha("Krakuron", 0, 1), [4, 2, 1]);
+  const antes = energias(rodada)[1];
+  turno(rodada, 49, 2);
+  assert.equal(energias(rodada)[1], antes);
+  assert.ok(rodada.observar(0).jogadores[1].condicoes.includes(3));
+  turno(rodada, 1, 4);
+  assert.equal(energias(rodada)[1], antes - 12);
+  rodada.conferirDados();
+});
+
+test("Muda de Casca remove Incendiar antes de recuperar energia", () => {
+  const rodada = jogo(ficha("Casulã", 2), ficha("Krakuron", 1, 1), [4, 1, 1]);
+  turno(rodada, 3, 1);
+  turno(rodada, 2, 13);
+  assert.ok(rodada.observar(0).jogadores[0].condicoes.includes(1));
+  const antes = energias(rodada)[0];
+  const eventos = turno(rodada, 9, 4);
+  assert.equal(energias(rodada)[0], antes + 1);
+  assert.equal(eventos.find(e => e.tipo === "cura").valor, 2);
+  assert.deepEqual(rodada.observar(0).jogadores[0].condicoes, []);
+  rodada.conferirDados();
+});
+
+test("Segunda Onda recebe o bônus ao esgotar a mão", () => {
+  const atacante = ficha("Pedrelho", 2);
+  const defensor = ficha("Krakon", 4, 1);
+  const rodada = jogo(atacante, defensor, [1, 4, 6, 4]);
+  turno(rodada, 2, 4);
+  turno(rodada, 3, 1);
+  turno(rodada, 1, 2);
+  turno(rodada, 30, 13);
+  const antes = energias(rodada)[1];
+  turno(rodada, 50, 3);
+  const ataque = prepararMonstro(catalogo, atacante.monstroId, atacante.melhorias).monstro;
+  const alvo = prepararMonstro(catalogo, defensor.monstroId, defensor.melhorias).monstro;
+  assert.equal(energias(rodada)[1], antes - danoSemEfeitos(ataque, alvo, 4, 0, 3));
+  rodada.conferirDados();
+});
+
+test("renovar as duas mãos acumula uma ficha por turno e aumenta o dano dos dois monstros", () => {
+  const combatente = ficha("Owlzin");
+  const fichaBase = catalogo.monstros.get(combatente.monstroId);
+  const rodada = jogo(combatente, combatente, [4, 4, 4, 4, 4, 4]);
+  for (const fichas of [0, 1, 2]) {
+    assert.deepEqual(rodada.observar(0).jogadores.map(p => p.ofensiva), Array(2).fill(fichaBase.ofensiva + fichas));
+    turno(rodada, 2, 2);
+    turno(rodada, 3, 3);
+    const antes = energias(rodada);
+    const eventos = turno(rodada, 1, 1);
+    const dano = danoSemEfeitos(fichaBase, fichaBase, 4, 0, fichas);
+    assert.deepEqual(energias(rodada), antes.map(energia => energia - dano));
+    assert.deepEqual(eventos.filter(e => e.tipo === "maos-renovadas").map(e => e.renovacoes), [fichas + 1]);
+  }
+  rodada.conferirDados();
+  const seguinte = jogo(combatente, combatente);
+  assert.equal(seguinte.observar(0).renovacoes, 0);
+  assert.equal(seguinte.observar(0).jogadores[0].ofensiva, fichaBase.ofensiva);
+});
+
+test("evolução conserva as habilidades anteriores e combina as da nova forma", () => {
   const flouly = id("Flouly");
   assert.deepEqual(prepararMonstro(catalogo, flouly, 2).cartas, [26, 27]);
   assert.equal(prepararMonstro(catalogo, flouly, 3).monstro.nome, "Flourosa");
-  assert.deepEqual(prepararMonstro(catalogo, flouly, 3).cartas, [27]);
-  assert.deepEqual(prepararMonstro(catalogo, flouly, 4).cartas, [27, 26]);
+  assert.deepEqual(prepararMonstro(catalogo, flouly, 3).cartas, [26, 27, 40]);
+  assert.deepEqual(prepararMonstro(catalogo, flouly, 4).cartas, [26, 27, 40, 41]);
   assert.equal(prepararMonstro(catalogo, flouly, 3, false).monstro.id, flouly);
   const rodada = jogo(ficha("Flouly", 3), ficha("Owlzin"));
-  assert.deepEqual(rodada.observar(0).mao, [1, 2, 3, 27]);
+  assert.deepEqual(rodada.observar(0).mao, [1, 2, 3, 26, 27, 40]);
+  assert.deepEqual(prepararMonstro(catalogo, id("Krakon"), 3).cartas, [11, 12]);
+  assert.deepEqual(prepararMonstro(catalogo, id("Krakon"), 4).cartas, [11, 12, 13]);
+});
+
+test("Ritmo de Caça ativa após o segundo ataque seguido do rival mesmo se Coroâmbar bloqueou o primeiro", () => {
+  const rodada = jogo(ficha("Sardâmbar", 3), ficha("Owlzin"), [4, 4]);
+  const antes = energias(rodada)[1];
+  turno(rodada, 2, 1);
+  const eventos = turno(rodada, 1, 3);
+  assert.ok(eventos.some(e => e.tipo === "efeito-ativado" && e.efeito === "Ritmo de Caça"));
+  assert.equal(energias(rodada)[1], antes - 10);
+  rodada.conferirDados();
+});
+
+test("toda habilidade da evolução acrescenta uma carta à coleção herdada", () => {
+  for (const origem of catalogo.monstros.values()) {
+    const indice = origem.melhorias.findIndex(m => m.tipo === "evolucao");
+    if (indice < 0) continue;
+    const anterior = prepararMonstro(catalogo, origem.id, indice);
+    const evoluido = prepararMonstro(catalogo, origem.id, indice + 1);
+    const novaForma = evoluido.monstro;
+    const cartas = new Set(anterior.cartas);
+    for (const habilidade of [...novaForma.inatas, ...novaForma.melhorias.filter(m => m.tipo === "habilidade").map(m => m.id)]) {
+      assert.ok(!cartas.has(habilidade), `${novaForma.nome}: habilidade ${habilidade} repetida`);
+      cartas.add(habilidade);
+    }
+  }
+});
+
+test("novas evoluções herdam habilidades e ativam suas passivas", () => {
+  const casos = [
+    ["Pumicão", "Cascalho em Órbita", 2, 1, []],
+    ["Agulhio", "Mergulho Oportuno", 1, 39, [4, 2]],
+    ["Borbulim", "Bolha Errante", 2, 1, []],
+    ["Voltilim", "Corrente de Retorno", 1, 1, [4, 4]],
+  ];
+  for (const [nome, passiva, escolha, rival, dados] of casos) {
+    const rodada = jogo(ficha(nome, 3, 1), ficha("Owlsel", 0, 1), dados);
+    const preparado = prepararMonstro(catalogo, id(nome), 3);
+    assert.equal(preparado.monstro.passiva, passiva);
+    const eventos = turno(rodada, escolha, rival);
+    assert.ok(eventos.some(e => e.tipo === "efeito-ativado" && e.efeito === passiva), passiva);
+    if (passiva === "Bolha Errante") assert.ok(rodada.observar(0).jogadores[1].condicoes.includes(6));
+    if (passiva === "Corrente de Retorno") assert.ok(rodada.observar(0).jogadores[0].condicoes.includes(5));
+    rodada.conferirDados();
+  }
+  const rodada = jogo(ficha("Brotozelo", 3, 1), ficha("Krakon", 0, 1), [6]);
+  turno(rodada, 3, 1);
+  const ferido = energias(rodada)[0];
+  const eventos = turno(rodada, 26, 2);
+  assert.equal(energias(rodada)[0], ferido + 4);
+  assert.ok(eventos.some(e => e.tipo === "efeito-ativado" && e.efeito === "Jardim de Retorno"));
+  rodada.conferirDados();
+});
+
+test("novas habilidades de cura e bloqueio recuperam os valores descritos", () => {
+  for (const [nome, pontos, habilidade, dados, cura] of [
+    ["Owlzin", 3, 39, [6, 6], 4],
+    ["Flouly", 4, 41, [6], 3],
+    ["Cascalhote", 2, 22, [6], 2],
+    ["Sardâmbar", 3, 43, [6], 3],
+  ]) {
+    const rodada = jogo(ficha(nome, pontos, 1), ficha("Owlzin", 0, 1), dados);
+    turno(rodada, 3, 1);
+    const ferido = energias(rodada)[0];
+    turno(rodada, habilidade, [22, 43].includes(habilidade) ? 3 : 2);
+    assert.equal(energias(rodada)[0], ferido + cura, nome);
+    rodada.conferirDados();
+  }
+});
+
+test("novos ataques aplicam bônus apenas quando suas condições são atendidas", () => {
+  for (const [habilidade, defesa, bonus] of [[6, 3, 5], [40, 3, 0], [42, 3, 1], [42, 5, 0], [44, 3, 0], [45, 3, 1]]) {
+    const monstros = new Map(catalogo.monstros);
+    const atacante = monstros.get(id("Krakon"));
+    const defensor = monstros.get(id("Owlzin"));
+    monstros.set(atacante.id, { ...atacante, inatas: [habilidade], defesa: 3 });
+    monstros.set(defensor.id, { ...defensor, defesa, energia: 24 });
+    const rodada = jogo(ficha("Krakon", 0, 1), ficha("Owlzin", 0, 1), [4, 1], { catalogo: { ...catalogo, monstros } });
+    const antes = energias(rodada)[1];
+    turno(rodada, habilidade, 4);
+    const esperado = danoSemEfeitos(monstros.get(atacante.id), monstros.get(defensor.id), 4, 0, bonus);
+    assert.equal(energias(rodada)[1], antes - esperado, `habilidade ${habilidade}`);
+    rodada.conferirDados();
+  }
 });
 
 test("escolha comum fica oculta até a segunda carta e rejeita jogadas inválidas", () => {
@@ -116,8 +289,8 @@ test("Fissurado continua ativo após bloqueio e acrescenta dano com face baixa",
   assert.ok(rodada.observar(0).jogadores[1].condicoes.includes(3));
   const antes = energias(rodada);
   const eventos = turno(rodada, 3, 14);
-  assert.ok(eventos.some(evento => evento.tipo === "dano" && evento.jogador === 1 && evento.valor === 7));
-  assert.equal(energias(rodada)[1], antes[1] + 3 - 7);
+  assert.ok(eventos.some(evento => evento.tipo === "dano" && evento.jogador === 1 && evento.valor === 8));
+  assert.equal(energias(rodada)[1], antes[1] + 3 - 8);
   rodada.conferirDados();
 });
 
@@ -133,7 +306,7 @@ test("uma condição sem gatilho vence no fim do segundo turno seguinte", () => 
 
 test("Esporos pune 3 e deixa a cura inteira com 4", () => {
   for (const resultado of [3, 4]) {
-    const rodada = jogo(ficha("Vinhabril", 1), ficha("Owlsel", 0, 1), [4, 2, 6, resultado]);
+    const rodada = jogo(ficha("Vinhabril", 1), ficha("Owlzin", 3, 1), [4, 2, 6, resultado]);
     turno(rodada, 35, 4);
     const antes = energias(rodada)[1];
     turno(rodada, 2, 14);
@@ -145,12 +318,12 @@ test("Esporos pune 3 e deixa a cura inteira com 4", () => {
 
 test("Sobrecarga diferencia o risco da face 1 e o bônus da face 5", () => {
   for (const resultado of [1, 5]) {
-    const rodada = jogo(ficha("Estalume", 2), ficha("Owlsel"), [4, resultado, 2]);
+    const rodada = jogo(ficha("Estalume", 2), ficha("Owlzin", 3), [4, resultado, 2]);
     turno(rodada, 36, 1);
     const antes = energias(rodada);
     turno(rodada, 1, 14);
     assert.deepEqual(energias(rodada), [antes[0] - (resultado === 1 ? 2 : 0),
-      antes[1] - (resultado === 5 ? 10 : 6)]);
+      antes[1] - (resultado === 5 ? 11 : 6)]);
     rodada.conferirDados();
   }
 });
@@ -170,17 +343,17 @@ test("Incendiar roda no início do turno, dura três testes e atravessa renovaç
 });
 
 test("renovação repõe ambas as mãos e preserva o gasto de Fio Cortante", () => {
-  const rodada = jogo(ficha("Pipavent"), ficha("Owlzin", 1, 2), [6]);
+  const rodada = jogo(ficha("Pipavent"), ficha("Owlzin", 1, 2), [3]);
   const antes = energias(rodada);
   turno(rodada, 1, 2);
-  assert.equal(energias(rodada)[1], antes[1] - 3);
+  assert.equal(energias(rodada)[1], antes[1] - 7);
   turno(rodada, 2, 1);
   turno(rodada, 3, 3);
   assert.equal(rodada.observar(0).renovacoes, 1);
   assert.deepEqual(rodada.observar(0).mao, [1, 2, 3]);
   assert.deepEqual(rodada.observar(1).mao, [1, 2, 3, 5, 14]);
   turno(rodada, 1, 2);
-  assert.equal(energias(rodada)[1], antes[1] - 3);
+  assert.equal(energias(rodada)[1], antes[1] - 7);
   rodada.conferirDados();
 });
 
@@ -210,7 +383,7 @@ test("nocaute simultâneo é exposto ao chamador sem decidir vencedor", () => {
 });
 
 test("Gustavo gasta no máximo uma rerrolagem por ataque, mesmo com Sobrecarga", () => {
-  const rodada = jogo(ficha("Estalume", 2), ficha("Owlsel"), [3, 4, 1, 2], {
+  const rodada = jogo(ficha("Estalume", 2), ficha("Owlzin", 3), [3, 4, 1, 2], {
     sorteEmCondicoes: true, rerrolar: ({ jogador }) => jogador === 0,
   });
   turno(rodada, 36, 1);

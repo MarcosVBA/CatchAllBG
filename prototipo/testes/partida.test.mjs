@@ -19,6 +19,9 @@ function executar(semente) {
     const vez = partida.vez;
     const visao = partida.observar(vez);
     assert.ok(visao.opcoes.length);
+    for (const participante of visao.participantes) {
+      assert.ok(participante.equipe.length <= (visao.fase === "dispensar" && participante.id === vez ? 4 : 3));
+    }
     const acao = escolherIa(visao, catalogo, ia);
     assert.ok(visao.opcoes.some(opcao => opcao.id === acao));
     partida.agir(vez, acao);
@@ -49,6 +52,32 @@ test("quatro participantes atravessam os três ciclos e todos os itens aparecem 
   assert.deepEqual([...itens].sort(), [1, 2, 3, 4, 5]);
   for (const tipo of ["captura", "fuga", "evolucao", "desempate-iniciado", "maos-renovadas", "partida-encerrada"]) {
     assert.ok(tipos.has(tipo), tipo);
+  }
+});
+
+test("captura com equipe cheia permite dispensar qualquer monstro antes da melhoria", () => {
+  for (const dispensarNovo of [false, true]) {
+    const partida = criarPartida({ catalogo, rng: gerador(42) });
+    const ia = gerador(974);
+    let passos = 0;
+    while (partida.observar().fase !== "dispensar") {
+      assert.ok(partida.vez !== null && ++passos < 2500);
+      const vez = partida.vez;
+      const visao = partida.observar(vez);
+      partida.agir(vez, escolherIa(visao, catalogo, ia));
+    }
+    const vez = partida.vez;
+    const visao = partida.observar(vez);
+    const equipe = visao.participantes[vez].equipe;
+    assert.equal(equipe.length, 4);
+    assert.deepEqual(visao.opcoes.map(o => o.valor), equipe.map(m => m.chave));
+    const removido = equipe[dispensarNovo ? 3 : 0];
+    partida.agir(vez, `dispensar:${removido.chave}`);
+    const depois = partida.observar(vez);
+    assert.equal(depois.fase, "melhoria");
+    assert.equal(depois.participantes[vez].equipe.length, 3);
+    assert.ok(!depois.participantes[vez].equipe.some(m => m.chave === removido.chave));
+    assert.equal(partida.acontecimentos().at(-1).tipo, "monstro-removido");
   }
 });
 

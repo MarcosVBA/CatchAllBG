@@ -76,20 +76,29 @@ export function efeitoDaRenovacao(jogador, rival, renovacoes, contexto) {
 
 function bonusDaCarta(p, q, skill, rival, ambosAtacam) {
   switch (skill) {
+    case 6: return rival.efeito === 4 ? 5 : 0;
+    case 10: return ambosAtacam && rival.efeito !== 1 && rival.efeito !== 5 ? 3 : 0;
     case 21: return Number(q.energia > p.energia);
-    case 23: return Number(q.monstro.tipos.some(tipo => tipo === "Inseto" || tipo === "Grama"));
-    case 25: return Number(q.energia * 2 <= q.monstro.energia);
+    case 23: return q.monstro.tipos.some(tipo => tipo === "Inseto" || tipo === "Grama") ? 2 : 0;
+    case 25: return q.energia * 2 <= q.monstro.energia ? 2 : 0;
     case 27: return Number(ambosAtacam);
-    case 29: return Number(q.monstro.defesa > p.monstro.defesa);
-    case 30: return Number(CURAS.has(rival.efeito));
+    case 29: return q.monstro.defesa > p.monstro.defesa ? 2 : 0;
+    case 30: return CURAS.has(rival.efeito) ? 4 : 0;
     case 31: return Number(BASE.has(rival.carta));
-    case 32: return Number(q.monstro.tipos.some(tipo => tipo === "Água" || tipo === "Voador"));
+    case 32: return q.monstro.tipos.some(tipo => tipo === "Água" || tipo === "Voador") ? 2 : 0;
     case 34: return -1;
+    case 40: return p.energia * 2 <= p.monstro.energia ? 3 : 0;
+    case 42: return Number(p.monstro.defesa >= q.monstro.defesa);
+    case 44: return q.condicoes.size > 0 ? 3 : 0;
+    case 45: return Number(q.energia <= p.energia);
+    case 46: return p.condicoes.has(5) ? 4 : 0;
+    case 47: return q.monstro.tipos.length > 1 ? 3 : 1;
+    case 50: return p.mao.size === 0 ? 3 : 0;
     default: return 0;
   }
 }
 
-function ataque(p, q, escolha, rival, ambosAtacam, ritmoAnterior, contexto) {
+function ataque(p, q, escolha, rival, ambosAtacam, rivalAtacouAntes, contexto) {
   const skill = escolha.efeito;
   if (!ATAQUES.has(skill)) return { total: 0, calculado: 0, sobrecarga: 0 };
   let sorte = p.treinador.sorte;
@@ -101,36 +110,52 @@ function ataque(p, q, escolha, rival, ambosAtacam, ritmoAnterior, contexto) {
     }
     return dado;
   }
-  let bonus = p.foco;
+  const foco = p.foco;
+  let bonus = foco;
   p.foco = 0;
-  if (skill === 1 && p.monstro.passiva === "Primeiro Atacar" && usarUmaVez(p, "Primeiro Atacar", contexto)) {
-    bonus++;
-  }
+  const primeiroAtacar = skill === 1 && p.monstro.passiva === "Primeiro Atacar"
+    && usarUmaVez(p, "Primeiro Atacar", contexto);
   if (BLOQUEIOS.has(rival.efeito)) {
-    let direto = Number(skill === 11 || skill === 24);
+    if (p.monstro.passiva === "Desencaixe" && !p.usos.has("Desencaixe")) {
+      p.foco = foco;
+    }
+    let direto = skill === 11 || skill === 24 ? 2 : 0;
     if (skill === 1 && p.monstro.passiva === "Fio Cortante" && usarUmaVez(p, "Fio Cortante", contexto)
-      && rolar("Fio Cortante", contexto.sorteEmCondicoes) >= 5) {
-      direto += 3;
+      && rolar("Fio Cortante", contexto.sorteEmCondicoes) >= 3) {
+      direto += 7;
       ativar(p, "Fio Cortante", contexto);
     }
     return { total: direto, calculado: 0, sobrecarga: 0 };
   }
+  if (primeiroAtacar) {
+    bonus += 3;
+    ativar(p, "Primeiro Atacar", contexto);
+  }
   bonus += bonusDaCarta(p, q, skill, rival, ambosAtacam);
-  if (skill === 1 && p.monstro.passiva === "Atacar contra Psíquico" && q.monstro.tipos.includes("Psíquico")) bonus++;
+  if (p.monstro.passiva === "Mergulho Oportuno" && CURAS.has(rival.efeito)
+    && usarUmaVez(p, "Mergulho Oportuno", contexto)) {
+    bonus += 5;
+    ativar(p, "Mergulho Oportuno", contexto);
+  }
+  if (skill === 1 && p.monstro.passiva === "Atacar contra Psíquico" && q.monstro.tipos.includes("Psíquico")
+    && usarUmaVez(p, "Atacar contra Psíquico", contexto)) {
+    bonus += 7;
+    ativar(p, "Atacar contra Psíquico", contexto);
+  }
   const dado = rolar("ataque", true);
-  const calcular = extra => danoSemEfeitos(p.monstro, q.monstro, dado, contexto.pisoDano, bonus + extra);
+  const calcular = extra => danoSemEfeitos(p.monstro, q.monstro, dado, contexto.pisoDano, contexto.bonusOfensiva + bonus + extra);
   let bruto = calcular(0);
-  if (ambosAtacam && ritmoAnterior && p.monstro.passiva === "Ritmo de Caça" && calcular(3) > 0
+  if (ambosAtacam && rivalAtacouAntes && p.monstro.passiva === "Ritmo de Caça" && calcular(6) > 0
     && usarUmaVez(p, "Ritmo de Caça", contexto)) {
-    bruto = calcular(3);
+    bruto = calcular(6);
     ativar(p, "Ritmo de Caça", contexto);
   }
   let dano = bruto;
   let sobrecarga = 0;
   if (bruto > 0) {
     if (fraqueza(p.monstro, q.monstro) && q.monstro.passiva === "Refração"
-      && usarUmaVez(q, "Refração", contexto) && contexto.rolar(q, "Refração") >= 4) {
-      dano -= Math.min(2, bruto);
+      && usarUmaVez(q, "Refração", contexto)) {
+      dano -= Math.min(5, bruto);
       ativar(q, "Refração", contexto);
     }
     if (consumirCondicao(p, 2, contexto) && rolar("Ofuscado", contexto.sorteEmCondicoes) <= 3) {
@@ -138,17 +163,17 @@ function ataque(p, q, escolha, rival, ambosAtacam, ritmoAnterior, contexto) {
       ativar(p, "Ofuscado", contexto);
     }
     if (consumirCondicao(q, 3, contexto) && contexto.rolar(q, "Fissurado") <= 3) {
-      dano += 3;
+      dano += 4;
       ativar(q, "Fissurado", contexto);
     }
     if (consumirCondicao(p, 5, contexto)) {
       const impulso = rolar("Sobrecarga", contexto.sorteEmCondicoes);
       if (impulso === 1) sobrecarga = 2;
-      if (impulso >= 5) dano += 4;
+      if (impulso >= 5) dano += 5;
       if (impulso === 1 || impulso >= 5) ativar(p, "Sobrecarga", contexto);
     }
     if (q.protecao) {
-      dano -= 3;
+      dano -= 5;
       q.protecao = 0;
       ativar(q, "Casco de Arrasto", contexto);
     }
@@ -162,7 +187,7 @@ function consumirItem(jogador, id, contexto) {
   contexto.emitir("item-consumido", { jogador: jogador.id, itemId: id });
 }
 
-function efeitoDeBloqueio(p, q, skill, contexto, pendentes) {
+function efeitoDeBloqueio(p, q, skill, rival, contexto, pendentes) {
   if (skill === SALVA_VIDAS) consumirItem(p, 3, contexto);
   if (consumirCondicao(p, 7, contexto)) {
     if (skill !== 2) ativar(p, "Preso", contexto);
@@ -171,24 +196,29 @@ function efeitoDeBloqueio(p, q, skill, contexto, pendentes) {
   if (skill === 28) p.foco++;
   if (skill === 33) pendentes.push([q, 2]);
   if (skill === 36) pendentes.push([p, 5]);
-  return { dano: skill === 15 ? 2 : 0, cura: skill === SALVA_VIDAS ? 4 : skill === 22 ? 1 : 0 };
+  if (skill === 8) return { dano: rival !== 1 && rival !== 5 ? 3 : 0, cura: 0 };
+  if (skill === 17) return { dano: 0, cura: fraqueza(q.monstro, p.monstro) ? 3 : 0 };
+  return { dano: skill === 15 ? 2 : 0, cura: skill === SALVA_VIDAS ? 4 : skill === 22 ? 2 : skill === 43 ? 3 : 0 };
 }
 
-function habilidadeDeCura(p, skill, contexto) {
+function habilidadeDeCura(p, q, skill, contexto) {
   if (skill === SUPER_CURA) {
     consumirItem(p, 2, contexto);
     return p.monstro.energia - p.energia;
   }
-  if (skill === 26) return 2;
-  if (skill !== 14) return 0;
-  let dado = contexto.rolar(p, "Curar I");
-  if (p.monstro.passiva === "Rerrolar cura" && contexto.querRerrolar(p, "Curar I", dado)) {
-    dado = contexto.rolar(p, "Curar I", true);
+  if (skill === 9 || skill === 26) return 2;
+  if (skill === 18) return p.energia < q.energia ? 3 : 2;
+  if (skill === 41) return 3;
+  if (skill !== 14 && skill !== 39) return 0;
+  const motivo = skill === 14 ? "Curar I" : "Maré Restauradora";
+  let dado = contexto.rolar(p, motivo);
+  if (p.monstro.passiva === "Rerrolar cura" && contexto.querRerrolar(p, motivo, dado)) {
+    dado = contexto.rolar(p, motivo, true);
   }
-  return Math.ceil(dado / 2);
+  return skill === 14 ? (dado >= 5 ? 3 : 2) : 1 + Math.ceil(dado / 2);
 }
 
-export function resolverAcoes(jogadores, escolhas, contexto, ritmoAnterior) {
+export function resolverAcoes(jogadores, escolhas, contexto, ataquesAnteriores) {
   const efeitos = escolhas.map(({ efeito }) => efeito);
   const ambosAtacam = efeitos.every(efeito => ATAQUES.has(efeito));
   const ordem = efeitos[1] === 5 && efeitos[0] !== 5 ? [1, 0] : [0, 1];
@@ -196,7 +226,7 @@ export function resolverAcoes(jogadores, escolhas, contexto, ritmoAnterior) {
   let cancelado = null;
   for (const i of ordem) {
     const rival = 1 - i;
-    golpes[i] = ataque(jogadores[i], jogadores[rival], escolhas[i], escolhas[rival], ambosAtacam, ritmoAnterior, contexto);
+    golpes[i] = ataque(jogadores[i], jogadores[rival], escolhas[i], escolhas[rival], ambosAtacam, ataquesAnteriores[rival], contexto);
     if (efeitos[i] === 5 && efeitos[rival] !== 5 && golpes[i].total >= jogadores[rival].energia) {
       cancelado = rival;
       contexto.emitir("acao-cancelada", { jogador: rival, motivo: "Ataque Rápido" });
@@ -215,14 +245,24 @@ export function resolverAcoes(jogadores, escolhas, contexto, ritmoAnterior) {
     const bloqueou = BLOQUEIOS.has(skill) && ATAQUES.has(rival) && 1 - i !== cancelado;
     if (bloqueou) {
       contexto.emitir("bloqueio", { jogador: i, carta: escolhas[i].carta, itemId: escolhas[i].itemId });
-      const extra = efeitoDeBloqueio(p, q, skill, contexto, pendentes);
+      const extra = efeitoDeBloqueio(p, q, skill, rival, contexto, pendentes);
       danos[i] += extra.dano;
       curas[i] += extra.cura;
     }
-    curas[i] += habilidadeDeCura(p, skill, contexto);
+    if (skill === 9) {
+      const condicao = [...p.condicoes.keys()].find(id => id !== 5);
+      if (condicao !== undefined) consumirCondicao(p, condicao, contexto);
+    }
+    curas[i] += habilidadeDeCura(p, q, skill, contexto);
     if (skill === 4) p.foco += Math.ceil(contexto.rolar(p, "Foco") / 2);
     if (skill === 13) pendentes.push([q, 1]);
     const golpe = golpes[i].calculado;
+    if (skill === 7 && golpe >= 3) curas[i] += 2;
+    if (skill === 16 && ATAQUES.has(rival)) pendentes.push([q, 2]);
+    if (skill === 19 && BLOQUEIOS.has(rival)) pendentes.push([q, 7]);
+    if (skill === 20 && Number.isInteger(rival) && rival > 5) pendentes.push([q, 6]);
+    if (skill === 48 && !bloqueou) p.foco += 2;
+    if (skill === 49 && BLOQUEIOS.has(rival)) pendentes.push([q, 3]);
     if (skill === 34 && golpe > 0) pendentes.push([q, 3]);
     if (skill === 35 && golpe > 0) pendentes.push([q, 4]);
     if (skill === 38 && golpe >= 2) pendentes.push([q, 7]);
@@ -232,16 +272,17 @@ export function resolverAcoes(jogadores, escolhas, contexto, ritmoAnterior) {
     if (ambosAtacam && cancelado === null && passiva === "Curto-Circuito" && usarUmaVez(p, passiva, contexto)) {
       const sorte = contexto.rolar(p, passiva);
       if (sorte === 1) diretos[i] += 2;
-      if (sorte >= 5) diretos[1 - i] += 4;
-      if (sorte === 1 || sorte >= 5) ativar(p, passiva, contexto);
+      if (sorte >= 3) diretos[1 - i] += 6;
+      if (sorte === 1 || sorte >= 3) ativar(p, passiva, contexto);
     }
-    if (bloqueou && passiva === "Facho na Névoa" && usarUmaVez(p, passiva, contexto) && contexto.rolar(p, passiva) >= 5) {
+    if (bloqueou && passiva === "Facho na Névoa" && usarUmaVez(p, passiva, contexto)) {
       pendentes.push([q, 2]);
+      curas[i] += 3;
       ativar(p, passiva, contexto);
     }
-    if (escolhas[1 - i].carta === 3 && passiva === "Faro de Trilha" && usarUmaVez(p, passiva, contexto)
-      && contexto.rolar(p, passiva) >= 4) {
+    if (escolhas[1 - i].carta === 3 && passiva === "Faro de Trilha" && usarUmaVez(p, passiva, contexto)) {
       pendentes.push([q, 6]);
+      p.foco += 3;
       ativar(p, passiva, contexto);
     }
     if (ATAQUES.has(skill) && BLOQUEIOS.has(rival) && passiva === "Desencaixe" && usarUmaVez(p, passiva, contexto)) {
@@ -254,20 +295,38 @@ export function resolverAcoes(jogadores, escolhas, contexto, ritmoAnterior) {
       ativar(p, passiva, contexto);
     }
     if (bloqueou && passiva === "Casco de Arrasto" && usarUmaVez(p, passiva, contexto)) {
-      p.protecao = contexto.turno + 1;
+      p.protecao = contexto.turno + 2;
+      ativar(p, passiva, contexto);
+    }
+    if (bloqueou && passiva === "Cascalho em Órbita" && usarUmaVez(p, passiva, contexto)) {
+      p.foco += 2;
+      ativar(p, passiva, contexto);
+    }
+    if (bloqueou && passiva === "Bolha Errante" && usarUmaVez(p, passiva, contexto)) {
+      pendentes.push([q, 6]);
+      ativar(p, passiva, contexto);
+    }
+    if (ambosAtacam && cancelado === null && passiva === "Corrente de Retorno" && usarUmaVez(p, passiva, contexto)) {
+      pendentes.push([p, 5]);
+      ativar(p, passiva, contexto);
     }
   }
   const recuperados = [0, 0];
   for (const [i, p] of jogadores.entries()) {
     if (curas[i] && p.energia < p.monstro.energia && p.monstro.passiva === "Primeira cura"
       && usarUmaVez(p, "Primeira cura", contexto)) curas[i]++;
+    if (curas[i] && escolhas[i].carta !== null && p.energia < p.monstro.energia && p.monstro.passiva === "Jardim de Retorno"
+      && usarUmaVez(p, "Jardim de Retorno", contexto)) {
+      curas[i] += 2;
+      ativar(p, "Jardim de Retorno", contexto);
+    }
     recuperados[i] = recuperar(p, curas[i], contexto);
     perderEnergia(p, danos[1 - i], contexto, "acao");
     perderEnergia(p, diretos[i], contexto, "dano direto");
     if (p.energia > 0 && p.energia * 2 <= p.monstro.energia && danos[1 - i] > 0 && ATAQUES.has(efeitos[1 - i])
-      && p.monstro.passiva === "Rebrotar" && usarUmaVez(p, "Rebrotar", contexto) && contexto.rolar(p, "Rebrotar") >= 5) {
+      && p.monstro.passiva === "Rebrotar" && usarUmaVez(p, "Rebrotar", contexto) && contexto.rolar(p, "Rebrotar") >= 3) {
       ativar(p, "Rebrotar", contexto);
-      recuperados[i] += recuperar(p, 4, contexto);
+      recuperados[i] += recuperar(p, 6, contexto);
     }
   }
   for (const [i, p] of jogadores.entries()) {
@@ -278,5 +337,5 @@ export function resolverAcoes(jogadores, escolhas, contexto, ritmoAnterior) {
     }
   }
   for (const [alvo, id] of pendentes) aplicarCondicao(alvo, id, contexto);
-  return ambosAtacam && cancelado === null;
+  return efeitos.map((efeito, i) => i !== cancelado && ATAQUES.has(efeito));
 }
